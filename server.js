@@ -55,7 +55,7 @@ app.get("/dashboard/quicksort", (req, res) => requireSession(req, res, "userDash
 app.get("/dashboard/mergesort", (req, res) => requireSession(req, res, "userDashboard/sort/mergeSort"));
 app.get("/dashboard/selectionsort", (req, res) => requireSession(req, res, "userDashboard/sort/selectionSort"));
 
-app.get("/admin", (req, res) => requireSession(req, res, "admin/admin.ejs"));
+app.get("/admin", (req, res) => res.render("admin/admin.ejs"));
 
 app.post("/logout", (req, res) => {
   req.session.destroy((err) => {

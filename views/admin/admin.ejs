@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | AlgoViz</title>
+</head>
+<body class="bg-gray-100">
+    <div class="flex min-h-screen">
+        <!-- Left Panel -->
+        <div class="w-1/4 bg-[#5800FF] text-white relative">
+            <div class="flex flex-col items-center justify-center h-full p-6">
+                <div class="mb-6">
+                    <img src="https://via.placeholder.com/100" alt="Profile" class="rounded-full">
+                </div>
+                <div class="text-center">
+                    <p class="text-lg font-bold">hotdogs@gmail.com</p>
+                </div>
+            </div>
+
+            <!-- Updated Logout Button -->
+            <a href="#" class="absolute bottom-4 left-4 text-white bg-[#5800FF] hover:bg-white hover:text-[#5800FF] p-2 rounded-full border border-white transition">
+                Logout
+            </a>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="flex-1 p-6">
+            <div class="relative overflow-hidden shadow-md rounded-lg">
+                <table class="table-fixed w-full text-left">
+                    <thead class="uppercase bg-[#5800ff] text-[#e5e7eb]" style="background-color: #5800ff; color: #e5e7eb;">
+                        <tr>
+                            <td class="py-1 border text-center font-bold p-4" contenteditable="true">name</td>
+                            <td class="py-1 border text-center font-bold p-4" contenteditable="true">progress</td>
+                            <td class="py-1 border text-center font-bold p-4">delete</td>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white text-gray-500 bg-[#FFFFFF] text-[#6b7280]" style="background-color: #FFFFFF; color: #6b7280;">
+                        <tr class="py-5">
+                            <td contenteditable="true" class="py-5 border text-center p-4"><br></td>
+                            <td contenteditable="true" class="py-5 border text-center p-4"><br></td>
+                            <td class="py-5 border text-center p-4">
+                                <button class="text-red-500 hover:text-red-700 transition transform hover:scale-110 active:scale-95">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- Repeat similar rows as needed -->
+                        <tr class="py-5">
+                            <td contenteditable="true" class="py-5 border text-center p-4"><br></td>
+                            <td contenteditable="true" class="py-5 border text-center p-4"><br></td>
+                            <td class="py-5 border text-center p-4">
+                                <button class="text-red-500 hover:text-red-700 transition transform hover:scale-110 active:scale-95">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</body>
+</html>
