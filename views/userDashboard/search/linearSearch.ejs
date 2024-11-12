@@ -4,8 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linear Search | AlgoViz</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom color for button */
+        .custom-purple-button {
+            background-color: #5800FF;
+            border-color: #5800FF;
+            color: white;
+        }
+        .hover-purple-button:hover {
+            background-color: #7F00FF;
+        }
+        /* Custom color for outer box */
+        .custom-purple-box {
+            border-color: #5800FF;
+            background-color: #5800FF; 
+        }
+        /* Custom color for inner box inside the first container */
+        .custom-purple-inner-box {
+            border-color: #000000;
+           
+        }
+        /* Custom color for right outer box */
+        .custom-purple-right-box {
+            border-color: #5800FF;
+            background-color: #5800FF; 
+        }
+        /* Custom color for right inner box */
+        .custom-purple-right-inner-box {
+            border-color: #000000;
+            
+        }
+        .light-gray {
+            background-color: #D9D9D9;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    </style>
 </head>
-<body>
-    
+<body class="bg-white p-8">
+    <!-- Back Button -->
+    <a href="/dashboard/" class="back-button border custom-purple-button text-white py-2 px-4 rounded hover-purple-button">Back</a>
+
+    <!-- Header with logo -->
+    <div class="flex items-center justify-center mb-4">
+        <img src="/assets/logo.png" alt="Logo" class="h-12 w-12 mr-4">
+        <h1 class="text-4xl font-bold text-black">Linear Search Visualization</h1>
+    </div>
+
+    <!-- Content Wrapper -->
+    <div class="flex justify-center space-x-4 mb-4">
+        <!-- Left Outer Box -->
+        <div class="border-4 custom-purple-box flex justify-center items-center relative" style="width: 694px; height: 442px;">
+            <!-- Left Inner Box with custom inner box color -->
+            <div class="border-4 custom-purple-inner-box light-gray" style="width: 605px; height: 362px;"></div>
+        </div>
+
+        <!-- Right Outer Box with custom background and border color -->
+        <div class="border-4 custom-purple-right-box flex justify-center items-center" style="width: 424px; height: 442px;">
+            <!-- Right Inner Box with custom background and border color -->
+            <div class="border-4 custom-purple-right-inner-box light-gray" style="width: 334px; height: 360px;"></div>
+        </div>
+    </div>
+
+    <!-- Centered Input and Buttons aligned horizontally -->
+    <div class="flex items-center justify-center space-x-4">
+        <input type="text" placeholder="Input" class="border border-gray-400 p-2 rounded w-64">
+        <div class="flex space-x-4">
+            <button class="border custom-purple-button text-white py-2 px-4 rounded hover-purple-button">Start</button>
+            <button class="custom-purple-button text-white py-2 px-4 rounded hover-purple-button">Pause</button>
+        </div>
+    </div>
 </body>
 </html>

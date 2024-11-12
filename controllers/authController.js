@@ -48,7 +48,6 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  
   if (!emailPattern.test(email)) {
     return res
       .status(400)
@@ -56,7 +55,6 @@ exports.login = async (req, res) => {
   }
 
   try {
-    
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
@@ -66,7 +64,7 @@ exports.login = async (req, res) => {
 
     req.session.userId = user.uid;
 
-    res.redirect(`/dashboard/${user.uid}`);
+    res.redirect(`/dashboard`);
   } catch (error) {
     res.status(400).json({ error: "Invalid email or password" });
   }

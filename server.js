@@ -40,9 +40,8 @@ app.get("/", (req, res) => res.render("home"));
 app.get("/login", (req, res) => requireSession(req, res, "userAuth/login"));
 app.get("/signup", (req, res) => res.render("userAuth/signup"));
 
-app.get("/dashboard/:id", (req, res) => {
-  const userId = req.params.id;
-  requireSession(req, res, "userDashboard/dashboard.ejs", { userId });
+app.get("/dashboard", (req, res) => {
+  requireSession(req, res, "userDashboard/dashboard");
 });
 
 app.get("/dashboard/linearsearch", (req, res) => requireSession(req, res, "userDashboard/search/linearSearch"));
@@ -54,6 +53,7 @@ app.get("/dashboard/insertionsort", (req, res) => requireSession(req, res, "user
 app.get("/dashboard/heapsort", (req, res) => requireSession(req, res, "userDashboard/sort/heapSort"));
 app.get("/dashboard/quicksort", (req, res) => requireSession(req, res, "userDashboard/sort/quickSort"));
 app.get("/dashboard/mergesort", (req, res) => requireSession(req, res, "userDashboard/sort/mergeSort"));
+app.get("/dashboard/selectionsort", (req, res) => requireSession(req, res, "userDashboard/sort/selectionSort"));
 
 app.get("/admin", (req, res) => requireSession(req, res, "admin/admin.ejs"));
 
