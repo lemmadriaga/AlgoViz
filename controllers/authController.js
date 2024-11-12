@@ -5,9 +5,7 @@ const {
 const { doc, setDoc } = require("firebase/firestore");
 const { auth, db } = require("../config/firebaseConfig");
 
-
 const emailPattern = /^[a-z0-9._%+-]+@g\.batstate-u\.edu\.ph$/i;
-
 
 exports.signup = async (req, res) => {
   const { fullName, email, password, phone, birthDate } = req.body;
@@ -66,7 +64,9 @@ exports.login = async (req, res) => {
     );
     const user = userCredential.user;
 
-    res.status(200).json({ message: "Login successful", uid: user.uid });
+    req.session.userId = user.uid;
+
+    res.redirect(`/dashboard/${user.uid}`);
   } catch (error) {
     res.status(400).json({ error: "Invalid email or password" });
   }
