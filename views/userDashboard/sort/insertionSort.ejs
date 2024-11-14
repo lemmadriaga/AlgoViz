@@ -9,7 +9,6 @@
       rel="stylesheet"
     />
     <style>
-      /* Styling for Buttons and Controls */
       .custom-button {
         background-color: #5800ff;
         color: white;
@@ -24,21 +23,19 @@
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
 
-      /* Styling for the Visualization Box */
       .visualization-container {
         background-color: #f3f4f6;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         padding: 1rem;
-        width: 90%; /* Width of the container */
-        height: 600px; /* Height of the container */
-        overflow: hidden; /* Prevent overflow */
+        width: 90%;
+        height: 600px;
+        overflow: hidden;
       }
 
-      /* Styling for Bars */
       .bar {
         display: inline-block;
-        width: 30px; /* Width of each bar */
+        width: 30px;
         margin: 4px;
         background: linear-gradient(to top, #ff8c00, #ffd700);
         color: white;
@@ -52,7 +49,6 @@
         background: linear-gradient(to top, #32cd32, #228b22);
       }
 
-      /* Styling for Step Process Box */
       .step-process-container {
         background-color: #ffffff;
         border-radius: 10px;
@@ -62,21 +58,17 @@
     </style>
   </head>
   <body class="bg-white p-8">
-    <!-- Back Button -->
     <a href="javascript:history.back()" class="custom-button mb-4 inline-block"
       >Back</a
     >
 
-    <!-- Header -->
     <div class="text-center mb-8">
       <h1 class="text-4xl font-bold text-purple-900">
         Insertion Sort Visualization
       </h1>
     </div>
 
-    <!-- Visualization Containers -->
     <div class="flex justify-center space-x-8 mb-8">
-      <!-- Main Sorting Visualization Box -->
       <div
         class="visualization-container flex justify-center items-center relative"
       >
@@ -86,7 +78,6 @@
         ></div>
       </div>
 
-      <!-- Step-by-Step Process Box -->
       <div class="step-process-container w-1/3 h-96 overflow-y-auto">
         <h2 class="text-xl font-semibold mb-4 text-purple-800 text-center">
           Sorting Steps
@@ -95,7 +86,6 @@
       </div>
     </div>
 
-    <!-- Input and Buttons -->
     <div class="flex flex-col items-center space-y-4">
       <input
         id="inputField"
@@ -104,7 +94,6 @@
         class="border border-gray-300 p-2 rounded w-64 mb-4"
       />
 
-      <!-- Start and Pause Buttons -->
       <div class="flex space-x-4 mt-4">
         <button onclick="startInsertionSort()" class="custom-button">
           Start
@@ -119,17 +108,15 @@
 
       function displayArray(currentIndex = -1) {
         const visualization = document.getElementById("visualization");
-        visualization.innerHTML = ""; // Clear previous elements
+        visualization.innerHTML = "";
 
-        // Determine the maximum value in the array to scale bars appropriately
         const maxValue = Math.max(...array);
-        const containerHeight = 550; // Total height available for bars in the container
+        const containerHeight = 550;
 
         array.forEach((value, index) => {
           const bar = document.createElement("div");
           bar.className = "bar";
 
-          // Scale the bar height relative to the max value and container height
           const barHeight = (value / maxValue) * containerHeight;
           bar.style.height = `${barHeight}px`;
           bar.innerText = value;
@@ -145,23 +132,23 @@
         step.className = "text-sm text-gray-700 mb-2";
         step.innerText = message;
         processContainer.appendChild(step);
-        processContainer.scrollTop = processContainer.scrollHeight; // Scroll to the latest step
+        processContainer.scrollTop = processContainer.scrollHeight;
       }
 
       async function startInsertionSort() {
         const input = document.getElementById("inputField").value;
         array = input.split(",").map(Number);
-        document.getElementById("process").innerHTML = ""; // Clear previous steps
+        document.getElementById("process").innerHTML = "";
         displayArray();
         displayProcessStep(`Starting array: [${array.join(", ")}]`);
 
         for (let i = 1; i < array.length; i++) {
-          if (isPaused) await pauseLoop(); // Handle pause
+          if (isPaused) await pauseLoop();
           let key = array[i];
           let j = i - 1;
 
           displayProcessStep(`Inserting ${key}`);
-          displayArray(i); // Highlight the current element being inserted
+          displayArray(i);
 
           while (j >= 0 && array[j] > key) {
             if (isPaused) await pauseLoop();
@@ -174,16 +161,16 @@
 
           array[j + 1] = key;
           displayProcessStep(`Inserted ${key} at position ${j + 2}`);
-          displayArray(i); // Highlight the insertion position
+          displayArray(i);
           await sleep(500);
         }
 
         displayProcessStep(`Sorted Array: [${array.join(", ")}]`);
-        displayArray(); // Display final sorted array
+        displayArray();
       }
 
       function pauseSorting() {
-        isPaused = !isPaused; // Toggle pause
+        isPaused = !isPaused;
       }
 
       function sleep(ms) {

@@ -9,7 +9,6 @@
       rel="stylesheet"
     />
     <style>
-      /* Styling for Buttons and Controls */
       .custom-button {
         background-color: #5800ff;
         color: white;
@@ -24,7 +23,6 @@
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
 
-      /* Styling for the Visualization Box */
       .visualization-container {
         background-color: #f3f4f6;
         border-radius: 10px;
@@ -35,7 +33,6 @@
         overflow: hidden;
       }
 
-      /* Styling for Bars */
       .bar {
         display: inline-block;
         width: 30px;
@@ -52,7 +49,6 @@
         background: linear-gradient(to top, #32cd32, #228b22);
       }
 
-      /* Styling for Graph Nodes */
       .node {
         width: 40px;
         height: 40px;
@@ -78,7 +74,6 @@
         stroke: #ffd700;
       }
 
-      /* Styling for Step Process Box */
       .step-process-container {
         background-color: #ffffff;
         border-radius: 10px;
@@ -97,24 +92,26 @@
     </style>
   </head>
   <body class="bg-white p-8">
-    <!-- Back Button -->
-    <a href="javascript:history.back()" class="custom-button mb-4 inline-block">Back</a>
+    <a href="javascript:history.back()" class="custom-button mb-4 inline-block"
+      >Back</a
+    >
 
-    <!-- Header -->
     <div class="text-center mb-8">
       <h1 class="text-4xl font-bold text-purple-900">
         Merge Sort & Graph Traversal Visualization
       </h1>
     </div>
 
-    <!-- Visualization Containers -->
     <div class="flex justify-center space-x-8 mb-8">
-      <!-- Main Sorting Visualization Box -->
-      <div class="visualization-container flex justify-center items-center relative">
-        <div id="visualization" class="w-full h-full flex items-end justify-center"></div>
+      <div
+        class="visualization-container flex justify-center items-center relative"
+      >
+        <div
+          id="visualization"
+          class="w-full h-full flex items-end justify-center"
+        ></div>
       </div>
 
-      <!-- Step-by-Step Process Box -->
       <div class="step-process-container w-1/3 h-96 overflow-y-auto">
         <h2 class="text-xl font-semibold mb-4 text-purple-800 text-center">
           Algorithm Steps
@@ -123,7 +120,6 @@
       </div>
     </div>
 
-    <!-- Input and Buttons -->
     <div class="flex flex-col items-center space-y-4">
       <input
         id="inputField"
@@ -132,15 +128,17 @@
         class="border border-gray-300 p-2 rounded w-64 mb-4"
       />
 
-      <!-- Buttons -->
       <div class="flex space-x-4 mt-4">
-        <button onclick="startMergeSort()" class="custom-button">Start Sorting</button>
+        <button onclick="startMergeSort()" class="custom-button">
+          Start Sorting
+        </button>
         <button onclick="pauseSorting()" class="custom-button">Pause</button>
-        <button onclick="startGraphTraversal()" class="custom-button">Start Traversal</button>
+        <button onclick="startGraphTraversal()" class="custom-button">
+          Start Traversal
+        </button>
       </div>
     </div>
 
-    <!-- Graph Traversal Visualization -->
     <div class="flex flex-col items-center mt-12">
       <h2 class="text-xl font-semibold mb-4 text-purple-800 text-center">
         Graph Visualization
@@ -183,7 +181,7 @@
 
       function createGraph(inputArray) {
         graph = {};
-        // Create nodes and connections
+
         inputArray.forEach((value, index) => {
           graph[value] = [];
           if (index > 0) {
@@ -203,26 +201,25 @@
         nodes = {};
         edges = [];
 
-        // Create SVG element
-        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        const svg = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg"
+        );
         svg.setAttribute("width", "100%");
         svg.setAttribute("height", "100%");
         container.appendChild(svg);
 
-        // Calculate positions
         const centerX = container.clientWidth / 2;
         const centerY = container.clientHeight / 2;
         const radius = Math.min(centerX, centerY) - 50;
         const nodeCount = Object.keys(graph).length;
         const angleStep = (2 * Math.PI) / nodeCount;
 
-        // Create nodes
         Object.keys(graph).forEach((node, index) => {
           const angle = index * angleStep;
           const x = centerX + radius * Math.cos(angle);
           const y = centerY + radius * Math.sin(angle);
 
-          // Create node element
           const nodeElement = document.createElement("div");
           nodeElement.className = "node";
           nodeElement.innerText = node;
@@ -231,15 +228,19 @@
           container.appendChild(nodeElement);
           nodes[node] = nodeElement;
 
-          // Create edges
-          graph[node].forEach(neighbor => {
+          graph[node].forEach((neighbor) => {
             if (parseInt(neighbor) > parseInt(node)) {
-              const neighborIndex = Object.keys(graph).indexOf(neighbor.toString());
+              const neighborIndex = Object.keys(graph).indexOf(
+                neighbor.toString()
+              );
               const neighborAngle = neighborIndex * angleStep;
               const neighborX = centerX + radius * Math.cos(neighborAngle);
               const neighborY = centerY + radius * Math.sin(neighborAngle);
 
-              const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+              const line = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "line"
+              );
               line.setAttribute("x1", x);
               line.setAttribute("y1", y);
               line.setAttribute("x2", neighborX);
@@ -276,7 +277,9 @@
         let leftArray = arr.slice(left, mid + 1);
         let rightArray = arr.slice(mid + 1, right + 1);
 
-        let i = 0, j = 0, k = left;
+        let i = 0,
+          j = 0,
+          k = left;
         while (i < leftArray.length && j < rightArray.length) {
           if (isPaused) await pauseLoop();
 
@@ -288,7 +291,9 @@
             j++;
           }
           displayArray(arr);
-          displayProcessStep(`Merged: [${arr.slice(left, right + 1).join(", ")}]`);
+          displayProcessStep(
+            `Merged: [${arr.slice(left, right + 1).join(", ")}]`
+          );
           await sleep(500);
           k++;
         }
@@ -307,34 +312,32 @@
       }
 
       async function startGraphTraversal() {
-        // Create graph from current array
         graph = createGraph(array);
         createGraphVisualization();
         displayProcessStep("Starting BFS traversal...");
-        await bfs(array[0]); // Start from first element
+        await bfs(array[0]);
       }
 
       async function bfs(start) {
         const visited = new Set();
         const queue = [start];
-        
+
         while (queue.length > 0) {
           const current = queue.shift();
-          
+
           if (!visited.has(current)) {
             visited.add(current);
             nodes[current].classList.add("visited");
             displayProcessStep(`Visiting node: ${current}`);
-            
-            // Highlight edges connected to current node
-            edges.forEach(edge => {
+
+            edges.forEach((edge) => {
               if (edge.nodes.includes(current)) {
                 edge.element.classList.add("visited");
               }
             });
-            
+
             await sleep(500);
-            
+
             for (const neighbor of graph[current]) {
               if (!visited.has(neighbor)) {
                 queue.push(neighbor);
@@ -350,7 +353,7 @@
       }
 
       function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+        return new Promise((resolve) => setTimeout(resolve, ms));
       }
 
       async function pauseLoop() {
