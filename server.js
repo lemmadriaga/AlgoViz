@@ -3,8 +3,9 @@ const express = require("express");
 const session = require("express-session");
 const path = require("path");
 const userAuthenticationRoutes = require("./api/userAuthentication");
+const userRoutes = require("./api/userRoutes");
 
-const app = express();
+const app = express(); // Initialize app here
 
 const configureSession = (app) => {
   app.use(session({
@@ -27,6 +28,7 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 app.use("/api", userAuthenticationRoutes);
+app.use(userRoutes); // Now this line is placed after app is defined
 
 const requireSession = (req, res, view, params = {}) => {
   if (req.session.userId) {
