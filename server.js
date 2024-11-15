@@ -28,7 +28,7 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 app.use("/api", userAuthenticationRoutes);
-app.use(userRoutes); // Now this line is placed after app is defined
+app.use(userRoutes);
 
 const requireSession = (req, res, view, params = {}) => {
   if (req.session.userId) {

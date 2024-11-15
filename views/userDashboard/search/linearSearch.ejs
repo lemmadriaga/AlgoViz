@@ -1,82 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Search | AlgoViz</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linear Search Visualization</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
     <style>
-        /* Custom color for button */
-        .custom-purple-button {
-            background-color: #5800FF;
-            border-color: #5800FF;
-            color: white;
-        }
-        .hover-purple-button:hover {
-            background-color: #7F00FF;
-        }
-        /* Custom color for outer box */
-        .custom-purple-box {
-            border-color: #5800FF;
-            background-color: #5800FF; 
-        }
-        /* Custom color for inner box inside the first container */
-        .custom-purple-inner-box {
-            border-color: #000000;
-           
-        }
-        /* Custom color for right outer box */
-        .custom-purple-right-box {
-            border-color: #5800FF;
-            background-color: #5800FF; 
-        }
-        /* Custom color for right inner box */
-        .custom-purple-right-inner-box {
-            border-color: #000000;
-            
-        }
-        .light-gray {
-            background-color: #D9D9D9;
-        }
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
+      .custom-button {
+        background-color: #4b0082;
+        color: white;
+        padding: 0.5rem 1.5rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s;
+      }
+      .custom-button:hover {
+        background-color: #7b1fa2;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .visualization-container {
+        background-color: #f3f4f6;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        width: 90%;
+        height: 600px;
+        overflow: hidden;
+      }
+
+      .bar {
+        display: inline-block;
+        width: 30px;
+        margin: 4px;
+        background: linear-gradient(to top, #ff8c00, #ffd700);
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+      .bar.compare {
+        background: linear-gradient(to top, #ff6347, #ff4500); /* Red when checking */
+      }
+      .bar.found {
+        background: linear-gradient(to top, #32cd32, #228b22); /* Green when found */
+      }
+
+      .step-process-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+      }
+
+      .slider {
+        -webkit-appearance: none;
+        width: 100px;
+        height: 8px;
+        background: #4b0082;
+        outline: none;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+        border-radius: 5px;
+      }
+      .slider:hover {
+        opacity: 1;
+      }
     </style>
-</head>
-<body class="bg-white p-8">
-    <!-- Back Button -->
-    <a href="/dashboard/" class="back-button border custom-purple-button text-white py-2 px-4 rounded hover-purple-button">Back</a>
+  </head>
+  <body class="bg-gray-100 p-8">
+    <a href="javascript:history.back()" class="custom-button mb-4 inline-block">Back</a>
 
-    <!-- Header with logo -->
-    <div class="flex items-center justify-center mb-4">
-        <img src="/assets/logo.png" alt="Logo" class="h-12 w-12 mr-4">
-        <h1 class="text-4xl font-bold text-black">Linear Search Visualization</h1>
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-purple-900">
+        Linear Search Visualization
+      </h1>
     </div>
 
-    <!-- Content Wrapper -->
-    <div class="flex justify-center space-x-4 mb-4">
-        <!-- Left Outer Box -->
-        <div class="border-4 custom-purple-box flex justify-center items-center relative" style="width: 694px; height: 442px;">
-            <!-- Left Inner Box with custom inner box color -->
-            <div class="border-4 custom-purple-inner-box light-gray" style="width: 605px; height: 362px;"></div>
-        </div>
+    <div class="flex justify-center space-x-8 mb-8">
+      <div class="visualization-container flex justify-center items-center relative">
+        <div id="visualization" class="w-full h-full flex items-end justify-center"></div>
+      </div>
 
-        <!-- Right Outer Box with custom background and border color -->
-        <div class="border-4 custom-purple-right-box flex justify-center items-center" style="width: 424px; height: 442px;">
-            <!-- Right Inner Box with custom background and border color -->
-            <div class="border-4 custom-purple-right-inner-box light-gray" style="width: 334px; height: 360px;"></div>
-        </div>
+      <div class="step-process-container w-1/3 h-96 overflow-y-auto">
+        <h2 class="text-xl font-semibold mb-4 text-purple-800 text-center">Search Steps</h2>
+        <div id="process" class="text-gray-700 text-sm"></div>
+      </div>
     </div>
 
-    <!-- Centered Input and Buttons aligned horizontally -->
-    <div class="flex items-center justify-center space-x-4">
-        <input type="text" placeholder="Input" class="border border-gray-400 p-2 rounded w-64">
-        <div class="flex space-x-4">
-            <button class="border custom-purple-button text-white py-2 px-4 rounded hover-purple-button">Start</button>
-            <button class="custom-purple-button text-white py-2 px-4 rounded hover-purple-button">Pause</button>
-        </div>
+    <div class="flex flex-col items-center space-y-4">
+      <input
+        id="inputField"
+        type="text"
+        placeholder="Enter numbers, e.g., 5,3,8,1,4"
+        class="border border-gray-300 p-2 rounded w-64 mb-4"
+      />
+
+      <input
+        id="targetInput"
+        type="text"
+        placeholder="Enter target element"
+        class="border border-gray-300 p-2 rounded w-64 mb-4"
+      />
+
+      <div class="flex items-center space-x-4">
+        <label for="speedControl" class="text-gray-700 font-semibold">Speed:</label>
+        <input
+          type="range"
+          id="speedControl"
+          min="100"
+          max="2000"
+          value="500"
+          class="slider"
+        />
+      </div>
+
+      <div class="flex space-x-4 mt-4">
+        <button onclick="startSearching()" class="custom-button">Start</button>
+        <button onclick="pauseSearching()" class="custom-button">Pause</button>
+        <button onclick="resetSearching()" class="custom-button">Reset</button>
+      </div>
     </div>
-</body>
+
+    <script>
+      let array = [];
+      let target = null;
+      let intervalId;
+      let i = 0;
+      let isPaused = false;
+      let speed = 500;
+
+      document
+        .getElementById("speedControl")
+        .addEventListener("input", (event) => {
+          speed = event.target.value;
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = setInterval(linearSearchStep, speed);
+          }
+        });
+
+      function displayArray() {
+        const visualization = document.getElementById("visualization");
+        visualization.innerHTML = "";
+
+        array.forEach((value, index) => {
+          const bar = document.createElement("div");
+          bar.className = "bar";
+          bar.style.height = `${(value / Math.max(...array)) * 550}px`;
+          bar.innerText = value;
+
+          if (index === i) bar.classList.add("compare");
+          if (value === target && index === i) bar.classList.add("found");
+
+          visualization.appendChild(bar);
+        });
+      }
+
+      function displayProcessStep(message) {
+        const processContainer = document.getElementById("process");
+        const step = document.createElement("div");
+        step.className = "text-sm text-gray-700 mb-2";
+        step.innerText = message;
+        processContainer.appendChild(step);
+        processContainer.scrollTop = processContainer.scrollHeight;
+      }
+
+      function startSearching() {
+        const input = document.getElementById("inputField").value;
+        const targetInput = document.getElementById("targetInput").value;
+
+        array = input.split(",").map(Number);
+        target = Number(targetInput);
+        i = 0;
+        isPaused = false;
+        document.getElementById("process").innerHTML = "";
+        displayArray();
+        displayProcessStep(`Starting search for: ${target} in [${array.join(", ")}]`);
+        intervalId = setInterval(linearSearchStep, speed);
+      }
+
+      function linearSearchStep() {
+        if (isPaused) return;
+
+        if (i < array.length) {
+          displayArray();
+          if (array[i] === target) {
+            displayProcessStep(`Found ${target} at index ${i}!`);
+            clearInterval(intervalId);
+            displayArray();
+          } else {
+            displayProcessStep(`Checking index ${i}: ${array[i]}...`);
+            i++;
+          }
+        } else {
+          displayProcessStep(`Target ${target} not found.`);
+          clearInterval(intervalId);
+        }
+      }
+
+      function pauseSearching() {
+        isPaused = !isPaused;
+      }
+
+      function resetSearching() {
+        clearInterval(intervalId);
+        document.getElementById("visualization").innerHTML = "";
+        document.getElementById("process").innerHTML = "";
+        document.getElementById("inputField").value = "";
+        document.getElementById("targetInput").value = "";
+        array = [];
+        target = null;
+        i = 0;
+        isPaused = false;
+      }
+    </script>
+  </body>
 </html>

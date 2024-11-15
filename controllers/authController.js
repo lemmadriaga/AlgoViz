@@ -2,14 +2,13 @@ const {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } = require("firebase/auth");
-const { doc, setDoc } = require("firebase/firestore");
+const { doc, setDoc, getDoc } = require("firebase/firestore");
 const { auth, db } = require("../config/firebaseConfig");
 
 const emailPattern = /^[a-z0-9._%+-]+@g\.batstate-u\.edu\.ph$/i;
 
 exports.signup = async (req, res) => {
   const { fullName, email, password, phone, birthDate } = req.body;
-
   
   if (!emailPattern.test(email)) {
     return res
@@ -18,14 +17,12 @@ exports.signup = async (req, res) => {
   }
 
   try {
-    
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
     const user = userCredential.user;
-
     
     await setDoc(doc(db, "users", user.uid), {
       fullName,
@@ -44,7 +41,6 @@ exports.signup = async (req, res) => {
   }
 };
 
-
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -55,17 +51,28 @@ exports.login = async (req, res) => {
   }
 
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
+
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      console.error("User not found for ID:", user.uid);
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userData = userDoc.data();
 
     req.session.userId = user.uid;
 
-    res.redirect(`/dashboard`);
+    if (userData.role === "user") {
+      return res.redirect(`/dashboard`);
+    } else if (userData.role === "admin") {
+      return res.redirect(`/admin`);
+    }
   } catch (error) {
+    console.error("Login error:", error);
     res.status(400).json({ error: "Invalid email or password" });
   }
 };
