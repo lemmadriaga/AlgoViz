@@ -14,14 +14,16 @@
                     <img src="https://via.placeholder.com/100" alt="Profile" class="rounded-full">
                 </div>
                 <div class="text-center">
-                    <p class="text-lg font-bold">hotdogs@gmail.com</p>
+                    <p class="text-lg font-bold" id="userFullName"><%= fullName %></p>
+                    <p class="text-sm" id="userEmail"><%= email %></p>
+                    <br>
+                    <p class="text-sm" id="userRole"><%= role.toUpperCase() %></p>
+                    <br>
+                    <form action="/logout" method="post">
+                        <button class="bg-indigo-500 text-white font-bold px-4 py-2 rounded shadow">Logout</button>
+                    </form>
                 </div>
-                <form action="/logout" method="post">
-                    <button type="submit">Logout</button>
-                </form>
             </div>
-
-            <!-- Updated Logout Button -->
         </div>
 
         <!-- Right Panel -->

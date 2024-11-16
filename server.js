@@ -4,6 +4,8 @@ const session = require("express-session");
 const path = require("path");
 const userAuthenticationRoutes = require("./api/userAuthentication");
 const userRoutes = require("./api/userRoutes");
+const { getUserProfile } = require("./controllers/userController");
+const { getAdminProfile } = require("./controllers/adminController");
 
 const app = express(); // Initialize app here
 
@@ -42,9 +44,7 @@ app.get("/", (req, res) => res.render("home"));
 app.get("/login", (req, res) => requireSession(req, res, "userAuth/login"));
 app.get("/signup", (req, res) => res.render("userAuth/signup"));
 
-app.get("/dashboard", (req, res) => {
-  requireSession(req, res, "userDashboard/dashboard");
-});
+app.get("/dashboard", getUserProfile);
 
 app.get("/dashboard/linearsearch", (req, res) => requireSession(req, res, "userDashboard/search/linearSearch"));
 app.get("/dashboard/binarysearch", (req, res) => requireSession(req, res, "userDashboard/search/binarySearch"));
@@ -57,7 +57,7 @@ app.get("/dashboard/quicksort", (req, res) => requireSession(req, res, "userDash
 app.get("/dashboard/mergesort", (req, res) => requireSession(req, res, "userDashboard/sort/mergeSort"));
 app.get("/dashboard/selectionsort", (req, res) => requireSession(req, res, "userDashboard/sort/selectionSort"));
 
-app.get("/admin", (req, res) => res.render("admin/admin.ejs"));
+app.get("/admin", getAdminProfile);
 
 app.post("/logout", (req, res) => {
   req.session.destroy((err) => {
