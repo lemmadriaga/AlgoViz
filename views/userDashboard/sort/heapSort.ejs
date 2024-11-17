@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Heap Sort | AlgoViz</title>
+    <title>Enhanced Heap Sort Visualization</title>
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
     <style>
       .custom-button {
-        background-color: #5800ff;
+        background-color: #4b0082;
         color: white;
         padding: 0.5rem 1.5rem;
         font-weight: bold;
@@ -18,7 +18,7 @@
         transition: all 0.3s;
       }
       .custom-button:hover {
-        background-color: #7f00ff;
+        background-color: #7b1fa2;
         transform: translateY(-2px);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
@@ -28,14 +28,14 @@
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         padding: 1rem;
-        width: 90%;
-        height: 600px;
+        width: 400px;
+        height: 400px;
         overflow: hidden;
       }
 
       .bar {
         display: inline-block;
-        width: 30px;
+        width: 35px;
         margin: 4px;
         background: linear-gradient(to top, #ff8c00, #ffd700);
         color: white;
@@ -48,37 +48,56 @@
       .bar.selected {
         background: linear-gradient(to top, #32cd32, #228b22);
       }
+      .bar.compare {
+        background: linear-gradient(to top, #ffdd44, #ffc107);
+      }
+      .bar.swap {
+        background: linear-gradient(to top, #ff6347, #ff4500);
+      }
+      .bar.sorted {
+        background: linear-gradient(to top, #32cd32, #228b22);
+      }
 
       .step-process-container {
         background-color: #ffffff;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         padding: 1rem;
+        width: 300px;
+        height: 400px;
+        overflow-y-auto;
+      }
+
+      .slider {
+        -webkit-appearance: none;
+        width: 100px;
+        height: 8px;
+        background: #4b0082;
+        outline: none;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+        border-radius: 5px;
+      }
+      .slider:hover {
+        opacity: 1;
       }
     </style>
   </head>
-  <body class="bg-white p-8">
-    <a href="javascript:history.back()" class="custom-button mb-4 inline-block"
-      >Back</a
-    >
+  <body class="bg-gray-100 p-4">
+    <a href="javascript:history.back()" class="custom-button inline-block">Back</a>
 
-    <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold text-purple-900">
-        Heap Sort Visualization
+    <div class="text-center mb-2">
+      <h1 class="text-3xl font-bold text-purple-900">
+        Enhanced Heap Sort Visualization
       </h1>
     </div>
 
-    <div class="flex justify-center space-x-8 mb-8">
-      <div
-        class="visualization-container flex justify-center items-center relative"
-      >
-        <div
-          id="visualization"
-          class="w-full h-full flex items-end justify-center"
-        ></div>
+    <div class="flex justify-center space-x-8 mb-6">
+      <div class="visualization-container flex justify-center items-center relative">
+        <div id="visualization" class="w-full h-full flex items-end justify-center"></div>
       </div>
 
-      <div class="step-process-container w-1/3 h-96 overflow-y-auto">
+      <div class="step-process-container overflow-y-auto">
         <h2 class="text-xl font-semibold mb-4 text-purple-800 text-center">
           Sorting Steps
         </h2>
@@ -86,40 +105,104 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center space-y-4">
+    <div class="flex justify-center items-center gap-2">
       <input
         id="inputField"
         type="text"
         placeholder="Enter numbers, e.g., 5,3,8,1,4"
-        class="border border-gray-300 p-2 rounded w-64 mb-4"
+        class="border border-gray-300 p-2 rounded w-64"
       />
 
-      <div class="flex space-x-4 mt-4">
+      <div class="flex items-center space-x-4">
+        <label for="speedControl" class="text-gray-700 font-semibold">Speed:</label>
+        <input
+          type="range"
+          id="speedControl"
+          min="100"
+          max="2000"
+          value="500"
+          class="slider"
+        />
+      </div>
+
+      <div class="flex gap-2">
         <button onclick="startHeapSort()" class="custom-button">Start</button>
         <button onclick="pauseSorting()" class="custom-button">Pause</button>
+        <button onclick="resetSorting()" class="custom-button">Reset</button>
       </div>
     </div>
 
     <script>
       let array = [];
       let isPaused = false;
+      let intervalId;
+      let speed = 500;
+      let i = 0;
 
-      function displayArray(selectedIndex = -1) {
+      document
+        .getElementById("speedControl")
+        .addEventListener("input", (event) => {
+          speed = event.target.value;
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = setInterval(startHeapSort, speed);
+          }
+        });
+
+      function validateInput() {
+        const inputField = document.getElementById("inputField");
+        const input = inputField.value.trim();
+
+        inputField.setCustomValidity("");
+
+        if (!input) {
+          inputField.setCustomValidity("Input should not be empty.");
+          return false;
+        }
+
+        if (/,,|[^0-9,]/.test(input)) {
+          inputField.setCustomValidity("Incorrect format. Use valid numbers separated by single commas.");
+          return false;
+        }
+
+        const inputArray = input.split(",");
+        
+        if (inputArray.some((value) => value === "")) {
+          inputField.setCustomValidity("Incorrect format. Avoid empty elements or trailing commas.");
+          return false;
+        }
+
+        if (inputArray.length < 1 || inputArray.length > 10) {
+          inputField.setCustomValidity("Only 1-10 numbers are allowed.");
+          return false;
+        }
+
+        if (inputArray.some((value) => parseInt(value, 10) < 0 || parseInt(value, 10) > 9)) {
+          inputField.setCustomValidity("Only numbers between 0-9 are allowed.");
+          return false;
+        }
+
+        return true;
+      }
+
+      function displayArray(selectedIndex = -1, isSorted = false, swappedIndex = -1) {
         const visualization = document.getElementById("visualization");
         visualization.innerHTML = "";
 
         const maxValue = Math.max(...array);
-        const containerHeight = 550;
+        const containerHeight = 400;
 
         array.forEach((value, index) => {
           const bar = document.createElement("div");
           bar.className = "bar";
 
-          const barHeight = (value / maxValue) * containerHeight;
+          const barHeight = ((value / maxValue) * containerHeight) - 50;
           bar.style.height = `${barHeight}px`;
           bar.innerText = value;
 
-          if (index === selectedIndex) bar.classList.add("selected");
+          if (index === selectedIndex || index === swappedIndex) bar.classList.add("swap");
+          if (isSorted) bar.classList.add("sorted");
+
           visualization.appendChild(bar);
         });
       }
@@ -134,7 +217,15 @@
       }
 
       async function startHeapSort() {
-        const input = document.getElementById("inputField").value;
+        if (isPaused) return;
+        const inputField = document.getElementById("inputField");
+
+        if (!validateInput()) {
+          inputField.reportValidity();
+          return;
+        }
+
+        const input = inputField.value;
         array = input.split(",").map(Number);
         document.getElementById("process").innerHTML = "";
         displayArray();
@@ -145,53 +236,57 @@
         }
 
         for (let i = array.length - 1; i > 0; i--) {
+          if (isPaused) return;
           [array[0], array[i]] = [array[i], array[0]];
-          displayArray(i);
+          displayArray(0, false, i);
           displayProcessStep(`Swapped ${array[0]} with ${array[i]}`);
-          await sleep(500);
+          await sleep(speed);
 
           await heapify(array, i, 0);
         }
 
         displayProcessStep(`Sorted Array: [${array.join(", ")}]`);
-        displayArray();
+        displayArray(-1, true);
       }
 
       async function heapify(arr, n, i) {
+        if (isPaused) return;
         let largest = i;
         const left = 2 * i + 1;
         const right = 2 * i + 2;
 
-        if (left < n && arr[left] > arr[largest]) {
-          largest = left;
-        }
-
-        if (right < n && arr[right] > arr[largest]) {
-          largest = right;
-        }
+        if (left < n && arr[left] > arr[largest]) largest = left;
+        if (right < n && arr[right] > arr[largest]) largest = right;
 
         if (largest !== i) {
           [arr[i], arr[largest]] = [arr[largest], arr[i]];
-          displayArray(largest);
-          displayProcessStep(`Heapify: Swapped ${arr[i]} with ${arr[largest]}`);
-          await sleep(500);
+          displayArray(i, false, largest);
+          displayProcessStep(`Heapify step: Swapped ${arr[i]} with ${arr[largest]}`);
+          await sleep(speed);
 
           await heapify(arr, n, largest);
         }
-      }
-
-      function pauseSorting() {
-        isPaused = !isPaused;
       }
 
       function sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
 
-      async function pauseLoop() {
-        while (isPaused) {
-          await sleep(100);
+      function pauseSorting() {
+        isPaused = !isPaused;
+        if (!isPaused) {
+          startHeapSort();
         }
+      }
+
+      function resetSorting() {
+        clearInterval(intervalId);
+        intervalId = null;
+        isPaused = false;
+        array = [];
+        displayArray();
+        document.getElementById("inputField").value = "";
+        document.getElementById("process").innerHTML = "";
       }
     </script>
   </body>
