@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/adminController");
+const adminController = require("../controllers/adminController");
 
-router.get("/api/get-admin-profile", adminController.getAdminProfile);
+router.get("/admin", adminController.getAllUsers);
+router.post("/admin/delete-user/:userId", adminController.deleteUser);
 
 module.exports = router;
