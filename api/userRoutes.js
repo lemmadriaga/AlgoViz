@@ -9,4 +9,8 @@ router.post(
   userController.updateUserProfilePicture
 );
 
+router.post("/update-user-progress",
+  userController.updateProgress
+)
+
 module.exports = router;

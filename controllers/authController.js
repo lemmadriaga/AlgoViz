@@ -29,7 +29,21 @@ exports.signup = async (req, res) => {
       email,
       phone,
       birthDate,
-      role: "user", 
+      role: "user",
+      progress: 0,
+      sorting: {
+        bubbleSort: false,
+        insertionSort: false,
+        selectionSort: false,
+        quickSort: false,
+        mergeSort: false,
+        heapSort: false
+      },
+      searching: {
+        linearSearch: false,
+        binarySearch: false,
+        twoPointers: false
+      },
       createdAt: new Date().toISOString(),
     });
 

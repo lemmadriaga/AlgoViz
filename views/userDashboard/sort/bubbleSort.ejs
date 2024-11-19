@@ -137,6 +137,19 @@
       </div>
     </div>
 
+    <form action="/update-user-progress" method="post" class="flex items-center justify-center mt-10">
+      <fieldset class="border border-gray-600 p-4">
+        <legend><strong>What is Bubble Sort?</strong></legend>
+          <label>A. Bubble Sort is love.</label><br>
+          <label>B. Bubble Sort is searching algorithm.</label><br>
+          <label>C. Bubble Sort is nice.</label><br>
+          <label>D. Bubble Sort is a sorting algorithm.</label><br>
+          <input type="text" name="bubbleSort" value="bubbleSort" hidden>
+          <input type="text" name="firstQuestion" placeholder="Your answer">
+      </fieldset>
+      <button type="submit">Submit</button>
+    </form>
+
     <script>
       let array = [];
       let intervalId;

@@ -4,6 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin | AlgoViz</title>
+    <style>
+      progress[value] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #a0a1a2;
+        overflow: hidden;
+      }
+    
+      progress[value]::-webkit-progress-bar {
+        background-color: #a0a1a2;
+        border-radius: 5px;
+      }
+    
+      progress[value]::-webkit-progress-value {
+        background-color: #5800FF;
+        border-radius: 5px;
+      }
+    
+      progress[value]::-moz-progress-bar {
+        background-color: #5800FF;
+        border-radius: 5px;
+      }
+    </style>
   </head>
   <body class="bg-gray-100">
     <div class="flex min-h-screen">
@@ -55,7 +81,7 @@
                   <%= user.fullName %>
                 </td>
                 <td contenteditable="true" class="py-5 border text-center p-4">
-                  <%= user.progress || 'N/A' %>
+                  <progress id="file" value=<%= user.progress %> max="100"></progress>
                 </td>
                 <td class="py-5 border text-center p-4">
                   <form
