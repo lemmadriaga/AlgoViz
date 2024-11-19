@@ -6,6 +6,15 @@ const {
   getDoc,
   deleteDoc,
 } = require("firebase/firestore");
+const admin = require("firebase-admin");
+
+const serviceAccount = require("../firebase-service-account.json");
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -14,7 +23,6 @@ exports.getAllUsers = async (req, res) => {
       return res.render("userAuth/login");
     }
 
-    // Fetch admin profile for sidebar
     const adminDocRef = doc(db, "users", userId);
     const adminDoc = await getDoc(adminDocRef);
 
@@ -25,7 +33,6 @@ exports.getAllUsers = async (req, res) => {
 
     const adminData = adminDoc.data();
 
-    // Fetch all users
     const usersRef = collection(db, "users");
     const usersSnapshot = await getDocs(usersRef);
 
@@ -34,7 +41,6 @@ exports.getAllUsers = async (req, res) => {
       users.push({ id: doc.id, ...doc.data() });
     });
 
-    // Render admin dashboard with user data
     res.render("admin/adminDashboard", {
       fullName: adminData.fullName,
       email: adminData.email,
@@ -52,7 +58,13 @@ exports.deleteUser = async (req, res) => {
     const userId = req.params.userId;
 
     await deleteDoc(doc(db, "users", userId));
-    console.log(`User ${userId} deleted successfully.`);
+    console.log(`User ${userId} deleted from Firestore successfully.`);
+
+    await admin.auth().deleteUser(userId);
+    console.log(
+      `User ${userId} deleted from Firebase Authentication successfully.`
+    );
+
     res.redirect("/admin");
   } catch (error) {
     console.error("Error deleting user:", error.message);
