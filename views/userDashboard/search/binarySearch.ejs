@@ -8,6 +8,21 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    rel="stylesheet"
+/>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet"
+/>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
     <style>
       .custom-button {
         background-color: #4b0082;
@@ -59,6 +74,36 @@
         padding: 1rem;
         width: 300px;
         height: 400px;
+      }
+
+      .description-container {
+        background-color: #ffffff; 
+        color: #333333; 
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 330px;
+        margin-right: 330px;
+        margin-top: 20px;
+      }
+
+       pre {
+        background-color: #f9f9f9; 
+        color: #333333; 
+        border: 1px solid #ddd; 
+        border-radius: 5px;
+        padding: 15px;
+        overflow-x: auto; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 0.9rem; 
+      }
+
+       .line-numbers-rows {
+         border-right: 1px solid #e1e4e8;
+      }
+
+       .line-numbers .line-numbers-rows > span:before {
+        color: #bbb; 
       }
 
       .slider {
@@ -137,7 +182,240 @@
       <div id="errorMessage" class="error-message"></div>
     </div>
 
+    <div class="description-container">
+      <div class="flex justify-center items-center space-x-4 mb-4">
+        <button onclick="toggleContainer('About')" class="custom-button">About</button>
+        <button onclick="toggleContainer('Work')" class="custom-button">How does it work</button>
+        <button onclick="toggleContainer('Learn')" class="custom-button">Learn More</button>
+      </div>
+
+    
+      <div id="About" class="hidden">
+        <p>
+            <b>Binary Search</b> is an efficient search algorithm that works on sorted arrays 
+            or lists. It repeatedly divides the search space in half, narrowing down the possible 
+            positions of the target element (key). Binary search significantly reduces the search 
+            time compared to linear search, making it a faster option for large datasets.
+        </p>
+        <ul class="list-disc ml-6 mt-4 text-gray-700">
+            <li>
+                <b>Steps of Binary Search:</b>
+                <ul class="list-disc ml-6">
+                    <li>
+                        Divide the search space into two halves by finding the middle index <b>mid</b>.
+                    </li>
+                    <li>
+                        Compare the middle element with the key:
+                        <ul class="list-disc ml-6">
+                            <li>If the key is found at the middle element, the process is <b>terminated</b>.</li>
+                            <li>If the key is not found at the middle element, proceed to the next step.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Choose the half that will be used as the next search space:
+                        <ul class="list-disc ml-6">
+                            <li>If the key is smaller than the middle element, the <b>left half</b> is selected for the next search.</li>
+                            <li>If the key is larger than the middle element, the <b>right half</b> is selected for the next search.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Repeat the process until the key is found or the entire search space is exhausted.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <b>Time Complexity:</b>
+                <ul class="list-disc ml-6">
+                    <li><b>Best case:</b> O(1) – occurs if the key is found at the middle of the array during the first comparison.</li>
+                    <li><b>Worst case:</b> O(log n) – as the search space is halved each time, resulting in logarithmic time complexity.</li>
+                    <li><b>Average case:</b> O(log n) – the search space will be reduced logarithmically in most cases.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Space Complexity:</b> O(1) – Binary Search uses constant space as it only requires variables to store indices and the middle element.
+            </li>
+            <li>
+                <b>Advantages:</b>
+                <ul class="list-disc ml-6">
+                    <li>Faster than linear search for large datasets with O(log n) time complexity.</li>
+                    <li>Efficient for searching in sorted arrays or lists.</li>
+                    <li>Requires minimal memory, making it space-efficient.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Disadvantages:</b>
+                <ul class="list-disc ml-6">
+                    <li>Requires the array to be sorted before searching.</li>
+                    <li>Not suitable for unsorted data, unlike linear search.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    
+    
+
+      <div id="Work" class="hidden">
+        <h2 class="text-lg font-bold">JavaScript Binary Search</h2>
+        <pre class="line-numbers"><code class="language-javascript">
+          // Program to implement iterative Binary Search
+
+          // A iterative binary search function. It returns
+          // location of x in given array arr[l..r] is present,
+          // otherwise -1
+          
+          function binarySearch(arr, x)
+          {
+              let low = 0;
+              let high = arr.length - 1;
+              let mid;
+              while (high >= low) {
+                  mid = low + Math.floor((high - low) / 2);
+          
+                  // If the element is present at the middle
+                  // itself
+                  if (arr[mid] == x)
+                      return mid;
+          
+                  // If element is smaller than mid, then
+                  // it can only be present in left subarray
+                  if (arr[mid] > x)
+                      high = mid - 1;
+          
+                  // Else the element can only be present
+                  // in right subarray
+                  else
+                      low = mid + 1;
+              }
+          
+              // We reach here when element is not
+              // present in array
+              return -1;
+          }
+          
+          arr = new Array(2, 3, 4, 10, 40);
+          x = 10;
+          n = arr.length;
+          result = binarySearch(arr, x);
+          if (result == -1)
+              console.log("Element is not present in array")
+              else
+              {
+                  console.log("Element is present at index "
+                              + result);
+              }
+          
+             
+        </code></pre>
+        <h2 class="text-lg font-bold">Python Binary Search</h2>
+        <pre class="line-numbers"><code class="language-python">
+          # Python3 code to implement iterative Binary
+          # Search.
+          
+          
+          # It returns location of x in given array arr
+          def binarySearch(arr, low, high, x):
+          
+              while low <= high:
+          
+                  mid = low + (high - low) // 2
+          
+                  # Check if x is present at mid
+                  if arr[mid] == x:
+                      return mid
+          
+                  # If x is greater, ignore left half
+                  elif arr[mid] < x:
+                      low = mid + 1
+          
+                  # If x is smaller, ignore right half
+                  else:
+                      high = mid - 1
+          
+              # If we reach here, then the element
+              # was not present
+              return -1
+          
+          
+          # Driver Code
+          if __name__ == '__main__':
+              arr = [2, 3, 4, 10, 40]
+              x = 10
+          
+              # Function call
+              result = binarySearch(arr, 0, len(arr)-1, x)
+              if result != -1:
+                  print("Element is present at index", result)
+              else:
+                  print("Element is not present in array")
+        </code></pre>
+        <h2 class="text-lg font-bold">Java Binary Search</h2>
+        <pre class="line-numbers"><code class="language-java">
+
+          // Java implementation of iterative Binary Search
+
+          import java.io.*;
+          
+          class BinarySearch {
+            
+              // Returns index of x if it is present in arr[].
+              int binarySearch(int arr[], int x)
+              {
+                  int low = 0, high = arr.length - 1;
+                  while (low <= high) {
+                      int mid = low + (high - low) / 2;
+          
+                      // Check if x is present at mid
+                      if (arr[mid] == x)
+                          return mid;
+          
+                      // If x greater, ignore left half
+                      if (arr[mid] < x)
+                          low = mid + 1;
+          
+                      // If x is smaller, ignore right half
+                      else
+                          high = mid - 1;
+                  }
+          
+                  // If we reach here, then element was
+                  // not present
+                  return -1;
+              }
+          
+              // Driver code
+              public static void main(String args[])
+              {
+                  BinarySearch ob = new BinarySearch();
+                  int arr[] = { 2, 3, 4, 10, 40 };
+                  int n = arr.length;
+                  int x = 10;
+                  int result = ob.binarySearch(arr, x);
+                  if (result == -1)
+                      System.out.println(
+                          "Element is not present in array");
+                  else
+                      System.out.println("Element is present at "
+                                         + "index " + result);
+              }
+          }
+        </code></pre>
+      </div>
+    </div>
+    </div>
+
     <script>
+       function toggleContainer(containerId) {
+        const containers = ['About', 'Work'];
+        containers.forEach((id) => {
+          const container = document.getElementById(id);
+          if (id === containerId) {
+            container.classList.toggle('hidden');
+          } else {
+            container.classList.add('hidden');
+          }
+        });
+      }
       let array = [];
       let target = null;
       let left = 0;

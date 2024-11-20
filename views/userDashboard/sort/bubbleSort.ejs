@@ -8,6 +8,23 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+/>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+      rel="stylesheet"
+/>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+
+
     <style>
       .custom-button {
         background-color: #4b0082;
@@ -41,6 +58,40 @@
         width: 300px;
         height: 400px;
       }
+
+      .description-container {
+        background-color: #ffffff; 
+        color: #333333; 
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 330px;
+        margin-right: 330px;
+        margin-top: 20px;
+      
+    
+    
+      }
+
+       pre {
+        background-color: #f9f9f9; 
+        color: #333333; 
+        border: 1px solid #ddd; 
+        border-radius: 5px;
+        padding: 15px;
+        overflow-x: auto; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 0.9rem; 
+      }
+
+       .line-numbers-rows {
+         border-right: 1px solid #e1e4e8;
+      }
+
+       .line-numbers .line-numbers-rows > span:before {
+        color: #bbb; 
+      }
+
 
       .bar {
         display: inline-block;
@@ -137,7 +188,7 @@
       </div>
     </div>
 
-    <form action="/update-user-progress" method="post" class="flex items-center justify-center mt-10">
+    <!--<form action="/update-user-progress" method="post" class="flex items-center justify-center mt-10">
       <fieldset class="border border-gray-600 p-4">
         <legend><strong>What is Bubble Sort?</strong></legend>
           <label>A. Bubble Sort is love.</label><br>
@@ -148,9 +199,151 @@
           <input type="text" name="firstQuestion" placeholder="Your answer">
       </fieldset>
       <button type="submit">Submit</button>
-    </form>
+    </form>-->
 
+    <div class="description-container">
+      <div class="flex justify-center items-center space-x-4 mb-4">
+        <button onclick="toggleContainer('About')" class="custom-button">About</button>
+        <button onclick="toggleContainer('Work')" class="custom-button">How does it work</button>
+        <button onclick="toggleContainer('Learn')" class="custom-button">Learn More</button>
+      </div>
+
+      <!-- Containers now positioned separately -->
+      <div id="About" class="hidden">
+        <p>
+            <b>Bubble Sort</b> is the simplest sorting algorithm that works by repeatedly
+            swapping the adjacent elements <b>if they are in the wrong order</b>. This
+            algorithm is <b>not suitable for large data sets</b> as its average and
+            worst-case time complexity are quite high.
+        </p>
+        <ul class="list-disc ml-6 mt-4 text-gray-700">
+            <li>
+                Bubble Sort operates by iterating over the array multiple times, with each 
+                iteration referred to as a <b>pass</b>. During each pass, the algorithm 
+                compares adjacent elements and swaps them if the current element is 
+                larger than the next one.
+            </li>
+            <li>
+                The <b>maximum element</b> is placed in its correct position at the end 
+                of the array during the first pass. Similarly, the next largest element 
+                is placed in the second-last position in the second pass, and so on, 
+                gradually sorting the array.
+            </li>
+            <li>
+                The process repeats until the entire array is sorted, with <b>fewer comparisons</b> 
+                required in each subsequent pass as the largest elements are already in place.
+            </li>
+            <li>
+                The algorithm has a <b>best-case time complexity</b> of O(n) when the array is already 
+                sorted, as it can detect no swaps are needed. However, its <b>worst-case</b> 
+                and <b>average-case time complexities</b> are O(n²), making it inefficient 
+                for large data sets.
+            </li>
+            <li>
+                Although Bubble Sort is straightforward and easy to implement, it is 
+                primarily used for <b>educational purposes</b> or small data sets due 
+                to its inefficiency.
+            </li>
+            <li>
+                To improve performance, an optimization can be added: if no elements 
+                are swapped during a pass, the algorithm terminates early as the array 
+                is already sorted.
+            </li>
+            <li>
+                Bubble Sort is a <b>stable sorting algorithm</b>, meaning that it preserves 
+                the relative order of equal elements.
+            </li>
+        </ul>
+    </div>
+    
+    
+
+      <div id="Work" class="hidden">
+        <h2 class="text-lg font-bold">JavaScript Bubble Sort</h2>
+        <pre class="line-numbers"><code class="language-javascript">
+          // JavaScript Bubble Sort
+          function bubbleSort(arr) {
+              let n = arr.length;
+              for (let i = 0; i < n - 1; i++) {
+                  for (let j = 0; j < n - i - 1; j++) {
+                      if (arr[j] > arr[j + 1]) {
+                          // Swap
+                          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                      }
+                  }
+              }
+              return arr;
+          }
+             
+        </code></pre>
+        <h2 class="text-lg font-bold">Python Bubble Sort</h2>
+        <pre class="line-numbers"><code class="language-python">
+          # Python Bubble Sort
+          def bubble_sort(arr):
+              n = len(arr)
+              for i in range(n):
+                  for j in range(0, n-i-1):
+                      if arr[j] > arr[j+1]:
+                          arr[j], arr[j+1] = arr[j+1], arr[j]
+              return arr
+          
+          # Example usage
+          numbers = [64, 34, 25, 12, 22, 11, 90]
+          print("Unsorted array:", numbers)
+          print("Sorted array:", bubble_sort(numbers))
+        </code></pre>
+        <h2 class="text-lg font-bold">Java Bubble Sort</h2>
+        <pre class="line-numbers"><code class="language-java">
+
+          // Java Bubble Sort
+          public class BubbleSort {
+              public static void bubbleSort(int[] arr) {
+                  int n = arr.length;
+                  for (int i = 0; i < n - 1; i++) {
+                      for (int j = 0; j < n - i - 1; j++) {
+                          if (arr[j] > arr[j + 1]) {
+                              // Swap
+                              int temp = arr[j];
+                              arr[j] = arr[j + 1];
+                              arr[j + 1] = temp;
+                          }
+                      }
+                  }
+              }
+          
+              public static void main(String[] args) {
+                  int[] numbers = {64, 34, 25, 12, 22, 11, 90};
+                  System.out.println("Unsorted array: ");
+                  for (int num : numbers) {
+                      System.out.print(num + " ");
+                  }
+                  bubbleSort(numbers);
+                  System.out.println("\nSorted array: ");
+                  for (int num : numbers) {
+                      System.out.print(num + " ");
+                  }
+              }
+          }
+        </code></pre>
+      </div>
+    </div>
+    </div>
+      
     <script>
+
+       function toggleContainer(containerId) {
+        const containers = ['About', 'Work'];
+        containers.forEach((id) => {
+          const container = document.getElementById(id);
+          if (id === containerId) {
+            container.classList.toggle('hidden');
+          } else {
+            container.classList.add('hidden');
+          }
+        });
+      }
+
+
       let array = [];
       let intervalId;
       let i = 0,

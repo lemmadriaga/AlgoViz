@@ -8,6 +8,21 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    rel="stylesheet"
+/>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet"
+/>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
     <style>
       .custom-button {
         background-color: #4b0082;
@@ -59,6 +74,36 @@
         padding: 1rem;
         width: 300px;
         height: 400px;
+      }
+
+      .description-container {
+        background-color: #ffffff; 
+        color: #333333; 
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 330px;
+        margin-right: 330px;
+        margin-top: 20px;
+      }
+
+       pre {
+        background-color: #f9f9f9; 
+        color: #333333; 
+        border: 1px solid #ddd; 
+        border-radius: 5px;
+        padding: 15px;
+        overflow-x: auto; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 0.9rem; 
+      }
+
+       .line-numbers-rows {
+         border-right: 1px solid #e1e4e8;
+      }
+
+       .line-numbers .line-numbers-rows > span:before {
+        color: #bbb; 
       }
 
       .slider {
@@ -128,9 +173,171 @@
         <button onclick="resetSearching()" class="custom-button">Reset</button>
       </div>
     </div>
+
+
+    <div class="description-container">
+      <div class="flex justify-center items-center space-x-4 mb-4">
+        <button onclick="toggleContainer('About')" class="custom-button">About</button>
+        <button onclick="toggleContainer('Work')" class="custom-button">How does it work</button>
+        <button onclick="toggleContainer('Learn')" class="custom-button">Learn More</button>
+      </div>
+
+      <div id="About" class="hidden">
+        <p>
+            <b>Linear Search</b> is a simple search algorithm that works by checking each 
+            element in the array sequentially from the start to the end. It compares the 
+            target element (key) with every element in the list until a match is found or 
+            the entire list has been checked. It is ideal for small datasets or when the 
+            data is unsorted.
+        </p>
+        <ul class="list-disc ml-6 mt-4 text-gray-700">
+            <li>
+                <b>Steps of Linear Search:</b>
+                <ul class="list-disc ml-6">
+                    <li>Start at the <b>first element</b> of the array.</li>
+                    <li>Compare the current element with the <b>target element</b> (key).</li>
+                    <li>If the current element matches the key, the search is <b>terminated</b> and the index of the element is returned.</li>
+                    <li>If the current element does not match the key, move to the <b>next element</b> in the array.</li>
+                    <li>Repeat the process until either the key is found or the entire array has been searched.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Time Complexity:</b>
+                <ul class="list-disc ml-6">
+                    <li><b>Best case:</b> O(1) – occurs if the target element is the first element in the array.</li>
+                    <li><b>Worst case:</b> O(n) – occurs if the target element is the last element or not present at all.</li>
+                    <li><b>Average case:</b> O(n) – on average, half of the elements will need to be checked.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Space Complexity:</b> O(1) – Linear Search uses constant space as it does not require additional memory beyond variables to store the index and the key.
+            </li>
+            <li>
+                <b>Advantages:</b>
+                <ul class="list-disc ml-6">
+                    <li>Simple to understand and implement.</li>
+                    <li>Works on unsorted data, unlike Binary Search.</li>
+                    <li>No need for additional memory allocation as it is an in-place search algorithm.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Disadvantages:</b>
+                <ul class="list-disc ml-6">
+                    <li>Relatively inefficient for large datasets with O(n) time complexity.</li>
+                    <li>Does not benefit from any optimizations like Binary Search, as it checks each element individually.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    
+    
+
+      <div id="Work" class="hidden">
+        <h2 class="text-lg font-bold">JavaScript Linear Search</h2>
+        <pre class="line-numbers"><code class="language-javascript">
+          // Javascript code to linearly search x in arr[].
+
+          function search(arr, n, x)
+          {
+              for (let i = 0; i < n; i++)
+                  if (arr[i] == x)
+                      return i;
+              return -1;
+          }
+          
+          // Driver code
+          
+              let arr = [ 2, 3, 4, 10, 40 ];
+              let x = 10;
+              let n = arr.length;
+          
+              // Function call
+              let result = search(arr, n, x);
+              (result == -1)
+                  ? console.log("Element is not present in array")
+                  : console.log("Element is present at index " + result);
+          
+             
+        </code></pre>
+        <h2 class="text-lg font-bold">Python Linear Search</h2>
+        <pre class="line-numbers"><code class="language-python">
+          # Python3 code to linearly search x in arr[].
+
+
+          def search(arr, N, x):
+          
+              for i in range(0, N):
+                  if (arr[i] == x):
+                      return i
+              return -1
+          
+          
+          # Driver Code
+          if __name__ == "__main__":
+              arr = [2, 3, 4, 10, 40]
+              x = 10
+              N = len(arr)
+          
+              # Function call
+              result = search(arr, N, x)
+              if(result == -1):
+                  print("Element is not present in array")
+              else:
+                  print("Element is present at index", result)
+        </code></pre>
+        <h2 class="text-lg font-bold">Java Linear Search</h2>
+        <pre class="line-numbers"><code class="language-java">
+
+          // Java code for linearly searching x in arr[]. 
+
+          import java.io.*;
+          
+          class GFG {
+              public static int search(int arr[], int N, int x)
+              {
+                  for (int i = 0; i < N; i++) {
+                      if (arr[i] == x)
+                          return i;
+                  }
+                  return -1;
+              }
+          
+              // Driver code
+              public static void main(String args[])
+              {
+                  int arr[] = { 2, 3, 4, 10, 40 };
+                  int x = 10;
+          
+                  // Function call
+                  int result = search(arr, arr.length, x);
+                  if (result == -1)
+                      System.out.print(
+                          "Element is not present in array");
+                  else
+                      System.out.print("Element is present at index "
+                                       + result);
+              }
+          }
+        </code></pre>
+      </div>
+    </div>
+    </div>
     
 
     <script>
+        function toggleContainer(containerId) {
+        const containers = ['About', 'Work'];
+        containers.forEach((id) => {
+          const container = document.getElementById(id);
+          if (id === containerId) {
+            container.classList.toggle('hidden');
+          } else {
+            container.classList.add('hidden');
+          }
+        });
+      }
+
       let array = [];
       let target = null;
       let intervalId;

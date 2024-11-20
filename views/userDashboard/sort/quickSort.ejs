@@ -8,6 +8,22 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    rel="stylesheet"
+/>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet"
+/>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+
     <style>
       .custom-button {
         background-color: #4b0082;
@@ -67,6 +83,37 @@
         height: 400px;
         overflow-y: auto;
       }
+
+      .description-container {
+        background-color: #ffffff; 
+        color: #333333; 
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 330px;
+        margin-right: 330px;
+        margin-top: 20px;
+    
+      }
+
+       pre {
+        background-color: #f9f9f9; 
+        color: #333333; 
+        border: 1px solid #ddd; 
+        padding: 15px;
+        overflow-x: auto; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 0.9rem; 
+      }
+
+       .line-numbers-rows {
+         border-right: 1px solid #e1e4e8;
+      }
+
+       .line-numbers .line-numbers-rows > span:before {
+        color: #bbb; 
+      }
+
 
       .slider {
         -webkit-appearance: none;
@@ -132,7 +179,277 @@
       </div>
     </div>
 
+    <div class="description-container">
+      <div class="flex justify-center items-center space-x-4 mb-4">
+        <button onclick="toggleContainer('About')" class="custom-button">About</button>
+        <button onclick="toggleContainer('Work')" class="custom-button">How does it work</button>
+        <button onclick="toggleContainer('Learn')" class="custom-button">Learn More</button>
+      </div>
+
+      <div id="About" class="hidden">
+        <p>
+            <b>Quick Sort</b> is a highly efficient sorting algorithm that uses a 
+            <b>divide-and-conquer</b> approach to sort elements. It is significantly faster than 
+            Bubble Sort and is often used in practice for large datasets. The algorithm divides 
+            the array into smaller sub-arrays based on a <b>pivot</b> element and recursively sorts them.
+        </p>
+        <ul class="list-disc ml-6 mt-4 text-gray-700">
+            <li>
+                A <b>pivot</b> is chosen (usually the first, last, or middle element, 
+                or chosen randomly). The pivot is used to partition the array into two parts:
+                <ul class="list-disc ml-6">
+                    <li>Elements <b>smaller than the pivot</b> are placed on the left.</li>
+                    <li>Elements <b>greater than the pivot</b> are placed on the right.</li>
+                </ul>
+            </li>
+            <li>
+                Once partitioning is complete, the pivot element is in its correct position in 
+                the sorted array.
+            </li>
+            <li>
+                The algorithm then recursively applies the same process to the left and right 
+                sub-arrays until all sub-arrays are sorted.
+            </li>
+            <li>
+                <b>Time Complexity:</b>
+                <ul class="list-disc ml-6">
+                    <li><b>Best case:</b> O(n log n) – achieved when the pivot divides the array 
+                        into two equal halves.</li>
+                    <li><b>Worst case:</b> O(n²) – occurs when the pivot is poorly chosen, 
+                        leading to highly unbalanced partitions (e.g., if the array is already 
+                        sorted).</li>
+                    <li><b>Average case:</b> O(n log n).</li>
+                </ul>
+            </li>
+            <li>
+                <b>Advantages:</b> 
+                <ul class="list-disc ml-6">
+                    <li>Highly efficient for large datasets.</li>
+                    <li>Works well for both in-memory and external sorting.</li>
+                    <li>Can be implemented in a <b>non-recursive</b> way using a stack for 
+                        iterative partitioning.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Disadvantages:</b>
+                <ul class="list-disc ml-6">
+                    <li>Not a <b>stable sorting algorithm</b>, meaning it does not preserve 
+                        the relative order of equal elements.</li>
+                    <li>Performance is highly dependent on the choice of the pivot.</li>
+                    <li>Recursive implementation can cause stack overflow for very large arrays.</li>
+                </ul>
+            </li>
+            <li>
+                Quick Sort is widely used in practice, particularly when implemented with 
+                optimizations like <b>randomized pivot selection</b> or <b>hybrid algorithms</b> 
+                (e.g., switching to Insertion Sort for small sub-arrays).
+            </li>
+        </ul>
+    </div>
+    
+    
+    
+
+      <div id="Work" class="hidden">
+        <h2 class="text-lg font-bold">JavaScript Quick Sort</h2>
+        <pre class="line-numbers"><code class="language-javascript">
+          // Partition function
+          function partition(arr, low, high)
+          {
+          
+              // Choose the pivot
+              let pivot = arr[high];
+          
+              // Index of smaller element and indicates
+              // the right position of pivot found so far
+              let i = low - 1;
+          
+              // Traverse arr[low..high] and move all smaller
+              // elements to the left side. Elements from low to
+              // i are smaller after every iteration
+              for (let j = low; j <= high - 1; j++) {
+                  if (arr[j] < pivot) {
+                      i++;
+                      swap(arr, i, j);
+                  }
+              }
+          
+              // Move pivot after smaller elements and
+              // return its position
+              swap(arr, i + 1, high);
+              return i + 1;
+          }
+          
+          // Swap function
+          function swap(arr, i, j)
+          {
+              let temp = arr[i];
+              arr[i] = arr[j];
+              arr[j] = temp;
+          }
+          
+          // The QuickSort function implementation
+          function quickSort(arr, low, high)
+          {
+              if (low < high) {
+          
+                  // pi is the partition return index of pivot
+                  let pi = partition(arr, low, high);
+          
+                  // Recursion calls for smaller elements
+                  // and greater or equals elements
+                  quickSort(arr, low, pi - 1);
+                  quickSort(arr, pi + 1, high);
+              }
+          }
+          
+          // Main driver code
+          let arr = [ 10, 7, 8, 9, 1, 5 ];
+          let n = arr.length;
+          
+          // Call QuickSort on the entire array
+          quickSort(arr, 0, n - 1);
+          for (let i = 0; i < arr.length; i++) {
+              console.log(arr[i] + " ");
+          }
+          
+             
+        </code></pre>
+        <h2 class="text-lg font-bold">Python Quick Sort</h2>
+        <pre class="line-numbers"><code class="language-python">
+          # Partition function
+          def partition(arr, low, high):
+              
+              # Choose the pivot
+              pivot = arr[high]
+              
+              # Index of smaller element and indicates 
+              # the right position of pivot found so far
+              i = low - 1
+              
+              # Traverse arr[low..high] and move all smaller
+              # elements to the left side. Elements from low to 
+              # i are smaller after every iteration
+              for j in range(low, high):
+                  if arr[j] < pivot:
+                      i += 1
+                      swap(arr, i, j)
+              
+              # Move pivot after smaller elements and
+              # return its position
+              swap(arr, i + 1, high)
+              return i + 1
+          
+          # Swap function
+          def swap(arr, i, j):
+              arr[i], arr[j] = arr[j], arr[i]
+          
+          # The QuickSort function implementation
+          def quickSort(arr, low, high):
+              if low < high:
+                  
+                  # pi is the partition return index of pivot
+                  pi = partition(arr, low, high)
+                  
+                  # Recursion calls for smaller elements
+                  # and greater or equals elements
+                  quickSort(arr, low, pi - 1)
+                  quickSort(arr, pi + 1, high)
+          
+          # Main driver code
+          if __name__ == "__main__":
+              arr = [10, 7, 8, 9, 1, 5]
+              n = len(arr)
+          
+              quickSort(arr, 0, n - 1)
+              
+              for val in arr:
+                  print(val, end=" ")
+        </code></pre>
+        <h2 class="text-lg font-bold">Java Quick Sort</h2>
+        <pre class="line-numbers"><code class="language-java">
+          import java.util.Arrays;
+
+          class GfG {
+          
+              // Partition function
+              static int partition(int[] arr, int low, int high) {
+                  
+                  // Choose the pivot
+                  int pivot = arr[high];
+                  
+                  // Index of smaller element and indicates 
+                  // the right position of pivot found so far
+                  int i = low - 1;
+          
+                  // Traverse arr[low..high] and move all smaller
+                  // elements to the left side. Elements from low to 
+                  // i are smaller after every iteration
+                  for (int j = low; j <= high - 1; j++) {
+                      if (arr[j] < pivot) {
+                          i++;
+                          swap(arr, i, j);
+                      }
+                  }
+                  
+                  // Move pivot after smaller elements and
+                  // return its position
+                  swap(arr, i + 1, high);  
+                  return i + 1;
+              }
+          
+              // Swap function
+              static void swap(int[] arr, int i, int j) {
+                  int temp = arr[i];
+                  arr[i] = arr[j];
+                  arr[j] = temp;
+              }
+          
+              // The QuickSort function implementation
+              static void quickSort(int[] arr, int low, int high) {
+                  if (low < high) {
+                      
+                      // pi is the partition return index of pivot
+                      int pi = partition(arr, low, high);
+          
+                      // Recursion calls for smaller elements
+                      // and greater or equals elements
+                      quickSort(arr, low, pi - 1);
+                      quickSort(arr, pi + 1, high);
+                  }
+              }
+          
+              public static void main(String[] args) {
+                  int[] arr = {10, 7, 8, 9, 1, 5};
+                  int n = arr.length;
+                
+                  quickSort(arr, 0, n - 1);
+                  
+                  for (int val : arr) {
+                      System.out.print(val + " ");  
+                  }
+              }
+          }
+        </code></pre>
+      </div>
+    </div>
+    </div>
+
     <script>
+      function toggleContainer(containerId) {
+        const containers = ['About', 'Work'];
+        containers.forEach((id) => {
+          const container = document.getElementById(id);
+          if (id === containerId) {
+            container.classList.toggle('hidden');
+          } else {
+            container.classList.add('hidden');
+          }
+        });
+      }
+
+
+
       let array = [];
       let isPaused = false;
       let intervalId;

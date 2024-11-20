@@ -8,6 +8,21 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    rel="stylesheet"
+/>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet"
+/>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
     <style>
       .custom-button {
         background-color: #4b0082;
@@ -59,6 +74,36 @@
         padding: 1rem;
         width: 300px;
         height: 400px;
+      }
+
+      .description-container {
+        background-color: #ffffff; 
+        color: #333333; 
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 330px;
+        margin-right: 330px;
+        margin-top: 20px;
+      }
+
+       pre {
+        background-color: #f9f9f9; 
+        color: #333333; 
+        border: 1px solid #ddd; 
+        border-radius: 5px;
+        padding: 15px;
+        overflow-x: auto; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 0.9rem; 
+      }
+
+       .line-numbers-rows {
+         border-right: 1px solid #e1e4e8;
+      }
+
+       .line-numbers .line-numbers-rows > span:before {
+        color: #bbb; 
       }
 
       .slider {
@@ -137,7 +182,208 @@
       <div id="errorMessage" class="error-message"></div>
     </div>
 
+    <div class="description-container">
+      <div class="flex justify-center items-center space-x-4 mb-4">
+        <button onclick="toggleContainer('About')" class="custom-button">About</button>
+        <button onclick="toggleContainer('Work')" class="custom-button">How does it work</button>
+        <button onclick="toggleContainer('Learn')" class="custom-button">Learn More</button>
+      </div>
+
+      <div id="About" class="hidden">
+        <p>
+            The <b>Two Pointer Technique</b> is a method used to solve problems that require 
+            traversing a sequence (such as an array) using two indices or pointers. The technique 
+            is commonly used in problems where the sequence is sorted, and it helps optimize 
+            the time complexity by reducing unnecessary comparisons. One popular application 
+            of the Two Pointer Technique is the <b>Two Sum</b> problem.
+        </p>
+        <ul class="list-disc ml-6 mt-4 text-gray-700">
+            <li>
+                <b>Two Sum Problem:</b> Given an array of numbers and a target value, 
+                find two numbers in the array that add up to the target sum.
+            </li>
+            <li>
+                <b>Steps of the Two Pointer Technique for Two Sum:</b>
+                <ul class="list-disc ml-6">
+                    <li>
+                        <b>Sort the array:</b> If the array is not sorted, first sort it. 
+                        This allows the use of the two pointers, which will help optimize the search.
+                    </li>
+                    <li>
+                        <b>Initialize two pointers:</b> Place one pointer at the beginning of the array 
+                        (left pointer) and the other at the end (right pointer).
+                    </li>
+                    <li>
+                        <b>Compare the sum:</b> Calculate the sum of the elements at the two pointers.
+                        <ul class="list-disc ml-6">
+                            <li>If the sum is equal to the target, return the indices of the two elements.</li>
+                            <li>If the sum is less than the target, move the left pointer to the right to increase the sum.</li>
+                            <li>If the sum is greater than the target, move the right pointer to the left to decrease the sum.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Repeat the process until the two pointers meet or a solution is found.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <b>Time Complexity:</b>
+                <ul class="list-disc ml-6">
+                    <li><b>Best and worst case:</b> O(n) – after sorting the array (O(n log n)), 
+                        the two pointers traverse the array in linear time (O(n)) for each check.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Space Complexity:</b> O(1) – The algorithm uses constant space as the pointers 
+                traverse the array in place without requiring additional storage.
+            </li>
+            <li>
+                <b>Advantages:</b>
+                <ul class="list-disc ml-6">
+                    <li>Efficient for problems that can be solved using two pointers, especially when the array is sorted.</li>
+                    <li>Optimizes the search compared to brute force methods, reducing time complexity.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Disadvantages:</b>
+                <ul class="list-disc ml-6">
+                    <li>Only applicable to problems where the sequence can be sorted or the problem structure allows the use of two pointers.</li>
+                    <li>Requires sorting the array, which adds extra time complexity (O(n log n)) unless the array is already sorted.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    
+    
+
+      <div id="Work" class="hidden">
+        <h2 class="text-lg font-bold">JavaScript Two Pointers</h2>
+        <pre class="line-numbers"><code class="language-javascript">
+          // Function to check whether any pair exists
+          // whose sum is equal to the given target value
+          function twoSum(arr, target) {
+              let n = arr.length;
+          
+              // Iterate through each element in the array
+              for (let i = 0; i < n; i++) {
+              
+                  // For each element arr[i], check every
+                  // other element arr[j] that comes after it
+                  for (let j = i + 1; j < n; j++) {
+                  
+                      // Check if the sum of the current pair
+                      // equals the target
+                      if (arr[i] + arr[j] === target) {
+                          return true;
+                      }
+                  }
+              }
+              // If no pair is found after checking
+              // all possibilities
+              return false;
+          }
+          
+          let arr = [0, -1, 2, -3, 1];
+          let target = -2;
+          
+          // Call the twoSum function and print the result
+          if (twoSum(arr, target))
+              console.log("true");
+          else 
+              console.log("false");
+          
+             
+        </code></pre>
+        <h2 class="text-lg font-bold">Python Two Pointers</h2>
+        <pre class="line-numbers"><code class="language-python">
+          # Function to check whether any pair exists
+          # whose sum is equal to the given target value
+          def two_sum(arr, target):
+              n = len(arr)
+          
+              # Iterate through each element in the array
+              for i in range(n):
+                
+                  # For each element arr[i], check every
+                  # other element arr[j] that comes after it
+                  for j in range(i + 1, n):
+                    
+                      # Check if the sum of the current pair
+                      # equals the target
+                      if arr[i] + arr[j] == target:
+                          return True
+                        
+              # If no pair is found after checking
+              # all possibilities
+              return False
+          
+          arr = [0, -1, 2, -3, 1]
+          target = -2
+          
+          # Call the two_sum function and print the result
+          if two_sum(arr, target):
+              print("true")
+          else:
+              print("false")
+        </code></pre>
+        <h2 class="text-lg font-bold">Java Two Pointers</h2>
+        <pre class="line-numbers"><code class="language-java">
+
+          class GfG {
+
+            // Function to check whether any pair exists
+            // whose sum is equal to the given target value
+            static boolean twoSum(int[] arr, int target){
+                int n = arr.length;
+        
+                // Iterate through each element in the array
+                for (int i = 0; i < n; i++) {
+                    // For each element arr[i], check every
+                    // other element arr[j] that comes after it
+                    for (int j = i + 1; j < n; j++) {
+                        // Check if the sum of the current pair
+                        // equals the target
+                        if (arr[i] + arr[j] == target) {
+                            return true;
+                        }
+                    }
+                }
+                // If no pair is found after checking
+                // all possibilities
+                return false;
+            }
+        
+            public static void main(String[] args){
+        
+                int[] arr = { 0, -1, 2, -3, 1 };
+                int target = -2;
+        
+                // Call the twoSum function and print the result
+                if (twoSum(arr, target))
+                    System.out.println("true");
+                else
+                    System.out.println("false");
+            }
+        }
+        </code></pre>
+      </div>
+    </div>
+    </div>
+
     <script>
+       function toggleContainer(containerId) {
+        const containers = ['About', 'Work'];
+        containers.forEach((id) => {
+          const container = document.getElementById(id);
+          if (id === containerId) {
+            container.classList.toggle('hidden');
+          } else {
+            container.classList.add('hidden');
+          }
+        });
+      }
+
       let array = [];
       let target = null;
       let left = 0;

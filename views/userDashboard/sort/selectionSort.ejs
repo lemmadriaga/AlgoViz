@@ -8,6 +8,20 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    rel="stylesheet"
+/>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet"
+/>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
     <style>
       .custom-button {
         background-color: #4b0082;
@@ -60,6 +74,36 @@
         width: 300px;
         height: 400px;
         overflow-y: auto;
+      }
+
+      .description-container {
+        background-color: #ffffff; 
+        color: #333333; 
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 330px;
+        margin-right: 330px;
+        margin-top: 20px;
+      }
+
+       pre {
+        background-color: #f9f9f9; 
+        color: #333333; 
+        border: 1px solid #ddd; 
+        border-radius: 5px;
+        padding: 15px;
+        overflow-x: auto; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 0.9rem; 
+      }
+
+       .line-numbers-rows {
+         border-right: 1px solid #e1e4e8;
+      }
+
+       .line-numbers .line-numbers-rows > span:before {
+        color: #bbb; 
       }
 
       .slider {
@@ -137,7 +181,236 @@
       </div>
     </div>
 
+    <div class="description-container">
+      <div class="flex justify-center items-center space-x-4 mb-4">
+        <button onclick="toggleContainer('About')" class="custom-button">About</button>
+        <button onclick="toggleContainer('Work')" class="custom-button">How does it work</button>
+        <button onclick="toggleContainer('Learn')" class="custom-button">Learn More</button>
+      </div>
+
+      <!-- Containers now positioned separately -->
+      <div id="About" class="hidden">
+        <p>
+            <b>Selection Sort</b> is a comparison-based sorting algorithm that sorts an array 
+            by repeatedly selecting the smallest (or largest) element from the unsorted portion 
+            and swapping it with the first unsorted element. This process continues until the 
+            entire array is sorted.
+        </p>
+        <ul class="list-disc ml-6 mt-4 text-gray-700">
+            <li>
+                <b>Steps of Selection Sort:</b>
+                <ul class="list-disc ml-6">
+                    <li>
+                        Start by finding the <b>smallest element</b> in the array and 
+                        swap it with the <b>first element</b>. This ensures that the 
+                        smallest element is in its correct position.
+                    </li>
+                    <li>
+                        Then, find the <b>smallest element</b> among the remaining unsorted 
+                        elements and swap it with the <b>second element</b>.
+                    </li>
+                    <li>
+                        Repeat this process, selecting the smallest element from the unsorted 
+                        portion and swapping it with the first unsorted element, until all 
+                        elements are sorted.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <b>Time Complexity:</b>
+                <ul class="list-disc ml-6">
+                    <li><b>Best case:</b> O(n²) – Selection Sort does not optimize for already sorted arrays.</li>
+                    <li><b>Worst case:</b> O(n²) – Occurs when the array is in reverse order, as all comparisons still happen.</li>
+                    <li><b>Average case:</b> O(n²).</li>
+                </ul>
+            </li>
+            <li>
+                <b>Space Complexity:</b> O(1) – as it is an in-place sorting algorithm requiring no extra memory.
+            </li>
+            <li>
+                <b>Advantages:</b>
+                <ul class="list-disc ml-6">
+                    <li>Simple to understand and implement.</li>
+                    <li>Does not require additional memory.</li>
+                    <li>Performs a minimal number of swaps (at most n - 1 swaps).</li>
+                </ul>
+            </li>
+            <li>
+                <b>Disadvantages:</b>
+                <ul class="list-disc ml-6">
+                    <li>Relatively inefficient for large datasets due to O(n²) time complexity.</li>
+                    <li>Not a <b>stable sorting algorithm</b>, as it does not preserve the relative order of equal elements.</li>
+                    <li>Always makes the same number of comparisons, regardless of input order.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    
+    
+
+      <div id="Work" class="hidden">
+        <h2 class="text-lg font-bold">JavaScript Selection Sort</h2>
+        <pre class="line-numbers"><code class="language-javascript">
+          function selectionSort(arr) {
+            let n = arr.length;
+            for (let i = 0; i < n - 1; i++) {
+            
+                // Assume the current position holds
+                // the minimum element
+                let min_idx = i;
+                
+                // Iterate through the unsorted portion
+                // to find the actual minimum
+                for (let j = i + 1; j < n; j++) {
+                    if (arr[j] < arr[min_idx]) {
+                    
+                        // Update min_idx if a smaller element is found
+                        min_idx = j;
+                    }
+                }
+                
+                // Move minimum element to its
+                // correct position
+                let temp = arr[i];
+                arr[i] = arr[min_idx];
+                arr[min_idx] = temp;
+            }
+        }
+        
+        function printArray(arr) {
+            for (let val of arr) {
+                process.stdout.write(val + " ");
+            }
+            console.log();
+        }
+        
+        // Driver function 
+        const arr = [64, 25, 12, 22, 11];
+        
+        console.log("Original array: ");
+        printArray(arr);
+        
+        selectionSort(arr);
+        
+        console.log("Sorted array: ");
+        printArray(arr);
+        
+             
+        </code></pre>
+        <h2 class="text-lg font-bold">Python Selection Sort</h2>
+        <pre class="line-numbers"><code class="language-python">
+          # Python program for implementation of Selection
+          # Sort
+          
+          def selection_sort(arr):
+              n = len(arr)
+              for i in range(n - 1):
+                
+                  # Assume the current position holds
+                  # the minimum element
+                  min_idx = i
+                  
+                  # Iterate through the unsorted portion
+                  # to find the actual minimum
+                  for j in range(i + 1, n):
+                      if arr[j] < arr[min_idx]:
+                        
+                          # Update min_idx if a smaller element is found
+                          min_idx = j
+                  
+                  # Move minimum element to its
+                  # correct position
+                  arr[i], arr[min_idx] = arr[min_idx], arr[i]
+          
+          def print_array(arr):
+              for val in arr:
+                  print(val, end=" ")
+              print()
+          
+          if __name__ == "__main__":
+              arr = [64, 25, 12, 22, 11]
+              
+              print("Original array: ", end="")
+              print_array(arr)
+              
+              selection_sort(arr)
+              
+              print("Sorted array: ", end="")
+              print_array(arr)
+        </code></pre>
+        <h2 class="text-lg font-bold">Java Selection Sort</h2>
+        <pre class="line-numbers"><code class="language-java">
+
+          // Java program for implementation of Selection Sort
+          import java.util.Arrays;
+          
+          class GfG {
+          
+              static void selectionSort(int[] arr){
+                  int n = arr.length;
+                  for (int i = 0; i < n - 1; i++) {
+                    
+                      // Assume the current position holds
+                      // the minimum element
+                      int min_idx = i;
+          
+                      // Iterate through the unsorted portion
+                      // to find the actual minimum
+                      for (int j = i + 1; j < n; j++) {
+                          if (arr[j] < arr[min_idx]) {
+                            
+                              // Update min_idx if a smaller element
+                              // is found
+                              min_idx = j;
+                          }
+                      }
+          
+                      // Move minimum element to its
+                      // correct position
+                      int temp = arr[i];
+                      arr[i] = arr[min_idx];
+                      arr[min_idx] = temp;           
+                  }
+              }
+          
+              static void printArray(int[] arr){
+                  for (int val : arr) {
+                      System.out.print(val + " ");
+                  }
+                  System.out.println();
+              }
+            
+              public static void main(String[] args){
+                  int[] arr = { 64, 25, 12, 22, 11 };
+          
+                  System.out.print("Original array: ");
+                  printArray(arr);
+          
+                  selectionSort(arr);
+          
+                  System.out.print("Sorted array: ");
+                  printArray(arr);
+              }
+          }
+        </code></pre>
+      </div>
+    </div>
+    </div>
+
     <script>
+       function toggleContainer(containerId) {
+        const containers = ['About', 'Work'];
+        containers.forEach((id) => {
+          const container = document.getElementById(id);
+          if (id === containerId) {
+            container.classList.toggle('hidden');
+          } else {
+            container.classList.add('hidden');
+          }
+        });
+      }
+
       let array = [];
       let isPaused = false;
       let speed = 500;
