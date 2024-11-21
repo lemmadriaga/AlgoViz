@@ -3,35 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Landing Page</title>
+    <title>AlgoViz</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/particles.css">
   </head>
-  <body class="bg-[#FFFFF6] font-sans">
-    <header class="flex justify-between items-center p-6 bg-[#FFFFF6] shadow-md">
-      <div class="pl-12">
-        <img src="assets/logo.png" alt="Logo" class="w-16 h-12px" />
+  <body class="bg-[#FFFFF6] min-h-full">
+    <div id="particles-js"></div>
+
+    <header class="flex justify-between items-center p-4 bg-[#FFFFF6]">
+      <div class="pl-4">
+        <img src="assets/logo.png" alt="Logo" class="w-16 h-12" />
       </div>
-      <nav class="flex gap-4 mt-2 self-start text-gray-600">
-        <a href="/about" class="px-5 py-2 hover:text-[#5800FF]">About Us</a>
-        <a href="/login" class="px-5 py-2 border border-[#5800FF] text-[#5800FF] rounded hover:bg-[#5800FF] hover:text-white">Login</a>
-        <a href="/signup" class="px-5 py-2 bg-[#5800FF] text-white rounded hover:bg-[#5800FF]">Signup</a>
+      <nav class="flex gap-6">
+        <a href="/about" class="px-4 py-2 text-gray-600 hover:text-[#5800FF] transition-colors">About Us</a>
+        <a href="/login" class="px-4 py-2 border border-[#5800FF] text-[#5800FF] rounded hover:bg-[#5800FF] hover:text-white transition-colors">Login</a>
+        <a href="/signup" class="px-4 py-2 bg-[#5800FF] text-white rounded hover:bg-[#4600cc] transition-colors">Signup</a>
       </nav>
     </header>
-
-    <main class="flex flex-col items-center p-10 md:flex-row">
-      <section class="flex-1 flex flex-col justify-center text-center md:text-left md:items-start md:pl-9">
-        <h1 class="text-6xl font-extrabold text-[#5800FF] leading-snug mb-6">
-          Learn new <br />
-          languages in weeks
-        </h1>
-        <p class="text-lg text-gray-600">
-          In the world of algorithms, searching and sorting are the compass that guides <br /> us through the data jungle.
+  
+    <main class="flex flex-col justify-between items-center text-center flex-grow mt-10">
+      <div>
+        <h1 class="text-4xl font-extrabold text-[#5800FF] mb-4">AlgoViz: See It, Learn It, Ace It!</h1>
+        <p class="text-lg text-gray-600 max-w-2xl mb-8">
+          AlgoViz makes learning algorithms fun and interactive—track your progress, visualize concepts, and master sorting, searching, and graph traversal with ease!
         </p>
-      </section>
-
-      <figure class="relative w-[550px] h-[500px] top-6 right-8 filter drop-shadow-lg md:self-end">
-        <div class="w-full h-full bg-cover bg-no-repeat rounded-xl overflow-hidden" style="background-image: url('assets/university.png');"></div>
+      </div>
+  
+      <figure class="max-w-[600px] mb-40">
+        <img src="assets/team.png" alt="University Visualization" class="h-auto mx-auto" />
       </figure>
     </main>
+
+    <script src="/js/global.js"></script>
   </body>
 </html>
