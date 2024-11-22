@@ -188,6 +188,7 @@
           return;
         }
 
+        console.log("Working my friend");
         const response = await fetch("/challenges/bubblesort/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -195,6 +196,7 @@
         });
 
         const result = await response.json();
+        console.log(result);
 
         if (result.success) {
           alert(result.message);

@@ -27,6 +27,24 @@ const { doc, getDoc, updateDoc } = require("firebase/firestore");
 //   await updateDoc(userDocRef, { progress });
 // };
 
+const updateProgressValue = async (req) => {
+  const userId = req.session.userId;
+
+  if (!userId) {
+    throw new Error("Unauthorized access");
+  }
+
+  const userDocRef = doc(db, "users", userId);
+  const userDoc = await getDoc(userDocRef);
+  const userData = userDoc.data();
+
+  const trueChallengeCount = Object.values(userData.challenges).filter(
+    (value) => value === true
+  ).length;
+  const progress = 100 / 6 * (trueChallengeCount);
+  await updateDoc(userDocRef, { progress });
+};
+
 exports.updateProgress = async (req, res) => {
   const { bubbleSort, firstQuestion } = req.body;
   const userId = req.session.userId;
@@ -57,6 +75,24 @@ exports.updateProgress = async (req, res) => {
   }
 };
 
+// const isUnlocked = async (req, res, prevChal) => {
+//   const userId = req.session.userId;
+
+//   if (!userId) {
+//     return res.status(401).json({ error: "Unauthorized access" });
+//   }
+
+//   const userDocRef = doc(db, "users", userId);
+//   const userDoc = await getDoc(userDocRef);
+//   const userData = userDoc.data();
+
+//   if(userData.challenges[prevChal]) {
+//     return true; 
+//   }
+
+//   return false;
+// };
+
 exports.getUserProfile = async (req, res) => {
   try {
     const userId = req.session?.userId;
@@ -74,7 +110,7 @@ exports.getUserProfile = async (req, res) => {
 
     const userData = userDoc.data();
     console.log("User data retrieved:", userData);
-
+    
     res.render("userDashboard/dashboard", {
       fullName: userData.fullName,
       email: userData.email,
@@ -82,6 +118,7 @@ exports.getUserProfile = async (req, res) => {
       progress: userData.progress,
       profilePicture:
         userData.profilePicture || "https://via.placeholder.com/100",
+      challenges: userData.challenges
     });
   } catch (error) {
     console.error("Error fetching user profile:", error.message);
@@ -106,6 +143,7 @@ exports.updateUserProfilePicture = async (req, res) => {
     res.status(500).json({ error: "Failed to update profile picture" });
   }
 };
+
 exports.submitBubbleSortChallenge = async (req, res) => {
   const { userAnswers } = req.body;
   const userId = req.session.userId;
@@ -160,6 +198,7 @@ exports.submitBubbleSortChallenge = async (req, res) => {
       .json({ success: false, message: "Internal server error." });
   }
 };
+
 exports.submitHeapSortChallenge = async (req, res) => {
   const { userAnswers } = req.body;
   const userId = req.session.userId;
@@ -171,7 +210,7 @@ exports.submitHeapSortChallenge = async (req, res) => {
   }
 
   const correctAnswers = [
-    [16, 14, 10, 8, 7, 9, 3, 2, 4, 1], // Initial array
+    [8, 4, 10, 14, 7, 9, 3, 2, 1, 16], // Initial array
     [16, 14, 10, 8, 7, 9, 3, 2, 4, 1], // After building max heap
     [14, 8, 10, 4, 7, 9, 3, 2, 1, 16], // After first extraction
     [10, 8, 9, 4, 7, 1, 3, 2, 14, 16], // After second extraction
@@ -205,32 +244,6 @@ exports.submitHeapSortChallenge = async (req, res) => {
   }
 };
 
-
-const updateProgressValue = async (req) => {
-  const userId = req.session.userId;
-
-  if (!userId) {
-    throw new Error("Unauthorized access");
-  }
-
-  const userDocRef = doc(db, "users", userId);
-  const userDoc = await getDoc(userDocRef);
-  const userData = userDoc.data();
-
-  const trueSortingCount = Object.values(userData.sorting).filter(
-    (value) => value === true
-  ).length;
-  const trueSearchCount = Object.values(userData.searching).filter(
-    (value) => value === true
-  ).length;
-
-  const trueChallengeCount = Object.values(userData.challenges).filter(
-    (value) => value === true
-  ).length;
-  const progress =
-    100 / 9 + (trueSortingCount + trueSearchCount + trueChallengeCount);
-  await updateDoc(userDocRef, { progress });
-};
 exports.submitInsertionSortChallenge = async (req, res) => {
   const { userAnswers } = req.body;
   const userId = req.session.userId;
@@ -275,6 +288,7 @@ exports.submitInsertionSortChallenge = async (req, res) => {
       .json({ success: false, message: "Internal server error." });
   }
 };
+
 exports.submitMergeSortChallenge = async (req, res) => {
   const { userCode } = req.body;
   const userId = req.session.userId;
@@ -290,7 +304,6 @@ exports.submitMergeSortChallenge = async (req, res) => {
     if (typeof mergeSortFunction !== "function") {
       throw new Error("mergeSort is not defined or not a function.");
     }
-
     
     const userResult = mergeSortFunction([...testArray]);
 
@@ -321,11 +334,3 @@ exports.submitMergeSortChallenge = async (req, res) => {
     });
   }
 };
-
-
-
-
-
-
-
-

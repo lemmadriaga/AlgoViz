@@ -99,7 +99,10 @@
       </article>
 
       <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/heapsort" class="block">
+        <a href="/challenges/heapsort" class="block"
+          <% if (challenges.bubbleSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
           <div class="bg-gray-200 rounded mb-4">
             <img
               src="assets/Heap.png"
@@ -116,7 +119,10 @@
       </article>
 
       <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/insertionsort" class="block">
+        <a href="/challenges/insertionsort" class="block"
+          <% if (challenges.heapSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
           <div class="bg-gray-200 rounded mb-4">
             <img
               src="assets/Insertion.png"
@@ -133,7 +139,10 @@
       </article>
 
       <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/mergesort" class="block">
+        <a href="/challenges/mergesort" class="block"
+          <% if (challenges.insertionSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
           <div class="bg-gray-200 rounded mb-4">
             <img
               src="assets/Merge.png"
@@ -150,7 +159,10 @@
       </article>
 
       <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/quicksort" class="block">
+        <a href="/challenges/quicksort" class="block"
+          <% if (challenges.mergeSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
           <div class="bg-gray-200 rounded mb-4">
             <img
               src="assets/Quick.png"
@@ -167,7 +179,10 @@
       </article>
 
       <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/selectionsort" class="block">
+        <a href="/challenges/selectionsort" class="block"
+          <% if (challenges.quickSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
           <div class="bg-gray-200 rounded mb-4">
             <img
               src="assets/Selection.png"
@@ -185,7 +200,7 @@
       <!-- Sorting Section -->
       <section class="col-span-3">
         <header
-          class="bg-blue-500 text-white text-lg font-bold px-4 py-2 rounded shadow-md"
+          class="bg-[#5800ff] text-white text-lg font-bold px-4 py-2 rounded shadow-md"
         >
           Sorting
         </header>

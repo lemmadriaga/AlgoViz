@@ -31,15 +31,13 @@ exports.signup = async (req, res) => {
       birthDate,
       role: "user",
       progress: 0,
-      sorting: {
+      challenges: {
         bubbleSort: false,
         insertionSort: false,
         selectionSort: false,
         quickSort: false,
         mergeSort: false,
-        heapSort: false
-      },
-      searching: {
+        heapSort: false,
         linearSearch: false,
         binarySearch: false,
         twoPointers: false
