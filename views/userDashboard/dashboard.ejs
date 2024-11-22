@@ -36,7 +36,7 @@
     </style>
   </head>
   <body class="bg-gray-100 flex min-h-screen">
-    <aside class="w-1/4 bg-[#5800FF] text-white relative">
+    <aside class="w-1/4 bg-[#5800FF] text-white relative m-5 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.4)]">
       <div class="flex flex-col items-center justify-center h-full p-6">
         <div class="mb-6">
           <img
@@ -71,138 +71,13 @@
 
     <!-- Right Panel -->
     <main class="flex-1 p-6 grid grid-cols-3 gap-6 overflow-y-scroll h-screen">
-      <!-- Challenges Section -->
-      <section class="col-span-3 mt-6">
-        <header
-          class="bg-red-500 text-white text-lg font-bold px-4 py-2 rounded shadow-md"
-        >
-          Challenges
-        </header>
-      </section>
-
-      <!-- Challenges Cards -->
-      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/bubblesort" class="block">
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/Bubble.png"
-              alt="Bubble Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Bubble Sort Challenge</h2>
-          <p>
-            Test your knowledge of Bubble Sort! Solve interactive problems and
-            earn points for completing this challenge.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/heapsort" class="block"
-          <% if (challenges.bubbleSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/Heap.png"
-              alt="Heap Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Heap Sort Challenge</h2>
-          <p>
-            Take on the Heap Sort Challenge! Master the algorithm by solving
-            practical problems.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/insertionsort" class="block"
-          <% if (challenges.heapSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/Insertion.png"
-              alt="Insertion Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Insertion Sort Challenge</h2>
-          <p>
-            Complete the Insertion Sort Challenge and learn the algorithm
-            through hands-on exercises.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/mergesort" class="block"
-          <% if (challenges.insertionSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/Merge.png"
-              alt="Insertion Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Merge Sort Challenge</h2>
-          <p>
-            Complete the Merge Sort Challenge and learn the algorithm through
-            hands-on exercises.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/quicksort" class="block"
-          <% if (challenges.mergeSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/Quick.png"
-              alt="Quick Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Quick Sort Challenge</h2>
-          <p>
-            Complete the Quick Sort Challenge and learn the algorithm through
-            hands-on exercises.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-        <a href="/challenges/selectionsort" class="block"
-          <% if (challenges.quickSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/Selection.png"
-              alt="Selection Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Selection Sort Challenge</h2>
-          <p>
-            Complete the Selection Sort Challenge and learn the algorithm
-            through hands-on exercises.
-          </p>
-        </a>
-      </article>
+     
       <!-- Sorting Section -->
       <section class="col-span-3">
         <header
-          class="bg-[#5800ff] text-white text-lg font-bold px-4 py-2 rounded shadow-md"
+          class="bg-[#5800ff] text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
         >
-          Sorting
+          SORTING ALGORITHMS | Modules and Visualizations
         </header>
       </section>
 
@@ -318,9 +193,9 @@
       <!-- Searching Section -->
       <section class="col-span-3 mt-6">
         <header
-          class="bg-blue-500 text-white text-lg font-bold px-4 py-2 rounded shadow-md"
+          class="bg-blue-500 text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
         >
-          Searching
+          SEARCHING ALGORITHMS | Modules and Visualizations
         </header>
       </section>
 
@@ -375,6 +250,132 @@
             A useful method often applied to sorted data structures. Utilizes
             two pointers moving in opposite directions to solve problems like
             pair sums or subarray searches. Time complexity: <b>O(n)</b>.
+          </p>
+        </a>
+      </article>
+       <!-- Challenges Section -->
+       <section class="col-span-3 mt-6">
+        <header
+          class="bg-red-500 text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
+        >
+          CHALLENGES | Test your Skills
+        </header>
+      </section>
+
+      <!-- Challenges Cards -->
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/bubblesort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/BubbleSortC.png"
+              alt="Bubble Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Bubble Sort Challenge</h2>
+          <p>
+            Test your knowledge of Bubble Sort! Solve interactive problems and
+            earn points for completing this challenge.
+          </p>
+        </a>
+      </article>
+
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/heapsort" class="block"
+          <% if (challenges.bubbleSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/HeapSortC.png"
+              alt="Heap Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Heap Sort Challenge</h2>
+          <p>
+            Take on the Heap Sort Challenge! Master the algorithm by solving
+            practical problems.
+          </p>
+        </a>
+      </article>
+
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/insertionsort" class="block"
+          <% if (challenges.heapSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/InsertionSortC.png"
+              alt="Insertion Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Insertion Sort Challenge</h2>
+          <p>
+            Complete the Insertion Sort Challenge and learn the algorithm
+            through hands-on exercises.
+          </p>
+        </a>
+      </article>
+
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/mergesort" class="block"
+          <% if (challenges.insertionSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/MergeSortC.png"
+              alt="Insertion Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Merge Sort Challenge</h2>
+          <p>
+            Complete the Merge Sort Challenge and learn the algorithm through
+            hands-on exercises.
+          </p>
+        </a>
+      </article>
+
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/quicksort" class="block"
+          <% if (challenges.mergeSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/QuickSortC.png"
+              alt="Quick Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Quick Sort Challenge</h2>
+          <p>
+            Complete the Quick Sort Challenge and learn the algorithm through
+            hands-on exercises.
+          </p>
+        </a>
+      </article>
+
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/selectionsort" class="block"
+          <% if (challenges.quickSort == false) { %>
+              onclick="return false;" style="filter: grayscale(100%);"
+          <% } %>>
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/SelectionSortC.png"
+              alt="Selection Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Selection Sort Challenge</h2>
+          <p>
+            Complete the Selection Sort Challenge and learn the algorithm
+            through hands-on exercises.
           </p>
         </a>
       </article>
