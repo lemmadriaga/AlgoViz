@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+      <h1 class="text-3xl font-bold mb-4">Heap Sort Challenge</h1>
+
+      <div id="startPrompt" class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <p class="text-lg mb-4">
+          Are you ready to start the heapsort challenge?
+          <br />
+          You have 15 minutes to complete the challenge.
+        </p>
+        <div class="flex space-x-4">
+          <button
+            id="startButton"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Start
+          </button>
+          <button
+            id="cancelButton"
+            class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <div id="challengeContent" class="hidden">
+        <div
+          class="bg-white p-6 rounded-lg shadow-md mb-6 flex justify-between items-center"
+        >
+          <p class="text-lg mb-0">
+            Arrange the numbers in each step of the Heap Sort algorithm. Drag
+            and drop the numbers to sort them.
+          </p>
+          <div id="timer" class="text-2xl font-bold text-red-600">
+            Time Left: 15:00
+          </div>
+        </div>
+
+        <div id="heapSortChallenge" class="space-y-6">
+          <div class="step bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-2">
+              Initial Array (Reference)
+            </h3>
+            <ul class="flex flex-wrap gap-2" id="initialArray">
+              <li class="bg-gray-200 p-2 rounded">8</li>
+              <li class="bg-gray-200 p-2 rounded">4</li>
+              <li class="bg-gray-200 p-2 rounded">10</li>
+              <li class="bg-gray-200 p-2 rounded">14</li>
+              <li class="bg-gray-200 p-2 rounded">7</li>
+              <li class="bg-gray-200 p-2 rounded">9</li>
+              <li class="bg-gray-200 p-2 rounded">3</li>
+              <li class="bg-gray-200 p-2 rounded">2</li>
+              <li class="bg-gray-200 p-2 rounded">1</li>
+              <li class="bg-gray-200 p-2 rounded">16</li>
+            </ul>
+            <p class="text-sm text-gray-600 mt-2">
+              * This is a reference array. You cannot modify this array.
+            </p>
+          </div>
+
+          <div class="step bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-2">After Building Max Heap</h3>
+            <ul class="sortable-list flex flex-wrap gap-2" id="maxHeap"></ul>
+          </div>
+
+          <div class="step bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-2">After First Extraction</h3>
+            <ul
+              class="sortable-list flex flex-wrap gap-2"
+              id="firstExtraction"
+            ></ul>
+          </div>
+
+          <div class="step bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-2">After Second Extraction</h3>
+            <ul
+              class="sortable-list flex flex-wrap gap-2"
+              id="secondExtraction"
+            ></ul>
+          </div>
+
+          <div class="step bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-2">After Third Extraction</h3>
+            <ul
+              class="sortable-list flex flex-wrap gap-2"
+              id="thirdExtraction"
+            ></ul>
+          </div>
+
+          <div class="step bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-2">Final Sorted Array</h3>
+            <ul class="sortable-list flex flex-wrap gap-2" id="finalArray"></ul>
+          </div>
+
+          <div class="flex justify-between">
+            <button
+              id="submitHeapSort"
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+            >
+              Submit
+            </button>
+            <button
+              id="autoSubmitWarning"
+              class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded hidden"
+            >
+              Auto-submit in 30 seconds
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const startPrompt = document.getElementById("startPrompt");
+        const challengeContent = document.getElementById("challengeContent");
+        const startButton = document.getElementById("startButton");
+        const cancelButton = document.getElementById("cancelButton");
+        const timerElement = document.getElementById("timer");
+        const autoSubmitWarning = document.getElementById("autoSubmitWarning");
+        const submitButton = document.getElementById("submitHeapSort");
+
+        const CHALLENGE_DURATION = 15 * 60;
+        let timeRemaining = CHALLENGE_DURATION;
+        let timerInterval;
+
+        startButton.addEventListener("click", function () {
+          startPrompt.classList.add("hidden");
+          challengeContent.classList.remove("hidden");
+          startCountdownTimer();
+        });
+
+        cancelButton.addEventListener("click", function () {
+          window.location.href = "/dashboard";
+        });
+
+        function startCountdownTimer() {
+          timerInterval = setInterval(updateCountdownTimer, 1000);
+        }
+
+        function updateCountdownTimer() {
+          const minutes = Math.floor(timeRemaining / 60);
+          const seconds = timeRemaining % 60;
+
+          timerElement.textContent = `Time Left: ${minutes
+            .toString()
+            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+          if (timeRemaining <= 60) {
+            timerElement.classList.remove("text-red-600");
+            timerElement.classList.add("text-red-800", "font-bold");
+          }
+
+          if (timeRemaining <= 30) {
+            autoSubmitWarning.classList.remove("hidden");
+          }
+
+          if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            autoSubmitChallenge();
+          }
+
+          timeRemaining--;
+        }
+
+        function autoSubmitChallenge() {
+          alert("Time's up! Automatically submitting your answers.");
+          submitHeapSortChallenge();
+        }
+
+        const otherLists = [
+          document.getElementById("maxHeap"),
+          document.getElementById("firstExtraction"),
+          document.getElementById("secondExtraction"),
+          document.getElementById("thirdExtraction"),
+          document.getElementById("finalArray"),
+        ];
+
+        otherLists.forEach((list) => {
+          document
+            .getElementById("initialArray")
+            .querySelectorAll("li")
+            .forEach((li) => {
+              list.appendChild(li.cloneNode(true));
+            });
+
+          new Sortable(list, {
+            animation: 150,
+            ghostClass: "bg-blue-200",
+          });
+        });
+
+        submitButton.addEventListener("click", submitHeapSortChallenge);
+
+        function submitHeapSortChallenge() {
+          clearInterval(timerInterval);
+
+          const userAnswers = [
+            [8, 4, 10, 14, 7, 9, 3, 2, 1, 16],
+            ...otherLists.map((list) =>
+              Array.from(list.children).map((li) => parseInt(li.textContent))
+            ),
+          ];
+
+          fetch("/challenges/heapsort/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userAnswers }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert(data.message);
+                window.location.href = "/dashboard";
+              } else {
+                alert(data.message);
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("An error occurred. Please try again.");
+            });
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,175 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | AlgoViz</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    progress[value] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 100%;
-      height: 10px;
-      border-radius: 5px;
-      background-color: #a0a1a2;
-      overflow: hidden;
-    }
-  
-    progress[value]::-webkit-progress-bar {
-      background-color: #a0a1a2;
-      border-radius: 5px;
-    }
-  
-    progress[value]::-webkit-progress-value {
-      background-color: #ffffff;
-      border-radius: 5px;
-    }
-  
-    progress[value]::-moz-progress-bar {
-      background-color: #ffffff;
-      border-radius: 5px;
-    }
-  </style>
-</head>
-<body class="bg-gray-100 flex min-h-screen">
-  <aside class="w-1/4 bg-[#5800FF] text-white relative">
-    <div class="flex flex-col items-center justify-center h-full p-6">
-      <div class="mb-6">
-        <img src="<%= profilePicture %>" alt="Profile picture" class="rounded-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | AlgoViz</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      progress[value] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #a0a1a2;
+        overflow: hidden;
+      }
+
+      progress[value]::-webkit-progress-bar {
+        background-color: #a0a1a2;
+        border-radius: 5px;
+      }
+
+      progress[value]::-webkit-progress-value {
+        background-color: #ffffff;
+        border-radius: 5px;
+      }
+
+      progress[value]::-moz-progress-bar {
+        background-color: #ffffff;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 flex min-h-screen">
+    <aside class="w-1/4 bg-[#5800FF] text-white relative">
+      <div class="flex flex-col items-center justify-center h-full p-6">
+        <div class="mb-6">
+          <img
+            src="<%= profilePicture %>"
+            alt="Profile picture"
+            class="rounded-full"
+          />
+        </div>
+        <div class="text-center">
+          <p class="text-lg font-bold" id="userFullName"><%= fullName %></p>
+          <p class="text-sm" id="userEmail"><%= email %></p>
+          <br />
+          <p class="text-sm" id="userRole"><%= role.toUpperCase() %></p>
+          <progress
+            id="file"
+            class="color: #5800FF"
+            value="<%= progress %>"
+            max="100"
+          ></progress>
+
+          <br />
+          <form action="/logout" method="post">
+            <button
+              class="bg-indigo-500 text-white font-bold px-4 py-2 rounded shadow"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
       </div>
-      <div class="text-center">
-        <p class="text-lg font-bold" id="userFullName"><%= fullName %></p>
-        <p class="text-sm" id="userEmail"><%= email %></p>
-        <br>
-        <p class="text-sm" id="userRole"><%= role.toUpperCase() %></p>
-        <progress id="file" class="color: #5800FF" value=<%= progress %> max="100"></progress>
-        <br>
-        <form action="/logout" method="post">
-          <button class="bg-indigo-500 text-white font-bold px-4 py-2 rounded shadow">Logout</button>
-        </form>
-      </div>
-    </div>
-  </aside>
+    </aside>
 
-  <!-- Right Panel -->
-  <main class="flex-1 p-6 grid grid-cols-3 gap-6 overflow-y-scroll h-screen">
-    <!-- Sorting Section -->
-    <section class="col-span-3">
-      <header class="bg-blue-500 text-white text-lg font-bold px-4 py-2 rounded shadow-md">
-        Sorting
-      </header>
-    </section>
+    <!-- Right Panel -->
+    <main class="flex-1 p-6 grid grid-cols-3 gap-6 overflow-y-scroll h-screen">
+      <!-- Challenges Section -->
+      <section class="col-span-3 mt-6">
+        <header
+          class="bg-red-500 text-white text-lg font-bold px-4 py-2 rounded shadow-md"
+        >
+          Challenges
+        </header>
+      </section>
 
-    <!-- Sorting Cards -->
-    <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-      <a href="/dashboard/bubblesort" class="block">
-        <div class="bg-gray-200 rounded mb-4">
-          <img src="assets/Bubble.png" alt="Bubble Sort Visualization" class="h-full w-full object-contain rounded">
-        </div>
-        <h2 class="font-bold">Bubble Sort</h2>
-        <p>A simple sorting method that repeatedly steps through the list, compares adjacent elements, and swaps them
-           if they are in the wrong order. Time complexity: <b>O(n²)</b>.</p>
-      </a>
-    </article>
+      <!-- Challenges Cards -->
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/bubblesort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Bubble.png"
+              alt="Bubble Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Bubble Sort Challenge</h2>
+          <p>
+            Test your knowledge of Bubble Sort! Solve interactive problems and
+            earn points for completing this challenge.
+          </p>
+        </a>
+      </article>
 
-    <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-      <a href="/dashboard/quicksort" class="block">
-        <div class="bg-gray-200 rounded mb-4">
-          <img src="assets/Quick.png" alt="Quick Sort Visualization" class="h-full w-full object-contain rounded">
-        </div>
-        <h2 class="font-bold">Quick Sort</h2>
-        <p>A fast divide-and-conquer method. It picks a pivot, partitions the array around it, and recursively sorts
-           the partitions. Time complexity: <b>O(n log n)</b>.</p>
-      </a>
-    </article>
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/heapsort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Heap.png"
+              alt="Heap Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Heap Sort Challenge</h2>
+          <p>
+            Take on the Heap Sort Challenge! Master the algorithm by solving
+            practical problems.
+          </p>
+        </a>
+      </article>
 
-    <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-      <a href="/dashboard/mergesort" class="block">
-        <div class="bg-gray-200 rounded mb-4">
-          <img src="assets/Merge.png" alt="Merge Sort Visualization" class="h-full w-full object-contain rounded">
-        </div>
-        <h2 class="font-bold">Merge Sort</h2>
-        <p>A divide-and-conquer algorithm. It splits the array into halves, recursively sorts them, and merges the 
-          sorted halves. Time complexity: <b>O(n log n)</b>.</p>
-      </a>
-    </article>
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/insertionsort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Insertion.png"
+              alt="Insertion Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Insertion Sort Challenge</h2>
+          <p>
+            Complete the Insertion Sort Challenge and learn the algorithm
+            through hands-on exercises.
+          </p>
+        </a>
+      </article>
 
-    <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-      <a href="/dashboard/insertionsort" class="block">
-        <div class="bg-gray-200 rounded mb-4">
-          <img src="assets/Insertion.png" alt="Insertion Sort Visualization" class="h-full w-full object-contain rounded">
-        </div>
-        <h2 class="font-bold">Insertion Sort</h2>
-        <p>A simple algorithm that builds a sorted array one element at a time by inserting elements into their correct position.
-           Time complexity: <b>O(n²)</b>.</p>
-      </a>
-    </article>
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/mergesort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Merge.png"
+              alt="Insertion Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Merge Sort Challenge</h2>
+          <p>
+            Complete the Merge Sort Challenge and learn the algorithm through
+            hands-on exercises.
+          </p>
+        </a>
+      </article>
 
-    <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-      <a href="/dashboard/selectionsort" class="block">
-        <div class="bg-gray-200 rounded mb-4">
-          <img src="assets/Selection.png" alt="Selection Sort Visualization" class="h-full w-full object-contain rounded">
-        </div>
-        <h2 class="font-bold">Selection Sort</h2>
-        <p>A simple sorting method that repeatedly finds the smallest element in the unsorted part and swaps it with the first
-           unsorted element. Time complexity: <b>O(n²)</b>.</p>
-      </a>
-    </article>
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/quicksort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Quick.png"
+              alt="Quick Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Quick Sort Challenge</h2>
+          <p>
+            Complete the Quick Sort Challenge and learn the algorithm through
+            hands-on exercises.
+          </p>
+        </a>
+      </article>
 
-    <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-      <a href="/dashboard/heapsort" class="block">
-        <div class="bg-gray-200 rounded mb-4">
-          <img src="assets/Heap.png" alt="Heap Sort Visualization" class="h-full w-full object-contain rounded">
-        </div>
-        <h2 class="font-bold">Heap Sort</h2>
-        <p>An efficient sorting algorithm that uses a binary heap. It builds a max-heap and repeatedly removes the
-           largest element. Time complexity: <b>O(n log n)</b>.</p>
-      </a>
-    </article>
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/challenges/selectionsort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Selection.png"
+              alt="Selection Sort Challenge"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Selection Sort Challenge</h2>
+          <p>
+            Complete the Selection Sort Challenge and learn the algorithm
+            through hands-on exercises.
+          </p>
+        </a>
+      </article>
+      <!-- Sorting Section -->
+      <section class="col-span-3">
+        <header
+          class="bg-blue-500 text-white text-lg font-bold px-4 py-2 rounded shadow-md"
+        >
+          Sorting
+        </header>
+      </section>
 
-    <!-- Searching Section -->
-    <section class="col-span-3 mt-6">
-      <header class="bg-blue-500 text-white text-lg font-bold px-4 py-2 rounded shadow-md">
-        Searching
-      </header>
-    </section>
+      <!-- Sorting Cards -->
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/dashboard/bubblesort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Bubble.png"
+              alt="Bubble Sort Visualization"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Bubble Sort</h2>
+          <p>
+            A simple sorting method that repeatedly steps through the list,
+            compares adjacent elements, and swaps them if they are in the wrong
+            order. Time complexity: <b>O(n²)</b>.
+          </p>
+        </a>
+      </article>
 
-    <!-- Searching Cards -->
-    <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-      <a href="/dashboard/linearsearch" class="block">
-        <div class="bg-gray-200 rounded mb-4">
-          <img src="assets/Linear.png" alt="Linear Search Visualization" class="h-full w-full object-contain rounded">
-        </div>
-        <h2 class="font-bold">Linear Search</h2>
-        <p>A straightforward search algorithm. Iterates through each element sequentially until the target value is found
-           or the end of the list is reached. Time complexity: <b>O(n)</b>.</p>
-      </a>
-    </article>
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/dashboard/quicksort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Quick.png"
+              alt="Quick Sort Visualization"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Quick Sort</h2>
+          <p>
+            A fast divide-and-conquer method. It picks a pivot, partitions the
+            array around it, and recursively sorts the partitions. Time
+            complexity: <b>O(n log n)</b>.
+          </p>
+        </a>
+      </article>
 
-    <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-      <a href="/dashboard/binarysearch" class="block">
-        <div class="bg-gray-200 rounded mb-4">
-          <img src="assets/Binary.png" alt="Binary Search Visualization" class="h-full w-full object-contain rounded">
-        </div>
-        <h2 class="font-bold">Binary Search</h2>
-        <p>An efficient method for searching in sorted arrays. Repeatedly splits the range in half, comparing the middle
-           element to the target. Time complexity: <b>O(log n)</b>.</p>
-      </a>
-    </article>
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/dashboard/mergesort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Merge.png"
+              alt="Merge Sort Visualization"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Merge Sort</h2>
+          <p>
+            A divide-and-conquer algorithm. It splits the array into halves,
+            recursively sorts them, and merges the sorted halves. Time
+            complexity: <b>O(n log n)</b>.
+          </p>
+        </a>
+      </article>
 
-    <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
-      <a href="/dashboard/twopointers" class="block">
-        <div class="bg-gray-200 rounded mb-4">
-          <img src="assets/Two-Pointer.png" alt="Two Pointers Technique Visualization" class="h-full w-full object-contain rounded">
-        </div>
-        <h2 class="font-bold">Two Pointers Technique</h2>
-        <p>A useful method often applied to sorted data structures. Utilizes two pointers moving in opposite directions to solve problems
-           like pair sums or subarray searches. Time complexity: <b>O(n)</b>.</p>
-      </a>
-    </article>
-  </main>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-</body>
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/dashboard/insertionsort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Insertion.png"
+              alt="Insertion Sort Visualization"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Insertion Sort</h2>
+          <p>
+            A simple algorithm that builds a sorted array one element at a time
+            by inserting elements into their correct position. Time complexity:
+            <b>O(n²)</b>.
+          </p>
+        </a>
+      </article>
+
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/dashboard/selectionsort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Selection.png"
+              alt="Selection Sort Visualization"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Selection Sort</h2>
+          <p>
+            A simple sorting method that repeatedly finds the smallest element
+            in the unsorted part and swaps it with the first unsorted element.
+            Time complexity: <b>O(n²)</b>.
+          </p>
+        </a>
+      </article>
+
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/dashboard/heapsort" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Heap.png"
+              alt="Heap Sort Visualization"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Heap Sort</h2>
+          <p>
+            An efficient sorting algorithm that uses a binary heap. It builds a
+            max-heap and repeatedly removes the largest element. Time
+            complexity: <b>O(n log n)</b>.
+          </p>
+        </a>
+      </article>
+
+      <!-- Searching Section -->
+      <section class="col-span-3 mt-6">
+        <header
+          class="bg-blue-500 text-white text-lg font-bold px-4 py-2 rounded shadow-md"
+        >
+          Searching
+        </header>
+      </section>
+
+      <!-- Searching Cards -->
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/dashboard/linearsearch" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Linear.png"
+              alt="Linear Search Visualization"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Linear Search</h2>
+          <p>
+            A straightforward search algorithm. Iterates through each element
+            sequentially until the target value is found or the end of the list
+            is reached. Time complexity: <b>O(n)</b>.
+          </p>
+        </a>
+      </article>
+
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/dashboard/binarysearch" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Binary.png"
+              alt="Binary Search Visualization"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Binary Search</h2>
+          <p>
+            An efficient method for searching in sorted arrays. Repeatedly
+            splits the range in half, comparing the middle element to the
+            target. Time complexity: <b>O(log n)</b>.
+          </p>
+        </a>
+      </article>
+
+      <article class="bg-white p-8 rounded shadow hover:bg-gray-100 transition">
+        <a href="/dashboard/twopointers" class="block">
+          <div class="bg-gray-200 rounded mb-4">
+            <img
+              src="assets/Two-Pointer.png"
+              alt="Two Pointers Technique Visualization"
+              class="h-full w-full object-contain rounded"
+            />
+          </div>
+          <h2 class="font-bold">Two Pointers Technique</h2>
+          <p>
+            A useful method often applied to sorted data structures. Utilizes
+            two pointers moving in opposite directions to solve problems like
+            pair sums or subarray searches. Time complexity: <b>O(n)</b>.
+          </p>
+        </a>
+      </article>
+    </main>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </body>
 </html>

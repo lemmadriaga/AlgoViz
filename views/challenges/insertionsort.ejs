@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fix the Insertion Sort</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
+    <style type="text/css">
+      #editor {
+        background-color: #2d2d2d; /* Dark background */
+        color: #f8f8f2; /* Light font color */
+        font-family: monospace; /* Use monospace font */
+        border-radius: 8px; /* Rounded corners */
+        padding: 10px; /* Padding for better spacing */
+        height: 400px; /* Set fixed height */
+        overflow-y: auto; /* Scrollable if content overflows */
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 flex">
+      <!-- Code Editor Section -->
+      <div class="w-1/2 bg-white shadow-md p-6 rounded-lg">
+        <h2 class="text-xl font-bold mb-4">Fix the Code</h2>
+        <p class="text-gray-600 mb-2">
+          The code below is supposed to implement an insertion sort algorithm,
+          but it has some bugs. Fix the code to make it work.
+        </p>
+        <div
+          id="editor"
+          class="border rounded bg-gray-50 min-h-[400px] font-mono"
+        ></div>
+        <button
+          id="runButton"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 mt-4 rounded"
+        >
+          Run Code
+        </button>
+        <button
+          id="submitButton"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mt-4 rounded"
+        >
+          Submit
+        </button>
+      </div>
+
+      <!-- Visualization Section -->
+      <div class="w-1/2 bg-white shadow-md p-6 rounded-lg ml-6">
+        <h2 class="text-xl font-bold mb-4">Sorting Visualization</h2>
+        <div id="visualization" class="flex flex-wrap gap-2"></div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const editor = ace.edit("editor");
+
+        editor.setTheme("ace/theme/twilight");
+        editor.session.setMode("ace/mode/javascript");
+        editor.setValue(`function insertionSort(arr) {
+  // This function is supposed to sort the array in ascending order
+  for (let i = 1; i < arr.length; i++) {
+    let key = arr[i];
+    let j = i - 1;
+
+    // BUG: The condition below is wrong
+    while (j >= 0 && arr[j] < key) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+
+    // BUG: This assignment is misplaced
+    arr[i] = key;
+  }
+  return arr;
+}
+
+const result = insertionSort([5, 2, 9, 1, 5, 6]);
+console.log(result);
+`);
+        editor.setFontSize(14);
+        editor.setShowPrintMargin(false);
+        editor.setOptions({
+          useWorker: false,
+          highlightActiveLine: true,
+        });
+
+        const runButton = document.getElementById("runButton");
+        const submitButton = document.getElementById("submitButton");
+        const visualization = document.getElementById("visualization");
+
+        const initialArray = [5, 2, 9, 1, 5, 6];
+        let currentStep = [];
+
+        function renderVisualization(array) {
+          visualization.innerHTML = "";
+          array.forEach((num) => {
+            const bar = document.createElement("div");
+            bar.textContent = num;
+            bar.style.height = `${num * 10}px`;
+            bar.className =
+              "w-8 bg-blue-500 text-white text-center rounded shadow-md";
+            visualization.appendChild(bar);
+          });
+        }
+
+        renderVisualization(initialArray);
+
+        runButton.addEventListener("click", function () {
+          const userCode = editor.getValue();
+          try {
+            const userFunction = new Function(
+              `${userCode}; return insertionSort;`
+            );
+            const sortedArray = userFunction()(initialArray.slice());
+            renderVisualization(sortedArray);
+          } catch (error) {
+            alert("Your code has errors: " + error.message);
+          }
+        });
+
+        submitButton.addEventListener("click", async function () {
+          const userCode = editor.getValue();
+          try {
+            const response = await fetch("/challenges/insertionsort/submit", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ userCode }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+              alert("Congratulations! Your code is correct.");
+            } else {
+              alert("Submission failed: " + data.message);
+            }
+          } catch (error) {
+            alert("An error occurred: " + error.message);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

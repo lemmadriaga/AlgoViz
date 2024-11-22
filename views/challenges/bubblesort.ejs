@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bubble Sort Challenge</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .grid-template {
+        display: grid;
+        grid-template-columns: repeat(7, 50px);
+        gap: 10px;
+      }
+      .grid-template input {
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6"
+  >
+    <header class="bg-red-500 text-white text-center p-4 rounded shadow">
+      <h1 class="text-2xl font-bold">Bubble Sort Challenge</h1>
+    </header>
+
+    <main class="mt-8 w-full max-w-3xl">
+      <div id="challengeIntro">
+        <p class="text-center text-lg">
+          Are you ready to solve the Bubble Sort Challenge?
+        </p>
+        <div class="flex justify-center mt-4 gap-4">
+          <button
+            id="startButton"
+            class="bg-green-500 text-white font-bold px-6 py-2 rounded shadow"
+          >
+            Start
+          </button>
+          <a
+            href="/dashboard"
+            class="bg-gray-500 text-white font-bold px-6 py-2 rounded shadow"
+            >Cancel</a
+          >
+        </div>
+      </div>
+
+      <div id="challengeSection" class="hidden">
+        <div class="text-center mb-6">
+          <p class="text-lg font-bold">
+            Time Remaining: <span id="timer">1:00:00</span>
+          </p>
+        </div>
+
+        <div class="space-y-8">
+          <h2 class="text-xl font-bold">Sort the array using Bubble Sort</h2>
+          <p class="font-mono">[54, 26, 93, 17, 77, 31, 44]</p>
+
+          <!-- Input Fields -->
+          <div>
+            <label class="font-bold">Pass 1:</label>
+            <div class="grid-template">
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+            </div>
+          </div>
+
+          <div>
+            <label class="font-bold">Pass 2:</label>
+            <div class="grid-template">
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+            </div>
+          </div>
+
+          <div>
+            <label class="font-bold">Pass 3:</label>
+            <div class="grid-template">
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+            </div>
+          </div>
+
+          <div>
+            <label class="font-bold">Pass 4:</label>
+            <div class="grid-template">
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h2 class="text-xl font-bold">Final Sorted Array</h2>
+            <div class="grid-template">
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+              <input type="text" maxlength="3" />
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 text-center">
+          <button
+            id="submitButton"
+            class="bg-blue-500 text-white font-bold px-6 py-2 rounded shadow"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const startButton = document.getElementById("startButton");
+      const challengeIntro = document.getElementById("challengeIntro");
+      const challengeSection = document.getElementById("challengeSection");
+      const timerElement = document.getElementById("timer");
+      const submitButton = document.getElementById("submitButton");
+
+      let timer = 3600;
+
+      function formatTime(seconds) {
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+        return `${h}:${m.toString().padStart(2, "0")}:${s
+          .toString()
+          .padStart(2, "0")}`;
+      }
+
+      startButton.addEventListener("click", () => {
+        challengeIntro.classList.add("hidden");
+        challengeSection.classList.remove("hidden");
+
+        const timerInterval = setInterval(() => {
+          timer--;
+          timerElement.textContent = formatTime(timer);
+
+          if (timer <= 0) {
+            clearInterval(timerInterval);
+            alert("Time is up!");
+            submitButton.disabled = true;
+          }
+        }, 1000);
+      });
+
+      submitButton.addEventListener("click", async () => {
+        const passInputs = document.querySelectorAll(".grid-template input");
+        const userAnswers = Array.from(passInputs).map((input) =>
+          input.value.trim()
+        );
+
+        if (userAnswers.includes("")) {
+          alert("Please fill in all fields.");
+          return;
+        }
+
+        const response = await fetch("/challenges/bubblesort/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userAnswers }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert(result.message);
+          window.location.href = "/dashboard";
+        } else {
+          alert(result.message);
+        }
+      });
+    </script>
+  </body>
+</html>
