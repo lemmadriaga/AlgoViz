@@ -28,64 +28,217 @@
         },
       };
     </script>
+    <style>
+      #editor {
+        background-color: #2d2d2d; /* Dark background */
+        color: #f8f8f2; /* Light font color */
+        font-family: monospace; /* Use monospace font */
+        border-radius: 8px; /* Rounded corners */
+        padding: 10px; /* Padding for better spacing */
+        height: 400px; /* Set fixed height */
+        overflow-y: auto; /* Scrollable if content overflows */
+      }
+
+      .header-container {
+        background-color: #ef4444;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: -15px;
+        margin-top: 10px;
+      }
+
+      header h1 {
+        width: 17cm;
+      }
+
+      .container {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .flex {
+        display: flex;
+      }
+
+      .justify-center {
+        justify-content: center;
+      }
+
+      .gap-4 {
+        gap: 1rem;
+      }
+
+      .mt-4 {
+        margin-top: 1rem;
+      }
+
+      .bg-green-500 {
+        background-color: #10b981;
+      }
+
+      .bg-red-500 {
+        background-color: #ef4444;
+      }
+
+      .bg-primary-500 {
+        background-color: #3b82f6;
+      }
+
+      .bg-green-600 {
+        background-color: #059669;
+      }
+
+      .bg-red-600 {
+        background-color: #dc2626;
+      }
+
+      .bg-white {
+        background-color: white;
+      }
+
+      .rounded {
+        border-radius: 8px;
+      }
+
+      .font-bold {
+        font-weight: bold;
+      }
+
+      .text-white {
+        color: white;
+      }
+
+      .p-4 {
+        padding: 1rem;
+      }
+
+      .p-6 {
+        padding: 1.5rem;
+      }
+
+      .text-lg {
+        font-size: 1.125rem;
+      }
+
+      .text-xl {
+        font-size: 1.25rem;
+      }
+
+      .text-primary-600 {
+        color: #2563eb;
+      }
+
+      .text-primary-700 {
+        color: #1d4ed8;
+      }
+
+      .text-gray-600 {
+        color: #4b5563;
+      }
+
+      .text-green-500 {
+        color: #10b981;
+      }
+
+      .text-red-500 {
+        color: #ef4444;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
   </head>
-  <body class="bg-gray-100 font-sans">
-    <div class="container mx-auto p-4 space-y-6">
-      <h1 class="text-3xl font-bold text-primary-600">
-        Selection Sort Challenge
-      </h1>
-      <p class="text-lg text-gray-700">
-        Test your understanding of Selection Sort! Choose the correct answers to
-        proceed through the sorting process.
-      </p>
+  <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
+    <header class="header-container text-center">
+      <h1 class="text-2xl font-bold">Selection Sort Challenge</h1>
+    </header>
 
-      <!-- Question Section -->
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2
-          id="question-title"
-          class="text-xl font-semibold text-primary-700 mb-4"
-        >
-          Question 1
-        </h2>
-        <p id="question-text" class="text-gray-600 mb-4">
-          For the array [29, 10, 14, 37, 13], which element will be selected as
-          the minimum during the first iteration of Selection Sort?
-        </p>
+    <main class="mt-8 w-full max-w-2xl">
+      <div id="challengeIntro" class="container text-center">
+        <p class="text-lg">Test your understanding of Selection Sort! Choose the correct answers to proceed through the sorting process.</p>
 
-        <div id="options" class="space-y-2">
-          <!-- Options will be dynamically populated here -->
-        </div>
-
-        <div class="mt-4 space-x-4">
+        <div class="button-container mt-4">
           <button
-            id="check-button"
-            onclick="validateAnswer()"
-            class="bg-primary-500 hover:bg-primary-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200"
+            id="startButton"
+            class="bg-green-500 text-white font-bold px-6 py-2 rounded shadow"
+            onclick="startChallenge()"
           >
-            Check Answer
+            Start
           </button>
-
-          <button
-            id="next-button"
-            onclick="nextQuestion()"
-            class="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200 hidden"
-          >
-            Next Question
-          </button>
-
-          <button
-            id="exit-button"
-            onclick="exitChallenge()"
-            class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200 hidden"
-          >
-            Exit Challenge
-          </button>
+          <a href="/dashboard" class="bg-red-500 text-white font-bold px-6 py-2 rounded shadow">
+            Cancel
+          </a>
         </div>
       </div>
 
-      <!-- Feedback Section -->
-      <p id="feedback" class="hidden mt-4 text-lg font-semibold"></p>
-    </div>
+      <div id="questionSection" class="hidden container mx-auto p-4 space-y-6">
+        <h1 class="text-3xl font-bold text-primary-600">Selection Sort Challenge</h1>
+        <p class="text-lg text-gray-700">
+          Test your understanding of Selection Sort! Choose the correct answers to proceed through the sorting process.
+        </p>
+
+        <!-- Question Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h2
+            id="question-title"
+            class="text-xl font-semibold text-primary-700 mb-4"
+          >
+            Question 1
+          </h2>
+          <p id="question-text" class="text-gray-600 mb-4">
+            For the array [29, 10, 14, 37, 13], which element will be selected as the minimum during the first iteration of Selection Sort?
+          </p>
+
+          <div id="options" class="space-y-2">
+            <!-- Options will be dynamically populated here -->
+          </div>
+
+          <div class="mt-4 space-x-4">
+            <button
+              id="check-button"
+              onclick="validateAnswer()"
+              class="bg-primary-500 hover:bg-primary-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200"
+            >
+              Check Answer
+            </button>
+
+            <button
+              id="next-button"
+              onclick="nextQuestion()"
+              class="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200 hidden"
+            >
+              Next Question
+            </button>
+
+            <button
+              id="exit-button"
+              onclick="exitChallenge()"
+              class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200 hidden"
+            >
+              Exit Challenge
+            </button>
+          </div>
+        </div>
+
+        <!-- Feedback Section -->
+        <p id="feedback" class="hidden mt-4 text-lg font-semibold"></p>
+      </div>
+    </main>
 
     <script>
       const questions = [
@@ -139,74 +292,64 @@
 
         question.options.forEach((option) => {
           const optionDiv = document.createElement("div");
+          optionDiv.classList.add("flex", "items-center");
           optionDiv.innerHTML = `
-            <label class="flex items-center space-x-3">
-              <input type="radio" name="option" value="${option}" class="form-radio text-primary-600">
-              <span>${option}</span>
-            </label>
+            <input type="radio" name="answer" value="${option}" class="mr-2" />
+            <label class="text-gray-600">${option}</label>
           `;
           optionsDiv.appendChild(optionDiv);
         });
+      }
 
-        document.getElementById("check-button").classList.remove("hidden");
-        document.getElementById("next-button").classList.add("hidden");
-        document.getElementById("exit-button").classList.add("hidden");
-        document.getElementById("feedback").classList.add("hidden");
+      function startChallenge() {
+        document.getElementById("challengeIntro").classList.add("hidden");
+        document.getElementById("questionSection").classList.remove("hidden");
+        loadQuestion(currentQuestionIndex);
       }
 
       function validateAnswer() {
-        const selectedOption = document.querySelector(
-          'input[name="option"]:checked'
-        );
+        const selectedOption = document.querySelector('input[name="answer"]:checked');
         const feedback = document.getElementById("feedback");
 
         if (!selectedOption) {
-          feedback.textContent = "Please select an option.";
-          feedback.className = "text-red-500 mt-4 text-lg font-semibold";
+          feedback.textContent = "Please select an answer.";
+          feedback.classList.add("text-red-500");
+          feedback.classList.remove("text-green-500");
           feedback.classList.remove("hidden");
-          return false;
+          return;
         }
 
-        const selectedValue = selectedOption.value;
-        const currentQuestion = questions[currentQuestionIndex];
+        const answer = selectedOption.value;
+        const correctAnswer = questions[currentQuestionIndex].correct;
 
-        if (selectedValue === currentQuestion.correct) {
-          feedback.textContent = "Correct! 🎉";
-          feedback.className = "text-green-500 mt-4 text-lg font-semibold";
-          document.getElementById("next-button").classList.remove("hidden");
-          document.getElementById("check-button").classList.add("hidden");
+        if (answer === correctAnswer) {
+          feedback.textContent = "Correct! Well done!";
+          feedback.classList.add("text-green-500");
+          feedback.classList.remove("text-red-500");
         } else {
-          feedback.textContent = `Incorrect. The correct answer is: ${currentQuestion.correct}`;
-          feedback.className = "text-red-500 mt-4 text-lg font-semibold";
+          feedback.textContent = "Incorrect. Try again.";
+          feedback.classList.add("text-red-500");
+          feedback.classList.remove("text-green-500");
         }
 
         feedback.classList.remove("hidden");
-        return true;
+        document.getElementById("next-button").classList.remove("hidden");
       }
 
       function nextQuestion() {
         currentQuestionIndex++;
-
         if (currentQuestionIndex < questions.length) {
           loadQuestion(currentQuestionIndex);
-        } else {
-          document.getElementById("question-title").textContent =
-            "Congratulations!";
-          document.getElementById("question-text").textContent =
-            "You have completed the Selection Sort Challenge!";
-          document.getElementById("options").innerHTML = "";
-          document.getElementById("check-button").classList.add("hidden");
+          document.getElementById("feedback").classList.add("hidden");
           document.getElementById("next-button").classList.add("hidden");
-          document.getElementById("exit-button").classList.remove("hidden");
+        } else {
+          alert("You completed the challenge!");
         }
       }
 
       function exitChallenge() {
-        alert("Thank you for participating in the Selection Sort Challenge!");
-        window.location.href = "/";
+        window.location.href = "/dashboard";
       }
-
-      loadQuestion(currentQuestionIndex);
     </script>
   </body>
 </html>

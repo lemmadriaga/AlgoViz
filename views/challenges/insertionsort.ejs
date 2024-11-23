@@ -16,46 +16,146 @@
         height: 400px; /* Set fixed height */
         overflow-y: auto; /* Scrollable if content overflows */
       }
+      .header-container {
+        background-color: #ef4444;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: -15px;
+        margin-top: 10px;
+      }
+
+      header h1{
+        width: 17cm;
+      }
+
+      .container {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+
     </style>
   </head>
-  <body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8 flex">
-      <!-- Code Editor Section -->
-      <div class="w-1/2 bg-white shadow-md p-6 rounded-lg">
-        <h2 class="text-xl font-bold mb-4">Fix the Code</h2>
-        <p class="text-gray-600 mb-2">
-          The code below is supposed to implement an insertion sort algorithm,
-          but it has some bugs. Fix the code to make it work.
-        </p>
-        <div
-          id="editor"
-          class="border rounded bg-gray-50 min-h-[400px] font-mono"
-        ></div>
-        <button
-          id="runButton"
-          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 mt-4 rounded"
-        >
-          Run Code
-        </button>
-        <button
-          id="submitButton"
-          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mt-4 rounded"
-        >
-          Submit
-        </button>
-      </div>
+  <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
+    <header class="header-container text-center">
+      <h1 class="text-2xl font-bold">Insertion Sort Challenge</h1>
+    </header>
 
-      <!-- Visualization Section -->
-      <div class="w-1/2 bg-white shadow-md p-6 rounded-lg ml-6">
-        <h2 class="text-xl font-bold mb-4">Sorting Visualization</h2>
-        <div id="visualization" class="flex flex-wrap gap-2"></div>
+    <main class="mt-8 w-full max-w-2xl">
+      <div id="challengeIntro" class="container text-center">
+        <p class="text-lg">Are you ready to solve the Insertion Sort Challenge?</p>
+        <div class="button-container mt-4">
+          <button
+            id="startButton"
+            class="bg-green-500 text-white font-bold px-6 py-2 rounded shadow"
+          >
+            Start
+          </button>
+          <a href="/dashboard" class="bg-red-500 text-white font-bold px-6 py-2 rounded shadow">
+            Cancel
+          </a>
+        </div>
       </div>
-    </div>
+      <div id="challengeSection" class="hidden">
+        <div class="text-center mb-6">
+          <p class="text-2xl font-bold text-red-600">
+            Time Remaining: <span id="timer">1:00:00</span>
+          </p>
+        </div>
+        <div class="container mx-auto px-4 py-8 flex flex-col space-y-6">
+          <!-- Visualization Section -->
+          <div class="w-full bg-white shadow-md p-6 rounded-lg">
+            <h2 class="text-xl font-bold mb-4">Sorting Visualization</h2>
+            <div id="visualization" class="flex flex-wrap gap-2"></div>
+          </div>
+      
+          <!-- Code Editor Section -->
+          <div class="w-full bg-white shadow-md p-6 rounded-lg">
+            <h2 class="text-xl font-bold mb-4">Fix the Code</h2>
+            <p class="text-gray-600 mb-2">
+              The code below is supposed to implement an insertion sort algorithm,
+              but it has some bugs. Fix the code to make it work.
+            </p>
+            <div id="editor" class="border rounded bg-gray-50 min-h-[400px] font-mono"></div>
+            
+            <!-- Centered Buttons -->
+            <div class="flex justify-center gap-4 mt-4">
+              <button
+                id="runButton"
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+              >
+                Run Code
+              </button>
+              <button
+                id="submitButton"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      
+      
+    </main>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const editor = ace.edit("editor");
+        const startButton = document.getElementById("startButton");
+        const challengeIntro = document.getElementById("challengeIntro");
+        const challengeSection = document.getElementById("challengeSection");
+        const timerElement = document.getElementById("timer");
 
+
+        let timer = 3600;
+
+
+        function formatTime(seconds) {
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+        return `${h}:${m.toString().padStart(2, "0")}:${s
+          .toString()
+          .padStart(2, "0")}`;
+      }
+
+      startButton.addEventListener("click", () => {
+        challengeIntro.classList.add("hidden");
+        challengeSection.classList.remove("hidden");
+
+        const timerInterval = setInterval(() => {
+          timer--;
+          timerElement.textContent = formatTime(timer);
+
+          if (timer <= 0) {
+            clearInterval(timerInterval);
+            alert("Time is up!");
+            submitButton.disabled = true;
+          }
+        }, 1000);
+      });
+
+        // Show challenge section after "Start" is clicked
+        startButton.addEventListener("click", function () {
+          challengeIntro.classList.add("hidden");
+          challengeSection.classList.remove("hidden");
+        });
+
+        // Set up the Ace editor
+        const editor = ace.edit("editor");
         editor.setTheme("ace/theme/twilight");
         editor.session.setMode("ace/mode/javascript");
         editor.setValue(`function insertionSort(arr) {
@@ -91,7 +191,6 @@ console.log(result);
         const visualization = document.getElementById("visualization");
 
         const initialArray = [5, 2, 9, 1, 5, 6];
-        let currentStep = [];
 
         function renderVisualization(array) {
           visualization.innerHTML = "";

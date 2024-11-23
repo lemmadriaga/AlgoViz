@@ -30,21 +30,73 @@
         },
       };
     </script>
-  </head>
-  <body class="bg-gray-100 font-sans">
-    <div class="container mx-auto p-4 space-y-6">
-      <h1 class="text-3xl font-bold text-primary-600">Merge Sort Challenge</h1>
-      <p class="text-lg text-gray-700">
-        Understand how Merge Sort works by completing the split and merge steps
-        interactively!
-      </p>
+    <style>
+      #editor {
+        background-color: #2d2d2d; /* Dark background */
+        color: #f8f8f2; /* Light font color */
+        font-family: monospace; /* Use monospace font */
+        border-radius: 8px; /* Rounded corners */
+        padding: 10px; /* Padding for better spacing */
+        height: 400px; /* Set fixed height */
+        overflow-y: auto; /* Scrollable if content overflows */
+      }
 
-      <!-- Timer -->
-      <div class="text-right text-lg font-bold">
-        Time Remaining: <span id="timer" class="text-red-500">15:00</span>
+      .header-container {
+        background-color: #ef4444;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: -15px;
+        margin-top: 10px;
+      }
+
+      header h1 {
+        width: 17cm;
+      }
+
+      .container {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
+    <header class="header-container text-center">
+      <h1 class="text-2xl font-bold">Merge Sort Challenge</h1>
+    </header>
+
+    <main class="mt-8 w-full max-w-2xl">
+      <div id="challengeIntro" class="container text-center">
+        <p class="text-lg">Understand how Merge Sort works by completing the split and merge steps interactively!</p>
+        <div class="button-container mt-4">
+          <button
+            id="startButton"
+            class="bg-green-500 text-white font-bold px-6 py-2 rounded shadow"
+          >
+            Start
+          </button>
+          <a href="/dashboard" class="bg-red-500 text-white font-bold px-6 py-2 rounded shadow">
+            Cancel
+          </a>
+        </div>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-6">
+      <div id="challengeSection" class="hidden">
+        <div class="text-center mb-6">
+          <p class="text-2xl font-bold text-red-600">
+            Time Remaining: <span id="timer">15:00</span>
+          </p>
+        </div>
+        <div class="container mx-auto px-4 py-8 flex flex-col space-y-6">
         <!-- Visualization Section -->
         <div class="bg-white p-6 rounded-lg shadow-md">
           <h2 class="text-xl font-semibold mb-4 text-primary-700">
@@ -68,172 +120,189 @@
           </div>
         </div>
 
-        <!-- Code Editor Section -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-xl font-semibold mb-4 text-primary-700">
-            Fix the Merge Sort Code
-          </h2>
-          <p class="text-gray-600 mb-2">
-            Complete the `mergeSort` function to sort the array correctly.
-          </p>
-          <div id="editor" class="h-80 border rounded-lg"></div>
-          <div class="mt-4 space-x-2">
-            <button
-              onclick="runCode()"
-              class="bg-primary-500 hover:bg-primary-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200"
-            >
-              Run Code
-            </button>
-            <button
-              onclick="submitCode()"
-              class="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200"
-            >
-              Submit Code
-            </button>
-          </div>
-          <p id="code-feedback" class="hidden mt-2 p-2 rounded"></p>
+       <!-- Code Editor Section -->
+       <div class="w-full bg-white shadow-md p-6 rounded-lg">
+        <h2 class="text-xl font-bold mb-4">Fix the Merge Sort Code</h2>
+        <p class="text-gray-600 mb-2">
+          Complete the `mergeSort` function to sort the array correctly.
+        </p>
+        <div id="editor" class="border rounded bg-gray-50 min-h-[400px] font-mono"></div>
+        
+        <!-- Centered Buttons -->
+        <div class="flex justify-center gap-4 mt-4">
+          <button
+            onclick="runCode()"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Run Code
+          </button>
+          <button
+            onclick="submitCode()"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Submit Code
+          </button>
         </div>
       </div>
     </div>
+    
+  </div>
+</main>
 
-    <script>
-      let timer = 900;
-      const timerElement = document.getElementById("timer");
+<script>
 
-      function formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${minutes}:${secs.toString().padStart(2, "0")}`;
-      }
+window.onload = function() {
+  const startButton = document.getElementById("startButton");
 
-      const timerInterval = setInterval(() => {
-        if (timer > 0) {
-          timer--;
-          timerElement.textContent = formatTime(timer);
-        } else {
-          clearInterval(timerInterval);
-          alert("Time's up!");
-        }
-      }, 1000);
+  if (startButton) {
+    startButton.addEventListener("click", () => {
+      // Hide the intro and show the challenge section
+      document.getElementById("challengeIntro").classList.add("hidden");
+      document.getElementById("challengeSection").classList.remove("hidden");
+    });
+  } else {
+    console.error("Start button not found.");
+  }
+};
 
-      const editor = ace.edit("editor");
-      editor.setTheme("ace/theme/monokai");
-      editor.session.setMode("ace/mode/javascript");
+  let timer = 900;
+  const timerElement = document.getElementById("timer");
 
-      editor.setValue(`function mergeSort(arr) {
-  if (arr.length <= 1) return arr;
+  function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs.toString().padStart(2, "0")}`;
+  }
 
-  const mid = Math.floor(arr.length / 2);
-  const left = arr.slice(0, mid);
-  const right = arr.slice(mid);
+  const timerInterval = setInterval(() => {
+    if (timer > 0) {
+      timer--;
+      timerElement.textContent = formatTime(timer);
+    } else {
+      clearInterval(timerInterval);
+      alert("Time's up!");
+    }
+  }, 1000);
 
-  return merge(
-    mergeSort(left),
-    mergeSort(right)
-  );
+  const editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.session.setMode("ace/mode/javascript");
+
+  editor.setValue(`function mergeSort(arr) {
+if (arr.length <= 1) return arr;
+
+const mid = Math.floor(arr.length / 2);
+const left = arr.slice(0, mid);
+const right = arr.slice(mid);
+
+return merge(
+mergeSort(left),
+mergeSort(right)
+);
 }
 
 function merge(left, right) {
-  let result = [];
-  let i = 0, j = 0;
+let result = [];
+let i = 0, j = 0;
 
-  while (i < left.length && j < right.length) {
-    if (left[i] < right[j]) {
-      result.push(left[i++]);
-    } else {
-      result.push(right[j++]);
-    }
-  }
+while (i < left.length && j < right.length) {
+if (left[i] < right[j]) {
+  result.push(left[i++]);
+} else {
+  result.push(right[j++]);
+}
+}
 
-  return result.concat(left.slice(i)).concat(right.slice(j));
+return result.concat(left.slice(i)).concat(right.slice(j));
 }
 
 // Test the function
 const testArray = [38, 27, 43, 3, 9, 82, 10];
 console.log(mergeSort(testArray));`);
 
-      const splitStep = document.getElementById("split-step");
-      const mergeStep = document.getElementById("merge-step");
-      const testArray = [38, 27, 43, 3, 9, 82, 10];
+  const splitStep = document.getElementById("split-step");
+  const mergeStep = document.getElementById("merge-step");
+  const testArray = [38, 27, 43, 3, 9, 82, 10];
 
-      function visualizeSplit(array) {
-        splitStep.innerHTML = "";
-        array.forEach((item) => {
-          const div = document.createElement("div");
-          div.textContent = item;
-          div.className = "px-3 py-2 bg-gray-200 rounded";
-          splitStep.appendChild(div);
-        });
+  function visualizeSplit(array) {
+    splitStep.innerHTML = "";
+    array.forEach((item) => {
+      const div = document.createElement("div");
+      div.textContent = item;
+      div.className = "px-3 py-2 bg-gray-200 rounded";
+      splitStep.appendChild(div);
+    });
+  }
+
+  function visualizeMerge(array) {
+    mergeStep.innerHTML = "";
+    array.forEach((item) => {
+      const div = document.createElement("div");
+      div.textContent = item;
+      div.className = "px-3 py-2 bg-green-200 rounded";
+      mergeStep.appendChild(div);
+    });
+  }
+
+  visualizeSplit(testArray);
+
+  function runCode() {
+    const userCode = editor.getValue();
+
+    try {
+      const userFunction = new Function(`${userCode}; return mergeSort;`);
+      const result = userFunction()(testArray.slice());
+      visualizeMerge(result);
+      showFeedback("Code ran successfully!", "success");
+    } catch (error) {
+      showFeedback("Error in your code: " + error.message, "error");
+    }
+  }
+
+  async function submitCode() {
+    const userCode = editor.getValue();
+
+    try {
+      const response = await axios.post("/challenges/mergesort/submit", {
+        userCode,
+      });
+
+      if (response.data.success) {
+        showFeedback(response.data.message, "success");
+      } else {
+        showFeedback(response.data.message, "error");
       }
+    } catch (error) {
+      showFeedback(
+        "Error submitting code: " +
+          (error.response?.data?.message || error.message),
+        "error"
+      );
+    }
+  }
 
-      function visualizeMerge(array) {
-        mergeStep.innerHTML = "";
-        array.forEach((item) => {
-          const div = document.createElement("div");
-          div.textContent = item;
-          div.className = "px-3 py-2 bg-green-200 rounded";
-          mergeStep.appendChild(div);
-        });
-      }
+  function showFeedback(message, type) {
+    const feedback = document.getElementById("code-feedback");
+    feedback.textContent = message;
+    feedback.classList.remove(
+      "hidden",
+      "bg-green-100",
+      "text-green-800",
+      "bg-red-100",
+      "text-red-800"
+    );
+    feedback.classList.add(
+      type === "success" ? "bg-green-100" : "bg-red-100"
+    );
+    feedback.classList.add(
+      type === "success" ? "text-green-800" : "text-red-800"
+    );
+  }
 
-      visualizeSplit(testArray);
-
-      function runCode() {
-        const userCode = editor.getValue();
-
-        try {
-          const userFunction = new Function(`${userCode}; return mergeSort;`);
-          const result = userFunction()(testArray.slice());
-          visualizeMerge(result);
-          showFeedback("Code ran successfully!", "success");
-        } catch (error) {
-          showFeedback("Error in your code: " + error.message, "error");
-        }
-      }
-
-      async function submitCode() {
-        const userCode = editor.getValue();
-
-        try {
-          const response = await axios.post("/challenges/mergesort/submit", {
-            userCode,
-          });
-
-          if (response.data.success) {
-            showFeedback(response.data.message, "success");
-          } else {
-            showFeedback(response.data.message, "error");
-          }
-        } catch (error) {
-          showFeedback(
-            "Error submitting code: " +
-              (error.response?.data?.message || error.message),
-            "error"
-          );
-        }
-      }
-
-      function showFeedback(message, type) {
-        const feedback = document.getElementById("code-feedback");
-        feedback.textContent = message;
-        feedback.classList.remove(
-          "hidden",
-          "bg-green-100",
-          "text-green-800",
-          "bg-red-100",
-          "text-red-800"
-        );
-        feedback.classList.add(
-          type === "success" ? "bg-green-100" : "bg-red-100"
-        );
-        feedback.classList.add(
-          type === "success" ? "text-green-800" : "text-red-800"
-        );
-
-        setTimeout(() => {
-          feedback.classList.add("hidden");
-        }, 5000);
-      }
-    </script>
-  </body>
+  document.getElementById("startButton").addEventListener("click", () => {
+    document.getElementById("challengeIntro").classList.add("hidden");
+    document.getElementById("challengeSection").classList.remove("hidden");
+  });
+</script>
+</body>
 </html>

@@ -12,8 +12,10 @@
       .grid-template {
         display: grid;
         grid-template-columns: repeat(7, 50px);
-        gap: 10px;
+        gap: 5px;
+        justify-content: center;
       }
+
       .grid-template input {
         text-align: center;
         border: 1px solid #ccc;
@@ -21,49 +23,79 @@
         padding: 5px;
         width: 50px;
         height: 50px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      label{
+        margin-left: 120px;
+      }
+      .grid-template input:focus {
+        border-color: #4caf50;
+        outline: none;
+        background-color: #e8f5e9;
       }
       .hidden {
         display: none;
       }
+      .container {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .header-container {
+        background-color: #ef4444;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: -15px;
+        margin-top: 10px;
+      }
+
+      header h1{
+        width: 17cm;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
     </style>
   </head>
-  <body
-    class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6"
-  >
-    <header class="bg-red-500 text-white text-center p-4 rounded shadow">
+  <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
+    <header class="header-container text-center">
       <h1 class="text-2xl font-bold">Bubble Sort Challenge</h1>
     </header>
 
-    <main class="mt-8 w-full max-w-3xl">
-      <div id="challengeIntro">
-        <p class="text-center text-lg">
-          Are you ready to solve the Bubble Sort Challenge?
-        </p>
-        <div class="flex justify-center mt-4 gap-4">
+    <main class="mt-8 w-full max-w-2xl">
+      <div id="challengeIntro" class="container">
+        <p class="text-center text-lg">Are you ready to solve the Bubble Sort Challenge?</p>
+        <div class="button-container mt-4">
           <button
             id="startButton"
             class="bg-green-500 text-white font-bold px-6 py-2 rounded shadow"
           >
             Start
           </button>
-          <a
-            href="/dashboard"
-            class="bg-gray-500 text-white font-bold px-6 py-2 rounded shadow"
-            >Cancel</a
-          >
+          <a href="/dashboard" class="bg-red-500 text-white font-bold px-6 py-2 rounded shadow">
+            Cancel
+          </a>
         </div>
       </div>
 
       <div id="challengeSection" class="hidden">
         <div class="text-center mb-6">
-          <p class="text-lg font-bold">
+          <p class="text-2xl font-bold text-red-600">
             Time Remaining: <span id="timer">1:00:00</span>
           </p>
         </div>
 
-        <div class="space-y-8">
-          <h2 class="text-xl font-bold">Sort the array using Bubble Sort</h2>
-          <p class="font-mono">[54, 26, 93, 17, 77, 31, 44]</p>
+        <div class="container">
+          <h2 class="text-xl font-bold text-center ">Sort the array using Bubble Sort</h2>
+          <p class="font-mono text-center">[54, 26, 93, 17, 77, 31, 44]</p>
 
           <!-- Input Fields -->
           <div>
@@ -119,7 +151,7 @@
           </div>
 
           <div class="mt-6">
-            <h2 class="text-xl font-bold">Final Sorted Array</h2>
+            <h2 class="text-xl font-bold text-center">Final Sorted Array</h2>
             <div class="grid-template">
               <input type="text" maxlength="3" />
               <input type="text" maxlength="3" />
@@ -130,16 +162,18 @@
               <input type="text" maxlength="3" />
             </div>
           </div>
+
+          <div class="mt-6 text-center">
+            <button
+              id="submitButton"
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+            >
+              Submit
+            </button>
+          </div>
         </div>
 
-        <div class="mt-6 text-center">
-          <button
-            id="submitButton"
-            class="bg-blue-500 text-white font-bold px-6 py-2 rounded shadow"
-          >
-            Submit
-          </button>
-        </div>
+
       </div>
     </main>
 
