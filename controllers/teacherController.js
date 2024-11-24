@@ -10,41 +10,58 @@ if (!admin.apps.length) {
   });
 }
 
-exports.getAllUsers = async (req, res) => {
+exports.getStudentsInClass = async (req, res) => {
+  const userId = req.session.userId; // Corrected line
+
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized. Please log in." });
+  }
+
   try {
-    const userId = req.session?.userId;
-    if (!userId) {
-      return res.render("userAuth/login");
+    const userDocRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      return res.status(404).json({ error: "User not found" });
     }
 
-    const adminDocRef = doc(db, "users", userId);
-    const adminDoc = await getDoc(adminDocRef);
+    const userData = userDoc.data();
 
-    if (!adminDoc.exists()) {
-      console.error("Admin not found for ID:", userId);
-      return res.status(404).json({ error: "Admin not found" });
+    if (userData.role !== "teacher") {
+      return res.status(403).json({ error: "Only teachers can view students in their class." });
     }
 
-    const adminData = adminDoc.data();
+    const { classCode } = userData;
 
-    const usersRef = collection(db, "users");
-    const usersSnapshot = await getDocs(usersRef);
+    const usersCollection = collection(db, "users");
+    const studentsQuery = query(
+      usersCollection,
+      where("classCode", "==", classCode),
+      where("role", "==", "student")
+    );
 
-    const users = [];
-    usersSnapshot.forEach((doc) => {
-      users.push({ id: doc.id, ...doc.data() });
+    const snapshot = await getDocs(studentsQuery);
+
+    if (snapshot.empty) {
+      return res.status(404).json({ error: "No students found in your class." });
+    }
+
+    const students = [];
+    snapshot.forEach((doc) => {
+      students.push({ id: doc.id, ...doc.data() });
     });
 
-    res.render("admin/adminDashboard", {
-      fullName: adminData.fullName,
-      email: adminData.email,
-      role: adminData.role,
-      users,
-      profilePicture: adminData.profilePicture || "https://via.placeholder.com/100"
-    });
+    res.render('teacher/teacherDashboard',
+      { users: students,
+        fullName: userData.fullName,
+        email: userData.email,
+        role: userData.role,
+        classCode: userData.classCode,
+        profilePicture: userData.profilePicture || "https://via.placeholder.com/100"
+       });
   } catch (error) {
-    console.error("Error fetching users:", error.message);
-    res.status(500).json({ error: "Failed to fetch users" });
+    console.error("Error fetching students in class:", error);
+    res.status(500).json({ error: "Failed to fetch students in class" });
   }
 };
 
@@ -67,6 +84,7 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+
 exports.updateUserProfilePicture = async (req, res) => {
   const userId = req.session.userId;
 
@@ -84,7 +102,7 @@ exports.updateUserProfilePicture = async (req, res) => {
     await updateDoc(userDocRef, { profilePicture: filePath });
 
     console.log("Profile successfully uploaded");
-    res.redirect("/admin");
+    res.redirect("/teacher");
   } catch (error) {
     console.error("Error updating profile picture:", error);
     res.status(500).json({ error: "Failed to update profile picture" });

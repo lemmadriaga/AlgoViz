@@ -38,18 +38,26 @@
     </style>
   </head>
 
-   <body class="flex h-screen">
+  <body class="flex min-h-screen bg-gray-100">
     <!-- Left Panel -->
-    <aside class="w-1/4 bg-[#5800FF] text-white relative m-5 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.4)]">
+    <aside class="flex-shrink-0 w-64 bg-[#5800FF] text-white m-5 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.4)]" >
       <div class="flex flex-col h-full">
         <!-- User Profile Section -->
         <div class="flex flex-col items-center p-6 border-b border-gray-300">
-          <div class="mb-4">
+          <div class="mb-4 relative">
             <img
               src="<%= profilePicture %>"
               alt="Profile picture"
               class="rounded-full w-24 h-24"
             />
+            <!-- Edit Profile Icon -->
+            <span
+              onclick="toggleModal(true)"
+              class="material-icons absolute bottom-0 right-0 bg-white p-1 rounded-full text-gray-800 cursor-pointer hover:bg-gray-200 transition-all"
+              title="Edit Profile"
+            >
+              edit
+            </span>
           </div>
           <div class="text-center">
             <p class="text-lg font-bold" id="userFullName"><%= fullName %></p>
@@ -66,7 +74,7 @@
     
         <!-- Navigation Menu -->
         <nav class="flex-1 p-4">
-          <ul class="space-y-11">
+          <ul class="gap-2">
             <li>
               <a href="#home-about" class="flex items-center text-white p-3 rounded-lg hover:bg-indigo-600 transition">
                 <span class="material-icons mr-3">home</span>
@@ -106,39 +114,75 @@
         </div>
       </div>
     </aside>
-    
 
+    <div
+      id="profileModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden"
+    >
+      <div class="bg-white rounded-lg p-6 shadow-lg w-[90%] max-w-md">
+        <h2 class="text-lg font-bold mb-4">Upload Profile Picture</h2>
+        <form
+          action="/dashboard/update-user-profile-picture"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input
+            type="file"
+            name="profilePicture"
+            accept=".png, .jpg, .jpeg"
+            class="w-full p-2 border rounded-lg text-black text-sm"
+            required
+          />
+          <div class="mt-4 flex justify-between">
+            <button
+              type="button"
+              onclick="toggleModal(false)"
+              class="px-4 py-2 bg-gray-300 text-black rounded-lg"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
     <!-- Right Panel -->
     <main class="flex-1 p-6 grid grid-cols-3 gap-6 overflow-y-scroll h-screen">
+      <!-- Home Section -->
+      <section id="home-about" class="col-span-3 mt-6">
+        <section class="col-span-3 -mt-5 mb-6">
+          <header
+            class="bg-[#5800ff] text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
+          >
+            Video Presentation
+          </header>
+        </section>
 
-
-     <!-- Home Section -->
-<section id="home-about" class="col-span-3 mt-6">
-  <section class="col-span-3 -mt-5 mb-6">
-    <header
-      class="bg-[#5800ff] text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
-    >
-      TARA INOM MINSAN?
-    </header>
-  </section>
-
-  <!-- Home Card -->
-  <div class="grid grid-cols-1 m-1">
-    <article class="bg-white p-5 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-      
-        <div class="bg-gray-200 rounded mb-2 h-[570px] w-auto">
-          <img
-            src="assets/home.png"
-            alt="About Searchng and Sorting"
-            class="w-full h-auto object-contain rounded"
-          />
+        <!-- Home Card -->
+        <div class="grid grid-cols-1 m-1">
+          <article class="bg-white p-5 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+            <div class="bg-gray-200 rounded mb-2 h-auto w-auto">
+              <iframe
+                width="100%"
+                height="570"
+                src="https://www.youtube.com/embed/YqD4CzhMsUQ"
+                title="About Searching and Sorting"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                class="rounded"
+              ></iframe>
+            </div>
+          </article>          
         </div>
+      </section>
       
-    </article>
-  </div>
-</section>
-
-     
       <!-- Sorting Section -->
       <section id="sorting-algorithms" class="col-span-3 mt-6">
         <section class="col-span-3 mt-6 mb-6">
@@ -261,205 +305,216 @@
       </div>
       </section>
 
-      <!-- Searching Section -->
-      <section id="searching-algorithms" class="col-span-3 mt-6">
-      <section class="col-span-3 mt-6 mb-6">
-        <header
-          class="bg-[#5800ff] text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
-        >
-          SEARCHING ALGORITHMS | Modules and Visualizations
-        </header>
+    <!-- Searching Section -->
+    <section id="searching-algorithms" class="col-span-3 mt-6">
+    <section class="col-span-3 mt-6 mb-6">
+      <header
+        class="bg-[#5800ff] text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
+      >
+        SEARCHING ALGORITHMS | Modules and Visualizations
+      </header>
+    </section>
+
+        <!-- Searching Cards -->
+        <div class="flex space-x-6">
+        <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+          <a href="/dashboard/linearsearch" class="block">
+            <div class="bg-gray-200 rounded mb-4">
+              <img
+                src="assets/Linear.png"
+                alt="Linear Search Visualization"
+                class="h-full w-full object-contain rounded"
+              />
+            </div>
+            <h2 class="font-bold">Linear Search</h2>
+            <p>
+              A straightforward search algorithm. Iterates through each element
+              sequentially until the target value is found or the end of the list
+              is reached. Time complexity: <b>O(n)</b>.
+            </p>
+          </a>
+        </article>
+
+        <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+          <a href="/dashboard/binarysearch" class="block">
+            <div class="bg-gray-200 rounded mb-4">
+              <img
+                src="assets/Binary.png"
+                alt="Binary Search Visualization"
+                class="h-full w-full object-contain rounded"
+              />
+            </div>
+            <h2 class="font-bold">Binary Search</h2>
+            <p>
+              An efficient method for searching in sorted arrays. Repeatedly
+              splits the range in half, comparing the middle element to the
+              target. Time complexity: <b>O(log n)</b>.
+            </p>
+          </a>
+        </article>
+
+        <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+          <a href="/dashboard/twopointers" class="block">
+            <div class="bg-gray-200 rounded mb-4">
+              <img
+                src="assets/Two-Pointer.png"
+                alt="Two Pointers Technique Visualization"
+                class="h-full w-full object-contain rounded"
+              />
+            </div>
+            <h2 class="font-bold">Two Pointers Technique</h2>
+            <p>
+              A useful method often applied to sorted data structures. Utilizes
+              two pointers moving in opposite directions to solve problems like
+              pair sums or subarray searches. Time complexity: <b>O(n)</b>.
+            </p>
+          </a>
+        </article>
+        </div>
       </section>
 
-      <!-- Searching Cards -->
-      <div class="flex space-x-6">
-      <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-        <a href="/dashboard/linearsearch" class="block">
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/Linear.png"
-              alt="Linear Search Visualization"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Linear Search</h2>
-          <p>
-            A straightforward search algorithm. Iterates through each element
-            sequentially until the target value is found or the end of the list
-            is reached. Time complexity: <b>O(n)</b>.
-          </p>
-        </a>
-      </article>
+      <!-- Challenges Section -->
+      <section id="challenges-learn" class="col-span-3 mt-6">
+        <section class="col-span-3 mt-6 mb-6">
+          <header
+            class="bg-red-500 text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
+          >
+            CHALLENGES | Test your Skills
+          </header>
+        </section>
 
-      <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-        <a href="/dashboard/binarysearch" class="block">
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/Binary.png"
-              alt="Binary Search Visualization"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Binary Search</h2>
-          <p>
-            An efficient method for searching in sorted arrays. Repeatedly
-            splits the range in half, comparing the middle element to the
-            target. Time complexity: <b>O(log n)</b>.
-          </p>
-        </a>
-      </article>
+        <!-- Challenges Cards -->
+        <div class="grid grid-cols-3 gap-6">
+        <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+          <a href="/challenges/bubblesort" class="block">
+            <div class="bg-gray-200 rounded mb-4">
+              <img
+                src="assets/BubbleSortC.png"
+                alt="Bubble Sort Challenge"
+                class="h-full w-full object-contain rounded"
+              />
+            </div>
+            <h2 class="font-bold">Bubble Sort Challenge</h2>
+            <p>
+              Test your knowledge of Bubble Sort! Solve interactive problems and
+              earn points for completing this challenge.
+            </p>
+          </a>
+        </article>
 
-      <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-        <a href="/dashboard/twopointers" class="block">
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/Two-Pointer.png"
-              alt="Two Pointers Technique Visualization"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Two Pointers Technique</h2>
-          <p>
-            A useful method often applied to sorted data structures. Utilizes
-            two pointers moving in opposite directions to solve problems like
-            pair sums or subarray searches. Time complexity: <b>O(n)</b>.
-          </p>
-        </a>
-      </article>
-      </div>
-    </section>
-       <!-- Challenges Section -->
-       <section id="challenges-learn" class="col-span-3 mt-6">
-       <section class="col-span-3 mt-6 mb-6">
-        <header
-          class="bg-red-500 text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
-        >
-          CHALLENGES | Test your Skills
-        </header>
+        <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+          <a href="/challenges/heapsort" class="block"
+            <% if (challenges.bubbleSort == false) { %>
+                onclick="return false;" style="filter: grayscale(100%);"
+            <% } %>>
+            <div class="bg-gray-200 rounded mb-4">
+              <img
+                src="assets/HeapSortC.png"
+                alt="Heap Sort Challenge"
+                class="h-full w-full object-contain rounded"
+              />
+            </div>
+            <h2 class="font-bold">Heap Sort Challenge</h2>
+            <p>
+              Take on the Heap Sort Challenge! Master the algorithm by solving
+              practical problems.
+            </p>
+          </a>
+        </article>
+
+        <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+          <a href="/challenges/insertionsort" class="block"
+            <% if (challenges.heapSort == false) { %>
+                onclick="return false;" style="filter: grayscale(100%);"
+            <% } %>>
+            <div class="bg-gray-200 rounded mb-4">
+              <img
+                src="assets/InsertionSortC.png"
+                alt="Insertion Sort Challenge"
+                class="h-full w-full object-contain rounded"
+              />
+            </div>
+            <h2 class="font-bold">Insertion Sort Challenge</h2>
+            <p>
+              Complete the Insertion Sort Challenge and learn the algorithm
+              through hands-on exercises.
+            </p>
+          </a>
+        </article>
+
+        <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+          <a href="/challenges/mergesort" class="block"
+            <% if (challenges.insertionSort == false) { %>
+                onclick="return false;" style="filter: grayscale(100%);"
+            <% } %>>
+            <div class="bg-gray-200 rounded mb-4">
+              <img
+                src="assets/MergeSortC.png"
+                alt="Insertion Sort Challenge"
+                class="h-full w-full object-contain rounded"
+              />
+            </div>
+            <h2 class="font-bold">Merge Sort Challenge</h2>
+            <p>
+              Complete the Merge Sort Challenge and learn the algorithm through
+              hands-on exercises.
+            </p>
+          </a>
+        </article>
+
+        <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+          <a href="/challenges/quicksort" class="block"
+            <% if (challenges.mergeSort == false) { %>
+                onclick="return false;" style="filter: grayscale(100%);"
+            <% } %>>
+            <div class="bg-gray-200 rounded mb-4">
+              <img
+                src="assets/QuickSortC.png"
+                alt="Quick Sort Challenge"
+                class="h-full w-full object-contain rounded"
+              />
+            </div>
+            <h2 class="font-bold">Quick Sort Challenge</h2>
+            <p>
+              Complete the Quick Sort Challenge and learn the algorithm through
+              hands-on exercises.
+            </p>
+          </a>
+        </article>
+
+        <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+          <a href="/challenges/selectionsort" class="block"
+            <% if (challenges.quickSort == false) { %>
+                onclick="return false;" style="filter: grayscale(100%);"
+            <% } %>>
+            <div class="bg-gray-200 rounded mb-4">
+              <img
+                src="assets/SelectionSortC.png"
+                alt="Selection Sort Challenge"
+                class="h-full w-full object-contain rounded"
+              />
+            </div>
+            <h2 class="font-bold">Selection Sort Challenge</h2>
+            <p>
+              Complete the Selection Sort Challenge and learn the algorithm
+              through hands-on exercises.
+            </p>
+          </a>
+        </article>
+        </div>
       </section>
-
-      <!-- Challenges Cards -->
-      <div class="grid grid-cols-3 gap-6">
-      <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-        <a href="/challenges/bubblesort" class="block">
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/BubbleSortC.png"
-              alt="Bubble Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Bubble Sort Challenge</h2>
-          <p>
-            Test your knowledge of Bubble Sort! Solve interactive problems and
-            earn points for completing this challenge.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-        <a href="/challenges/heapsort" class="block"
-          <% if (challenges.bubbleSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/HeapSortC.png"
-              alt="Heap Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Heap Sort Challenge</h2>
-          <p>
-            Take on the Heap Sort Challenge! Master the algorithm by solving
-            practical problems.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-        <a href="/challenges/insertionsort" class="block"
-          <% if (challenges.heapSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/InsertionSortC.png"
-              alt="Insertion Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Insertion Sort Challenge</h2>
-          <p>
-            Complete the Insertion Sort Challenge and learn the algorithm
-            through hands-on exercises.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-        <a href="/challenges/mergesort" class="block"
-          <% if (challenges.insertionSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/MergeSortC.png"
-              alt="Insertion Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Merge Sort Challenge</h2>
-          <p>
-            Complete the Merge Sort Challenge and learn the algorithm through
-            hands-on exercises.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-        <a href="/challenges/quicksort" class="block"
-          <% if (challenges.mergeSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/QuickSortC.png"
-              alt="Quick Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Quick Sort Challenge</h2>
-          <p>
-            Complete the Quick Sort Challenge and learn the algorithm through
-            hands-on exercises.
-          </p>
-        </a>
-      </article>
-
-      <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
-        <a href="/challenges/selectionsort" class="block"
-          <% if (challenges.quickSort == false) { %>
-              onclick="return false;" style="filter: grayscale(100%);"
-          <% } %>>
-          <div class="bg-gray-200 rounded mb-4">
-            <img
-              src="assets/SelectionSortC.png"
-              alt="Selection Sort Challenge"
-              class="h-full w-full object-contain rounded"
-            />
-          </div>
-          <h2 class="font-bold">Selection Sort Challenge</h2>
-          <p>
-            Complete the Selection Sort Challenge and learn the algorithm
-            through hands-on exercises.
-          </p>
-        </a>
-      </article>
-      </div>
-    </section>
     </main>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      function toggleModal(show) {
+        const modal = document.getElementById("profileModal");
+        if (show) {
+          modal.classList.remove("hidden");
+        } else {
+          modal.classList.add("hidden");
+        }
+      }
+    </script>
   </body>
 </html>

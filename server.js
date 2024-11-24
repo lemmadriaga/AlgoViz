@@ -4,40 +4,39 @@ const session = require("express-session");
 const path = require("path");
 const userAuthenticationRoutes = require("./api/userAuthentication");
 const userRoutes = require("./api/userRoutes");
-const adminRoutes = require("./api/adminRoutes"); // Import admin routes
+const adminRoutes = require("./api/adminRoutes");
+const teacherRoutes = require("./api/teacherRoutes")
 const { getUserProfile } = require("./controllers/userController");
 
 const app = express();
 
-// Configure session
 const configureSession = (app) => {
   app.use(
     session({
       secret: process.env.SESSION_SECRET_KEY,
       resave: false,
       saveUninitialized: true,
-      cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
+      cookie: { maxAge: 24 * 60 * 60 * 1000 },
     })
   );
 };
 configureSession(app);
 
-// Middleware for parsing request bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static("static"));
 
-// Set EJS as the template engine
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-// Define routes
 app.use("/api", userAuthenticationRoutes);
 app.use(userRoutes);
-app.use(adminRoutes); // Use admin routes
+app.use(adminRoutes);
+app.use(teacherRoutes);
 
 const requireSession = (req, res, view, params = {}) => {
   if (req.session.userId) {
@@ -91,7 +90,6 @@ app.post("/logout", (req, res) => {
   });
 });
 
-// Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

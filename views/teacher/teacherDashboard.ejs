@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher | AlgoViz</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+      progress[value] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #a0a1a2;
+        overflow: hidden;
+      }
+
+      progress[value]::-webkit-progress-bar {
+        background-color: #a0a1a2;
+        border-radius: 5px;
+      }
+
+      progress[value]::-webkit-progress-value {
+        background-color: #5800FF;
+        border-radius: 5px;
+      }
+
+      progress[value]::-moz-progress-bar {
+        background-color: #5800FF;
+        border-radius: 5px;
+      }
+
+      #searchInput::placeholder {
+        color: #4B5563;
+      }
+    </style>
+  </head>
+  <body class="flex min-h-screen bg-gray-100">
+    <!-- Left Panel -->
+    <aside class="flex-shrink-0 w-64 bg-[#5800FF] text-white m-5 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.4)]">
+      <div class="flex flex-col h-full justify-evenly">
+        <div class="flex flex-col items-center p-6">
+          <div class="mb-4 relative">
+            <img
+              src="<%= profilePicture %>"
+              alt="Profile picture"
+              class="rounded-full w-24 h-24"
+            />
+            <!-- Edit Profile Icon -->
+            <span
+              onclick="toggleModal(true)"
+              class="material-icons absolute bottom-0 right-0 bg-white p-1 rounded-full text-gray-800 cursor-pointer hover:bg-gray-200 transition-all"
+              title="Edit Profile"
+            >
+              edit
+            </span>
+          </div>
+          <div class="text-center">
+            <p class="text-lg font-bold" id="userFullName"><%= fullName %></p>
+            <p class="text-sm" id="userEmail"><%= email %></p>
+            <br />
+            <p class="text-sm" id="userRole"><strong><%= role.toUpperCase() %></strong></p>
+            <br />
+            <p>CLASS CODE: <br><strong><%= classCode %></strong></p>
+          </div>
+        </div>
+
+        <!-- Search Bar for Students -->
+        <div class="p-4">
+          <input
+            type="text"
+            id="searchInput"
+            class="w-full p-2 border rounded-lg text-black text-sm text-center"
+            placeholder="Search Student by Email..."
+          />
+        </div>
+
+        <!-- Logout Button -->
+        <div class="p-4">
+          <form action="/logout" method="post">
+            <button
+              class="w-full bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
+      </div>
+    </aside>
+    
+    <div
+      id="profileModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-30"
+    >
+      <div class="bg-white rounded-lg p-6 shadow-lg w-[90%] max-w-md">
+        <h2 class="text-lg font-bold mb-4">Upload Profile Picture</h2>
+        <form
+          action="/teacher/update-user-profile-picture"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input
+            type="file"
+            name="profilePicture"
+            accept=".png, .jpg, .jpeg"
+            class="w-full p-2 border rounded-lg text-black text-sm"
+            required
+          />
+          <div class="mt-4 flex justify-between">
+            <button
+              type="button"
+              onclick="toggleModal(false)"
+              class="px-4 py-2 bg-gray-300 text-black rounded-lg"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-[#5800FF] text-white rounded-lg hover:bg-blue-600"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="flex-1 p-6">
+      <div class="relative overflow-hidden shadow-md rounded-lg">
+        <table class="table-fixed w-full text-left">
+          <thead
+            class="uppercase bg-[#5800ff] text-[#e5e7eb]"
+            style="background-color: #5800ff; color: #e5e7eb"
+          >
+            <tr>
+              <th class="py-2 border text-center font-bold p-4">Name</th>
+              <th class="py-2 border text-center font-bold p-4">Email</th>
+              <th class="py-2 border text-center font-bold p-4">Progress</th>
+              <th class="py-2 border text-center font-bold p-4">Delete</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white bg-[#FFFFFF] text-[#3e4850]" id="userTable">
+            <% users.forEach(user => { %>
+            <tr class="user-row">
+              <td contenteditable="true" class="py-5 border text-center p-4">
+                <%= user.fullName %>
+              </td>
+              <td contenteditable="true" class="py-5 border text-center p-4">
+                <%= user.email %>
+              </td>
+              <td contenteditable="true" class="py-5 border text-center p-4">
+                <progress id="file" value="<%= user.progress %>" max="100"></progress>
+              </td>
+              <td class="py-5 border text-center p-4">
+                <form action="/admin/delete-user/<%= user.id %>" method="POST">
+                  <button
+                    type="submit"
+                    class="text-red-500 hover:text-red-700 transition transform hover:scale-110 active:scale-95"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const userTable = document.getElementById('userTable');
+    
+    searchInput.addEventListener('input', function() {
+      const filter = searchInput.value.toLowerCase();
+      const rows = userTable.getElementsByClassName('user-row');
+      
+      Array.from(rows).forEach(row => {
+        const emailCell = row.getElementsByTagName('td')[1];
+        const email = emailCell.textContent || emailCell.innerText;
+        
+        if (email.toLowerCase().includes(filter)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+    
+    function toggleModal(show) {
+      const modal = document.getElementById("profileModal");
+      if (show) {
+        modal.classList.remove("hidden");
+      } else {
+        modal.classList.add("hidden");
+      }
+    }
+</script>
+</body>
+</html>

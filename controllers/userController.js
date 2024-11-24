@@ -128,16 +128,22 @@ exports.getUserProfile = async (req, res) => {
 
 exports.updateUserProfilePicture = async (req, res) => {
   const userId = req.session.userId;
-  const { profilePicture } = req.body;
 
   if (!userId) {
     return res.status(401).json({ error: "Unauthorized access" });
   }
 
   try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const filePath = `/uploads/${req.file.filename}`;
     const userDocRef = doc(db, "users", userId);
-    await updateDoc(userDocRef, { profilePicture });
-    res.status(200).json({ message: "Profile picture updated successfully" });
+    await updateDoc(userDocRef, { profilePicture: filePath });
+
+    console.log("Profile successfully uploaded");
+    res.redirect("/dashboard");
   } catch (error) {
     console.error("Error updating profile picture:", error);
     res.status(500).json({ error: "Failed to update profile picture" });

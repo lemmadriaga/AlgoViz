@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const upload = require('../middleware/multerConfig');
 
 router.get("/api/get-user-profile", userController.getUserProfile);
 router.get("/challenges/bubblesort", (req, res) => {
@@ -45,10 +46,8 @@ router.get("/challenges/quicksort", (req, res) => {
 router.get("/challenges/selectionsort", (req, res) => {
   res.render("challenges/selectionsort", { title: "Selection Sort Challenge" });
 });
-router.post(
-  "/update-user-profile-picture",
-  userController.updateUserProfilePicture
-);
+
+router.post('/dashboard/update-user-profile-picture', upload.single('profilePicture'), userController.updateUserProfilePicture);
 
 router.post("/update-user-progress", userController.updateProgress);
 

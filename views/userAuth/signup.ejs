@@ -68,6 +68,7 @@
               name="phone"
               class="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-700"
               placeholder="Phone Number"
+              required
             />
           </div>
 
@@ -83,6 +84,32 @@
               required
             />
           </div>
+
+          <div>
+            <label for="role" class="block text-gray-600">Role</label>
+            <select
+              id="role"
+              name="role"
+              class="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-700"
+              required
+            >
+              <option value="" disabled selected>Select your role</option> <!-- Default blank option -->
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+            </select>
+          </div>
+          
+          <div id="classCodeContainer" class="hidden">
+            <label for="classCode" class="block text-gray-600 mt-4">Class Code</label>
+            <input
+              type="text"
+              id="classCode"
+              name="classCode"
+              class="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-700"
+              placeholder="Class Code"
+              required
+            />
+          </div>          
 
           <button
             type="submit"
@@ -130,6 +157,19 @@
 
     <script src="/js/global.js"></script>
     <script>
+      const roleSelect = document.getElementById("role");
+      const classCodeContainer = document.getElementById("classCodeContainer");
+
+      roleSelect.addEventListener("change", (event) => {
+        const role = event.target.value;
+
+        if (role === "student") {
+          classCodeContainer.classList.remove("hidden");
+        } else {
+          classCodeContainer.classList.add("hidden");
+        }
+      });
+
       document
         .getElementById("signupForm")
         .addEventListener("submit", async (event) => {
@@ -148,6 +188,8 @@
           const password = document.getElementById("password").value;
           const phone = document.getElementById("phone").value;
           const birthDate = document.getElementById("birthDate").value;
+          const selectedRole = document.getElementById("role").value;
+          const classCode = document.getElementById("classCode").value;
 
           try {
             const response = await fetch("/api/signup", {
@@ -159,6 +201,8 @@
                 password,
                 phone,
                 birthDate,
+                selectedRole,
+                classCode
               }),
             });
 
