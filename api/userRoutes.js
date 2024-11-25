@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
-const upload = require('../middleware/multerConfig');
+const upload = require("../middleware/multerConfig");
 
 router.get("/api/get-user-profile", userController.getUserProfile);
 router.get("/challenges/bubblesort", (req, res) => {
@@ -47,8 +47,23 @@ router.get("/challenges/selectionsort", (req, res) => {
   res.render("challenges/selectionsort", { title: "Selection Sort Challenge" });
 });
 
-router.post('/dashboard/update-user-profile-picture', upload.single('profilePicture'), userController.updateUserProfilePicture);
+router.post(
+  "/dashboard/update-user-profile-picture",
+  upload.single("profilePicture"),
+  userController.updateUserProfilePicture
+);
 
 router.post("/update-user-progress", userController.updateProgress);
+router.get("/dashboard/dfs", (req, res) => {
+  res.render("graph/dfs", { title: "Depth-First Search Visualization" });
+});
+
+router.get("/dashboard/bfs", (req, res) => {
+  res.render("graph/bfs", { title: "Breadth-First Search Visualization" });
+});
+
+router.get("/dashboard/dijkstra", (req, res) => {
+  res.render("graph/dijkstra", { title: "Dijkstra's Algorithm Visualization" });
+});
 
 module.exports = router;

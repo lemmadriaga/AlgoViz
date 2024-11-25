@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DFS Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.8.2/dist/d3.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div class="max-w-4xl mx-auto mt-10">
+      <h1 class="text-center text-2xl font-bold text-purple-500 mb-2">
+        Depth-First Search Visualization
+      </h1>
+
+      <p class="text-center text-gray-700 mb-6">
+        Use the form below to input the number of nodes and edges of the graph.
+        Specify edges in the format <strong>"source-target"</strong> (e.g.,
+        0-1,1-2). Once the graph is generated, click "Start DFS" to visualize
+        the traversal starting from Node 0.
+      </p>
+
+      <form id="graphForm" class="bg-white shadow rounded-lg p-6 mb-8">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="nodes" class="block text-sm font-medium text-gray-700"
+              >Number of Nodes</label
+            >
+            <input
+              type="number"
+              id="nodes"
+              name="nodes"
+              min="2"
+              max="20"
+              required
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+            />
+          </div>
+          <div>
+            <label for="edges" class="block text-sm font-medium text-gray-700"
+              >Edges (e.g., 0-1,1-2)</label
+            >
+            <input
+              type="text"
+              id="edges"
+              name="edges"
+              required
+              placeholder="Enter edges separated by commas"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+            />
+          </div>
+        </div>
+        <div class="mt-4">
+          <button
+            type="submit"
+            class="w-full bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 transition"
+          >
+            Generate Graph
+          </button>
+        </div>
+      </form>
+
+      <div id="graphContainer" class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-lg font-bold text-gray-700 mb-4">
+          Graph Visualization
+        </h2>
+        <svg id="graph" class="w-full h-96"></svg>
+      </div>
+
+      <div class="text-center mt-4">
+        <button
+          id="startDfs"
+          class="bg-purple-500 text-white px-6 py-2 rounded-md hover:bg-purple-600 transition disabled:opacity-50"
+          disabled
+        >
+          Start DFS
+        </button>
+      </div>
+
+      <div class="bg-white shadow rounded-lg p-6 mt-8">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Module Explanation</h3>
+        <p class="text-gray-700 leading-relaxed">
+          Depth-First Search (DFS) is a graph traversal algorithm that explores
+          as far as possible along each branch before backtracking. It is used
+          in applications such as solving puzzles, detecting cycles in a graph,
+          and finding connected components.
+        </p>
+        <p class="text-gray-700 leading-relaxed mt-4">
+          In this visualization, DFS starts at Node 0 and visits all reachable
+          nodes in depth-first order. The graph is dynamically generated based
+          on your input, allowing you to explore custom graph structures.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      let nodes = [];
+      let edges = [];
+      let graph = {};
+      let svg;
+
+      document
+        .getElementById("graphForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const nodesCount = parseInt(document.getElementById("nodes").value);
+          const edgesInput = document.getElementById("edges").value.trim();
+          edges = edgesInput.split(",").map((edge) => {
+            const [source, target] = edge.split("-");
+            return { source: +source, target: +target };
+          });
+
+          nodes = Array.from({ length: nodesCount }, (_, i) => ({ id: i }));
+
+          graph = {};
+          for (const edge of edges) {
+            if (!graph[edge.source]) graph[edge.source] = [];
+            if (!graph[edge.target]) graph[edge.target] = [];
+            graph[edge.source].push(edge.target);
+            graph[edge.target].push(edge.source);
+          }
+
+          renderGraph();
+
+          document.getElementById("startDfs").disabled = false;
+        });
+
+      document
+        .getElementById("startDfs")
+        .addEventListener("click", function () {
+          dfsTraversal(0);
+        });
+
+      function renderGraph() {
+        svg = d3.select("#graph");
+        svg.selectAll("*").remove();
+
+        const width = svg.node().clientWidth;
+        const height = svg.node().clientHeight;
+
+        const simulation = d3
+          .forceSimulation(nodes)
+          .force(
+            "link",
+            d3
+              .forceLink(edges)
+              .id((d) => d.id)
+              .distance(100)
+          )
+          .force("charge", d3.forceManyBody().strength(-200))
+          .force("center", d3.forceCenter(width / 2, height / 2));
+
+        const link = svg
+          .append("g")
+          .selectAll("line")
+          .data(edges)
+          .enter()
+          .append("line")
+          .attr("stroke", "#999")
+          .attr("stroke-width", 2);
+
+        const node = svg
+          .append("g")
+          .selectAll("circle")
+          .data(nodes)
+          .enter()
+          .append("circle")
+          .attr("r", 15)
+          .attr("fill", "#69b3a2")
+          .call(
+            d3
+              .drag()
+              .on("start", dragStarted)
+              .on("drag", dragged)
+              .on("end", dragEnded)
+          );
+
+        const label = svg
+          .append("g")
+          .selectAll("text")
+          .data(nodes)
+          .enter()
+          .append("text")
+          .text((d) => d.id)
+          .attr("font-size", 12)
+          .attr("text-anchor", "middle")
+          .attr("dy", 4);
+
+        simulation.on("tick", () => {
+          link
+            .attr("x1", (d) => d.source.x)
+            .attr("y1", (d) => d.source.y)
+            .attr("x2", (d) => d.target.x)
+            .attr("y2", (d) => d.target.y);
+
+          node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+          label.attr("x", (d) => d.x).attr("y", (d) => d.y);
+        });
+      }
+
+      function dfsTraversal(start) {
+        const visited = new Set();
+        const stack = [start];
+        const animationDelay = 500;
+
+        function visitNode() {
+          if (stack.length === 0) return;
+
+          const current = stack.pop();
+          if (!visited.has(current)) {
+            visited.add(current);
+
+            svg
+              .selectAll("circle")
+              .filter((d) => d.id === current)
+              .transition()
+              .duration(animationDelay)
+              .attr("fill", "#ff5722");
+
+            for (const neighbor of graph[current] || []) {
+              if (!visited.has(neighbor)) {
+                stack.push(neighbor);
+              }
+            }
+
+            setTimeout(visitNode, animationDelay);
+          }
+        }
+
+        visitNode();
+      }
+
+      function dragStarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      }
+
+      function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+      }
+
+      function dragEnded(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      }
+    </script>
+  </body>
+</html>

@@ -372,8 +372,69 @@
         </article>
         </div>
       </section>
+      
+      <section id="graph-traversal" class="col-span-3 mt-6">
+        <section class="col-span-3 mt-6 mb-6">
+          <header
+            class="bg-green-500 text-white text-lg font-bold px-4 py-2 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
+          >
+            GRAPH TRAVERSAL | Modules and Visualizations
+          </header>
+        </section>
 
-      <!-- Challenges Section -->
+        
+        <div class="grid grid-cols-3 gap-6">
+          <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+            <a href="/dashboard/dfs" class="block">
+              <div class="bg-gray-200 rounded mb-4">
+                <img
+                  src="assets/DFS.png"
+                  alt="Depth-First Search Visualization"
+                  class="h-full w-full object-contain rounded"
+                />
+              </div>
+              <h2 class="font-bold">Depth-First Search (DFS)</h2>
+              <p>
+                Explore a graph by traversing as deep as possible before backtracking. Used in applications like solving puzzles. Time complexity: <b>O(V + E)</b>.
+              </p>
+            </a>
+          </article>
+
+          <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+            <a href="/dashboard/bfs" class="block">
+              <div class="bg-gray-200 rounded mb-4">
+                <img
+                  src="assets/BFS.png"
+                  alt="Breadth-First Search Visualization"
+                  class="h-full w-full object-contain rounded"
+                />
+              </div>
+              <h2 class="font-bold">Breadth-First Search (BFS)</h2>
+              <p>
+                Explore a graph layer by layer starting from the root node. Often used to find the shortest path. Time complexity: <b>O(V + E)</b>.
+              </p>
+            </a>
+          </article>
+
+          <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
+            <a href="/dashboard/dijkstra" class="block">
+              <div class="bg-gray-200 rounded mb-4">
+                <img
+                  src="assets/Dijkstra.png"
+                  alt="Dijkstra's Algorithm Visualization"
+                  class="h-full w-full object-contain rounded"
+                />
+              </div>
+              <h2 class="font-bold">Dijkstra's Algorithm</h2>
+              <p>
+                An algorithm for finding the shortest path between nodes in a graph. Ideal for weighted graphs. Time complexity: <b>O(V²)</b> or <b>O((V + E) log V)</b> using a priority queue.
+              </p>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      
       <section id="challenges-learn" class="col-span-3 mt-6">
         <section class="col-span-3 mt-6 mb-6">
           <header
@@ -383,7 +444,7 @@
           </header>
         </section>
 
-        <!-- Challenges Cards -->
+        
         <div class="grid grid-cols-3 gap-6">
         <article class="bg-white p-8 rounded shadow-sm hover:shadow-lg hover:bg-gray-100 transition-shadow duration-300 ease-in-out">
           <a href="/challenges/bubblesort" class="block">
@@ -503,6 +564,7 @@
         </article>
         </div>
       </section>
+      
     </main>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -516,5 +578,6 @@
         }
       }
     </script>
+    
   </body>
 </html>
