@@ -1,7 +1,6 @@
 const { db } = require("../config/firebaseConfig");
 const { doc, getDoc, updateDoc } = require("firebase/firestore");
 
-
 //   const userId = req.session.userId;
 
 //   if (!userId) {
@@ -126,6 +125,30 @@ exports.getUserProfile = async (req, res) => {
   }
 };
 
+// exports.updateUserProfilePicture = async (req, res) => {
+//   const userId = req.session.userId;
+
+//   if (!userId) {
+//     return res.status(401).json({ error: "Unauthorized access" });
+//   }
+
+//   try {
+//     if (!req.file) {
+//       return res.status(400).json({ error: "No file uploaded" });
+//     }
+
+//     const filePath = `/uploads/${req.file.filename}`;
+//     const userDocRef = doc(db, "users", userId);
+//     await updateDoc(userDocRef, { profilePicture: filePath });
+
+//     console.log("Profile successfully uploaded");
+//     res.redirect("/dashboard");
+//   } catch (error) {
+//     console.error("Error updating profile picture:", error);
+//     res.status(500).json({ error: "Failed to update profile picture" });
+//   }
+// };
+
 exports.updateUserProfilePicture = async (req, res) => {
   const userId = req.session.userId;
 
@@ -133,17 +156,21 @@ exports.updateUserProfilePicture = async (req, res) => {
     return res.status(401).json({ error: "Unauthorized access" });
   }
 
+  const base64Image = req.body.base64ProfilePicture;
+
+  if (!base64Image) {
+    return res.status(400).json({ error: "No base64 image data provided" });
+  }
+
+  if (!/^data:image\/[a-zA-Z]*;base64,/.test(base64Image)) {
+    return res.status(400).json({ error: "Invalid base64 image format" });
+  }
+
   try {
-    if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
-    }
-
-    const filePath = `/uploads/${req.file.filename}`;
     const userDocRef = doc(db, "users", userId);
-    await updateDoc(userDocRef, { profilePicture: filePath });
+    await updateDoc(userDocRef, { profilePicture: base64Image });
 
-    console.log("Profile successfully uploaded");
-    res.redirect("/dashboard");
+    res.status(200).json({ redirectUrl: "/dashboard" });
   } catch (error) {
     console.error("Error updating profile picture:", error);
     res.status(500).json({ error: "Failed to update profile picture" });

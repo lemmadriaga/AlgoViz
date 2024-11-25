@@ -62,13 +62,14 @@
           <div class="text-center">
             <p class="text-lg font-bold" id="userFullName"><%= fullName %></p>
             <p class="text-sm" id="userEmail"><%= email %></p>
-            <p class="text-sm mt-1" id="userRole"><%= role.toUpperCase() %></p>
+            <p class="text-sm mt-1" id="userRole"><strong><%= role.toUpperCase() %></strong></p>
             <progress
               id="file"
               class="mt-2"
               value="<%= progress %>"
               max="100"
             ></progress>
+            <p class="text-sm"><strong><%= (isNaN(progress) || progress == null ? 0 : (progress).toFixed(2)) %>% of 100%</strong></p>
           </div>
         </div>
     
@@ -122,11 +123,13 @@
       <div class="bg-white rounded-lg p-6 shadow-lg w-[90%] max-w-md">
         <h2 class="text-lg font-bold mb-4">Upload Profile Picture</h2>
         <form
+          id="profilePictureForm"
           action="/dashboard/update-user-profile-picture"
           method="post"
           enctype="multipart/form-data"
         >
           <input
+            id="profilePictureInput"
             type="file"
             name="profilePicture"
             accept=".png, .jpg, .jpeg"
@@ -142,6 +145,7 @@
               Cancel
             </button>
             <button
+              id="submitBtn"
               type="submit"
               class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             >
@@ -577,7 +581,71 @@
           modal.classList.add("hidden");
         }
       }
-    </script>
     
+      document.getElementById('profilePictureInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = function() {
+            const base64Image = reader.result;
+    
+            const formData = new FormData();
+            formData.append('profilePicture', file);
+            formData.append('base64ProfilePicture', base64Image);
+    
+            fetch('/dashboard/update-user-profile-picture', {
+              method: 'POST',
+              body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+            })
+            .catch(error => {
+              console.error('Error uploading profile picture:', error);
+            });
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    
+      document.getElementById('profilePictureForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const fileInput = document.getElementById('profilePictureInput');
+      const file = fileInput.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onloadend = function() {
+          const base64Image = reader.result;
+
+          fetch('/dashboard/update-user-profile-picture', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ base64ProfilePicture: base64Image }),
+          })
+            .then(response => response.json())
+            .then((data) => {
+              if (data.redirectUrl) {
+                window.location.href = data.redirectUrl;
+              } else {
+                console.log("Profile picture updated successfully");
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        console.error('No file selected');
+      }
+    });
+    </script>
   </body>
 </html>

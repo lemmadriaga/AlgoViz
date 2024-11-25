@@ -87,42 +87,45 @@
         </div>
       </aside>
 
-    <div
-      id="profileModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-30"
-    >
-      <div class="bg-white rounded-lg p-6 shadow-lg w-[90%] max-w-md">
-        <h2 class="text-lg font-bold mb-4">Upload Profile Picture</h2>
-        <form
-          action="/admin/update-user-profile-picture"
-          method="post"
-          enctype="multipart/form-data"
-        >
-          <input
-            type="file"
-            name="profilePicture"
-            accept=".png, .jpg, .jpeg"
-            class="w-full p-2 border rounded-lg text-black text-sm"
-            required
-          />
-          <div class="mt-4 flex justify-between">
-            <button
-              type="button"
-              onclick="toggleModal(false)"
-              class="px-4 py-2 bg-gray-300 text-black rounded-lg"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              class="px-4 py-2 bg-[#5800FF] text-white rounded-lg hover:bg-blue-600"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+      <div
+        id="profileModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-30"
+      >
+        <div class="bg-white rounded-lg p-6 shadow-lg w-[90%] max-w-md">
+          <h2 class="text-lg font-bold mb-4">Upload Profile Picture</h2>
+          <form
+            id="profilePictureForm"
+            action="/dashboard/update-user-profile-picture"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <input
+              id="profilePictureInput"
+              type="file"
+              name="profilePicture"
+              accept=".png, .jpg, .jpeg"
+              class="w-full p-2 border rounded-lg text-black text-sm"
+              required
+            />
+            <div class="mt-4 flex justify-between">
+              <button
+                type="button"
+                onclick="toggleModal(false)"
+                class="px-4 py-2 bg-gray-300 text-black rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                id="submitBtn"
+                type="submit"
+                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
 
       <!-- Right Panel -->
       <div class="flex-1 p-6">
@@ -186,35 +189,81 @@
     </div>
 
     <!-- Script -->
-    <script src="https://cdn.tailwindcss.com"></script><script>
-      // Filter function for the search bar
-      const searchInput = document.getElementById('searchInput');
-      const userTable = document.getElementById('userTable');
-      
-      searchInput.addEventListener('input', function() {
-        const filter = searchInput.value.toLowerCase();
-        const rows = userTable.getElementsByClassName('user-row');
-        
-        Array.from(rows).forEach(row => {
-          const emailCell = row.getElementsByTagName('td')[1];
-          const email = emailCell.textContent || emailCell.innerText;
-          
-          if (email.toLowerCase().includes(filter)) {
-            row.style.display = '';
-          } else {
-            row.style.display = 'none';
-          }
-        });
-      });
-      
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
       function toggleModal(show) {
-          const modal = document.getElementById("profileModal");
-          if (show) {
-              modal.classList.remove("hidden");
-          } else {
-              modal.classList.add("hidden");
-          }
+        const modal = document.getElementById("profileModal");
+        if (show) {
+          modal.classList.remove("hidden");
+        } else {
+          modal.classList.add("hidden");
+        }
       }
+    
+      document.getElementById('profilePictureInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = function() {
+            const base64Image = reader.result;
+    
+            const formData = new FormData();
+            formData.append('profilePicture', file);
+            formData.append('base64ProfilePicture', base64Image);
+    
+            fetch('/dashboard/update-user-profile-picture', {
+              method: 'POST',
+              body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+            })
+            .catch(error => {
+              console.error('Error uploading profile picture:', error);
+            });
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    
+      document.getElementById('profilePictureForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const fileInput = document.getElementById('profilePictureInput');
+      const file = fileInput.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onloadend = function() {
+          const base64Image = reader.result;
+
+          fetch('/admin/update-user-profile-picture', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ base64ProfilePicture: base64Image }),
+          })
+            .then(response => response.json())
+            .then((data) => {
+              if (data.redirectUrl) {
+                window.location.href = data.redirectUrl;
+              } else {
+                console.log("Profile picture updated successfully");
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        console.error('No file selected');
+      }
+    });
     </script>
   </body>
 </html>
