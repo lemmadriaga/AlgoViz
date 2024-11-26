@@ -69,14 +69,19 @@
       }
     </style>
   </head>
-  <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
+  <body
+    class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6"
+  >
     <header class="header-container text-center">
       <h1 class="text-2xl font-bold">Merge Sort Challenge</h1>
     </header>
 
     <main class="mt-8 w-full max-w-2xl">
       <div id="challengeIntro" class="container text-center">
-        <p class="text-lg">Understand how Merge Sort works by completing the split and merge steps interactively!</p>
+        <p class="text-lg">
+          Understand how Merge Sort works by completing the split and merge
+          steps interactively!
+        </p>
         <div class="button-container mt-4">
           <button
             id="startButton"
@@ -84,7 +89,10 @@
           >
             Start
           </button>
-          <a href="/dashboard" class="bg-red-500 text-white font-bold px-6 py-2 rounded shadow">
+          <a
+            href="/dashboard"
+            class="bg-red-500 text-white font-bold px-6 py-2 rounded shadow"
+          >
             Cancel
           </a>
         </div>
@@ -97,212 +105,229 @@
           </p>
         </div>
         <div class="container mx-auto px-4 py-8 flex flex-col space-y-6">
-        <!-- Visualization Section -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-xl font-semibold mb-4 text-primary-700">
-            Visualization
-          </h2>
-          <div class="space-y-4">
-            <div>
-              <h3 class="font-medium text-gray-700 mb-2">Split Step</h3>
-              <div
-                id="split-step"
-                class="flex flex-wrap justify-center gap-2"
-              ></div>
+          <!-- Visualization Section -->
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4 text-primary-700">
+              Visualization
+            </h2>
+            <div class="space-y-4">
+              <div>
+                <h3 class="font-medium text-gray-700 mb-2">Split Step</h3>
+                <div
+                  id="split-step"
+                  class="flex flex-wrap justify-center gap-2"
+                ></div>
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-700 mb-2">Merge Step</h3>
+                <div
+                  id="merge-step"
+                  class="flex flex-wrap justify-center gap-2"
+                ></div>
+              </div>
             </div>
-            <div>
-              <h3 class="font-medium text-gray-700 mb-2">Merge Step</h3>
-              <div
-                id="merge-step"
-                class="flex flex-wrap justify-center gap-2"
-              ></div>
+          </div>
+
+          <!-- Code Editor Section -->
+          <div class="w-full bg-white shadow-md p-6 rounded-lg">
+            <h2 class="text-xl font-bold mb-4">Fix the Merge Sort Code</h2>
+            <p class="text-gray-600 mb-2">
+              Complete the `mergeSort` function to sort the array correctly.
+            </p>
+            <div
+              id="editor"
+              class="border rounded bg-gray-50 min-h-[400px] font-mono"
+            ></div>
+            <div
+              id="code-feedback"
+              class="hidden p-4 mt-4 rounded text-center"
+            ></div>
+            <!-- Centered Buttons -->
+            <div class="flex justify-center gap-4 mt-4">
+              <button
+                onclick="runCode()"
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+              >
+                Run Code
+              </button>
+              <button
+                onclick="submitCode()"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+              >
+                Submit Code
+              </button>
             </div>
           </div>
         </div>
-
-       <!-- Code Editor Section -->
-       <div class="w-full bg-white shadow-md p-6 rounded-lg">
-        <h2 class="text-xl font-bold mb-4">Fix the Merge Sort Code</h2>
-        <p class="text-gray-600 mb-2">
-          Complete the `mergeSort` function to sort the array correctly.
-        </p>
-        <div id="editor" class="border rounded bg-gray-50 min-h-[400px] font-mono"></div>
-        
-        <!-- Centered Buttons -->
-        <div class="flex justify-center gap-4 mt-4">
-          <button
-            onclick="runCode()"
-            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Run Code
-          </button>
-          <button
-            onclick="submitCode()"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Submit Code
-          </button>
-        </div>
       </div>
-    </div>
-    
-  </div>
-</main>
+    </main>
 
-<script>
+    <script>
+      window.onload = function () {
+        const startButton = document.getElementById("startButton");
 
-window.onload = function() {
-  const startButton = document.getElementById("startButton");
+        if (startButton) {
+          startButton.addEventListener("click", () => {
+            document.getElementById("challengeIntro").classList.add("hidden");
+            document
+              .getElementById("challengeSection")
+              .classList.remove("hidden");
+          });
+        } else {
+          console.error("Start button not found.");
+        }
+      };
 
-  if (startButton) {
-    startButton.addEventListener("click", () => {
-      // Hide the intro and show the challenge section
-      document.getElementById("challengeIntro").classList.add("hidden");
-      document.getElementById("challengeSection").classList.remove("hidden");
-    });
-  } else {
-    console.error("Start button not found.");
-  }
-};
+      let timer = 900;
+      const timerElement = document.getElementById("timer");
 
-  let timer = 900;
-  const timerElement = document.getElementById("timer");
+      function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes}:${secs.toString().padStart(2, "0")}`;
+      }
 
-  function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes}:${secs.toString().padStart(2, "0")}`;
-  }
+      const timerInterval = setInterval(() => {
+        if (timer > 0) {
+          timer--;
+          timerElement.textContent = formatTime(timer);
+        } else {
+          clearInterval(timerInterval);
+          alert("Time's up!");
+        }
+      }, 1000);
 
-  const timerInterval = setInterval(() => {
-    if (timer > 0) {
-      timer--;
-      timerElement.textContent = formatTime(timer);
-    } else {
-      clearInterval(timerInterval);
-      alert("Time's up!");
-    }
-  }, 1000);
+      const editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai");
+      editor.session.setMode("ace/mode/javascript");
 
-  const editor = ace.edit("editor");
-  editor.setTheme("ace/theme/monokai");
-  editor.session.setMode("ace/mode/javascript");
+      editor.setValue(`function mergeSort(arr) {
+  if (arr.length <= 1) return arr;
 
-  editor.setValue(`function mergeSort(arr) {
-if (arr.length <= 1) return arr;
+  // Split the array into left and right halves
+  const mid = Math.floor(arr.length / 2);
+  const left = arr.slice(0, mid);
+  const right = arr.slice(mid);
 
-const mid = Math.floor(arr.length / 2);
-const left = arr.slice(0, mid);
-const right = arr.slice(mid);
-
-return merge(
-mergeSort(left),
-mergeSort(right)
-);
+  // TODO: Recursively sort the left and right halves
+  // Uncomment and complete the following line:
+  // return merge(_____, _____);
 }
 
 function merge(left, right) {
-let result = [];
-let i = 0, j = 0;
+  let result = [];
+  let i = 0, j = 0;
 
-while (i < left.length && j < right.length) {
-if (left[i] < right[j]) {
-  result.push(left[i++]);
-} else {
-  result.push(right[j++]);
-}
-}
+  // TODO: Implement merging logic
+  // Hint: Compare elements from left and right arrays and build the result array
 
-return result.concat(left.slice(i)).concat(right.slice(j));
+  // Uncomment and complete the following while loop:
+  // while (_____ < _____ && _____ < _____) {
+  //   if (_____) {
+  //     result.push(_____); // Add the smaller element to the result
+  //   } else {
+  //     result.push(_____); // Add the smaller element to the result
+  //   }
+  // }
+
+  // Add any remaining elements
+  // Uncomment and complete the following:
+  // return result.concat(_____).concat(_____);
 }
 
 // Test the function
 const testArray = [38, 27, 43, 3, 9, 82, 10];
-console.log(mergeSort(testArray));`);
+// Uncomment the following line to test
+// console.log(mergeSort(testArray));
+`);
 
-  const splitStep = document.getElementById("split-step");
-  const mergeStep = document.getElementById("merge-step");
-  const testArray = [38, 27, 43, 3, 9, 82, 10];
+      const splitStep = document.getElementById("split-step");
+      const mergeStep = document.getElementById("merge-step");
+      const testArray = [38, 27, 43, 3, 9, 82, 10];
 
-  function visualizeSplit(array) {
-    splitStep.innerHTML = "";
-    array.forEach((item) => {
-      const div = document.createElement("div");
-      div.textContent = item;
-      div.className = "px-3 py-2 bg-gray-200 rounded";
-      splitStep.appendChild(div);
-    });
-  }
-
-  function visualizeMerge(array) {
-    mergeStep.innerHTML = "";
-    array.forEach((item) => {
-      const div = document.createElement("div");
-      div.textContent = item;
-      div.className = "px-3 py-2 bg-green-200 rounded";
-      mergeStep.appendChild(div);
-    });
-  }
-
-  visualizeSplit(testArray);
-
-  function runCode() {
-    const userCode = editor.getValue();
-
-    try {
-      const userFunction = new Function(`${userCode}; return mergeSort;`);
-      const result = userFunction()(testArray.slice());
-      visualizeMerge(result);
-      showFeedback("Code ran successfully!", "success");
-    } catch (error) {
-      showFeedback("Error in your code: " + error.message, "error");
-    }
-  }
-
-  async function submitCode() {
-    const userCode = editor.getValue();
-
-    try {
-      const response = await axios.post("/challenges/mergesort/submit", {
-        userCode,
-      });
-
-      if (response.data.success) {
-        showFeedback(response.data.message, "success");
-      } else {
-        showFeedback(response.data.message, "error");
+      function visualizeSplit(array) {
+        splitStep.innerHTML = "";
+        array.forEach((item) => {
+          const div = document.createElement("div");
+          div.textContent = item;
+          div.className = "px-3 py-2 bg-gray-200 rounded";
+          splitStep.appendChild(div);
+        });
       }
-    } catch (error) {
-      showFeedback(
-        "Error submitting code: " +
-          (error.response?.data?.message || error.message),
-        "error"
-      );
-    }
-  }
 
-  function showFeedback(message, type) {
-    const feedback = document.getElementById("code-feedback");
-    feedback.textContent = message;
-    feedback.classList.remove(
-      "hidden",
-      "bg-green-100",
-      "text-green-800",
-      "bg-red-100",
-      "text-red-800"
-    );
-    feedback.classList.add(
-      type === "success" ? "bg-green-100" : "bg-red-100"
-    );
-    feedback.classList.add(
-      type === "success" ? "text-green-800" : "text-red-800"
-    );
-  }
+      function visualizeMerge(array) {
+        mergeStep.innerHTML = "";
+        array.forEach((item) => {
+          const div = document.createElement("div");
+          div.textContent = item;
+          div.className = "px-3 py-2 bg-green-200 rounded";
+          mergeStep.appendChild(div);
+        });
+      }
 
-  document.getElementById("startButton").addEventListener("click", () => {
-    document.getElementById("challengeIntro").classList.add("hidden");
-    document.getElementById("challengeSection").classList.remove("hidden");
-  });
-</script>
-</body>
+      visualizeSplit(testArray);
+
+      function runCode() {
+        const userCode = editor.getValue();
+
+        try {
+          const userFunction = new Function(`${userCode}; return mergeSort;`);
+          const result = userFunction()(testArray.slice());
+          visualizeMerge(result);
+          showFeedback("Code ran successfully!", "success");
+        } catch (error) {
+          showFeedback("Error in your code: " + error.message, "error");
+        }
+      }
+
+      async function submitCode() {
+        const userCode = editor.getValue();
+
+        try {
+          const response = await axios.post("/challenges/mergesort/submit", {
+            userCode,
+          });
+
+          if (response.data.success) {
+            showFeedback(response.data.message, "success");
+
+            setTimeout(() => {
+              window.location.href = "/dashboard";
+            }, 2000);
+          } else {
+            showFeedback(response.data.message, "error");
+          }
+        } catch (error) {
+          showFeedback(
+            "Error submitting code: " +
+              (error.response?.data?.message || error.message),
+            "error"
+          );
+        }
+      }
+
+      function showFeedback(message, type) {
+        const feedback = document.getElementById("code-feedback");
+        feedback.textContent = message;
+        feedback.classList.remove(
+          "hidden",
+          "bg-green-100",
+          "text-green-800",
+          "bg-red-100",
+          "text-red-800"
+        );
+        feedback.classList.add(
+          type === "success" ? "bg-green-100" : "bg-red-100"
+        );
+        feedback.classList.add(
+          type === "success" ? "text-green-800" : "text-red-800"
+        );
+      }
+
+      document.getElementById("startButton").addEventListener("click", () => {
+        document.getElementById("challengeIntro").classList.add("hidden");
+        document.getElementById("challengeSection").classList.remove("hidden");
+      });
+    </script>
+  </body>
 </html>

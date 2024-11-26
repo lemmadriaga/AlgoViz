@@ -26,7 +26,7 @@
         margin-top: 10px;
       }
 
-      header h1{
+      header h1 {
         width: 17cm;
       }
 
@@ -42,18 +42,20 @@
         justify-content: center;
         gap: 20px;
       }
-
-
     </style>
   </head>
-  <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
+  <body
+    class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6"
+  >
     <header class="header-container text-center">
       <h1 class="text-2xl font-bold">Insertion Sort Challenge</h1>
     </header>
 
     <main class="mt-8 w-full max-w-2xl">
       <div id="challengeIntro" class="container text-center">
-        <p class="text-lg">Are you ready to solve the Insertion Sort Challenge?</p>
+        <p class="text-lg">
+          Are you ready to solve the Insertion Sort Challenge?
+        </p>
         <div class="button-container mt-4">
           <button
             id="startButton"
@@ -61,7 +63,10 @@
           >
             Start
           </button>
-          <a href="/dashboard" class="bg-red-500 text-white font-bold px-6 py-2 rounded shadow">
+          <a
+            href="/dashboard"
+            class="bg-red-500 text-white font-bold px-6 py-2 rounded shadow"
+          >
             Cancel
           </a>
         </div>
@@ -78,16 +83,19 @@
             <h2 class="text-xl font-bold mb-4">Sorting Visualization</h2>
             <div id="visualization" class="flex flex-wrap gap-2"></div>
           </div>
-      
+
           <!-- Code Editor Section -->
           <div class="w-full bg-white shadow-md p-6 rounded-lg">
             <h2 class="text-xl font-bold mb-4">Fix the Code</h2>
             <p class="text-gray-600 mb-2">
-              The code below is supposed to implement an insertion sort algorithm,
-              but it has some bugs. Fix the code to make it work.
+              The code below is supposed to implement an insertion sort
+              algorithm, but it has some bugs. Fix the code to make it work.
             </p>
-            <div id="editor" class="border rounded bg-gray-50 min-h-[400px] font-mono"></div>
-            
+            <div
+              id="editor"
+              class="border rounded bg-gray-50 min-h-[400px] font-mono"
+            ></div>
+
             <!-- Centered Buttons -->
             <div class="flex justify-center gap-4 mt-4">
               <button
@@ -104,12 +112,8 @@
               </button>
             </div>
           </div>
-          
         </div>
       </div>
-      
-      
-      
     </main>
 
     <script>
@@ -119,42 +123,38 @@
         const challengeSection = document.getElementById("challengeSection");
         const timerElement = document.getElementById("timer");
 
-
         let timer = 3600;
 
-
         function formatTime(seconds) {
-        const h = Math.floor(seconds / 3600);
-        const m = Math.floor((seconds % 3600) / 60);
-        const s = seconds % 60;
-        return `${h}:${m.toString().padStart(2, "0")}:${s
-          .toString()
-          .padStart(2, "0")}`;
-      }
+          const h = Math.floor(seconds / 3600);
+          const m = Math.floor((seconds % 3600) / 60);
+          const s = seconds % 60;
+          return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+        }
 
-      startButton.addEventListener("click", () => {
-        challengeIntro.classList.add("hidden");
-        challengeSection.classList.remove("hidden");
+        startButton.addEventListener("click", () => {
+          challengeIntro.classList.add("hidden");
+          challengeSection.classList.remove("hidden");
 
-        const timerInterval = setInterval(() => {
-          timer--;
-          timerElement.textContent = formatTime(timer);
+          const timerInterval = setInterval(() => {
+            timer--;
+            timerElement.textContent = formatTime(timer);
 
-          if (timer <= 0) {
-            clearInterval(timerInterval);
-            alert("Time is up!");
-            submitButton.disabled = true;
-          }
-        }, 1000);
-      });
+            if (timer <= 0) {
+              clearInterval(timerInterval);
+              alert("Time is up!");
+              submitButton.disabled = true;
+            }
+          }, 1000);
+        });
 
-        // Show challenge section after "Start" is clicked
+        
         startButton.addEventListener("click", function () {
           challengeIntro.classList.add("hidden");
           challengeSection.classList.remove("hidden");
         });
 
-        // Set up the Ace editor
+        
         const editor = ace.edit("editor");
         editor.setTheme("ace/theme/twilight");
         editor.session.setMode("ace/mode/javascript");
@@ -228,9 +228,19 @@ console.log(result);
               body: JSON.stringify({ userCode }),
             });
 
+            if (!response.ok) {
+              const errorData = await response.json();
+              alert(
+                "Submission failed: " + (errorData.error || "Unknown error")
+              );
+              return;
+            }
+
             const data = await response.json();
             if (data.success) {
-              alert("Congratulations! Your code is correct.");
+              alert("Congratulations! " + data.message);
+              
+              window.location.href = "/dashboard";
             } else {
               alert("Submission failed: " + data.message);
             }

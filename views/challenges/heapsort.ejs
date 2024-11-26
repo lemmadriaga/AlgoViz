@@ -166,119 +166,176 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const startPrompt = document.getElementById("startPrompt");
-        const challengeContent = document.getElementById("challengeContent");
-        const startButton = document.getElementById("startButton");
-        const cancelButton = document.getElementById("cancelButton");
-        const timerElement = document.getElementById("timer");
-        const autoSubmitWarning = document.getElementById("autoSubmitWarning");
-        const submitButton = document.getElementById("submitHeapSort");
+     document.addEventListener("DOMContentLoaded", function () {
+  const startPrompt = document.getElementById("startPrompt");
+  const challengeContent = document.getElementById("challengeContent");
+  const startButton = document.getElementById("startButton");
+  const cancelButton = document.getElementById("cancelButton");
+  const timerElement = document.getElementById("timer");
+  const autoSubmitWarning = document.getElementById("autoSubmitWarning");
+  const submitButton = document.getElementById("submitHeapSort");
 
-        const CHALLENGE_DURATION = 15 * 60;
-        let timeRemaining = CHALLENGE_DURATION;
-        let timerInterval;
+  const CHALLENGE_DURATION = 15 * 60; 
+  const WARNING_THRESHOLD = 30; 
+  let timeRemaining = CHALLENGE_DURATION;
+  let timerInterval = null;
+  let isSubmitting = false;
 
-        startButton.addEventListener("click", function () {
-          startPrompt.classList.add("hidden");
-          challengeContent.classList.remove("hidden");
-          startCountdownTimer();
-        });
+  
+  const timerState = {
+    isRunning: false,
+    start() {
+      if (!this.isRunning) {
+        this.isRunning = true;
+        startCountdownTimer();
+      }
+    },
+    stop() {
+      this.isRunning = false;
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    },
+    reset() {
+      this.stop();
+      timeRemaining = CHALLENGE_DURATION;
+      updateTimerDisplay();
+    }
+  };
 
-        cancelButton.addEventListener("click", function () {
-          window.location.href = "/dashboard";
-        });
+  function updateTimerDisplay() {
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+    timerElement.textContent = `Time Left: ${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  }
 
-        function startCountdownTimer() {
-          timerInterval = setInterval(updateCountdownTimer, 1000);
+  function startCountdownTimer() {
+    if (timerInterval) return; 
+
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timeRemaining--;
+      
+      if (timeRemaining <= WARNING_THRESHOLD) {
+        autoSubmitWarning.classList.remove("hidden");
+        timerElement.classList.remove("text-red-600");
+        timerElement.classList.add("text-red-800", "font-bold");
+      }
+
+      if (timeRemaining <= 0) {
+        timerState.stop();
+        if (!isSubmitting) {
+          isSubmitting = true;
+          autoSubmitChallenge();
         }
+      }
 
-        function updateCountdownTimer() {
-          const minutes = Math.floor(timeRemaining / 60);
-          const seconds = timeRemaining % 60;
+      updateTimerDisplay();
+    }, 1000);
+  }
 
-          timerElement.textContent = `Time Left: ${minutes
-            .toString()
-            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  async function submitHeapSortChallenge() {
+    if (isSubmitting) return; 
+    isSubmitting = true;
+    
+    timerState.stop();
+    submitButton.disabled = true;
+    submitButton.classList.add("opacity-50", "cursor-not-allowed");
 
-          if (timeRemaining <= 60) {
-            timerElement.classList.remove("text-red-600");
-            timerElement.classList.add("text-red-800", "font-bold");
-          }
+    const userAnswers = [
+      [8, 4, 10, 14, 7, 9, 3, 2, 1, 16],
+      ...otherLists.map((list) =>
+        Array.from(list.children).map((li) => parseInt(li.textContent))
+      ),
+    ];
 
-          if (timeRemaining <= 30) {
-            autoSubmitWarning.classList.remove("hidden");
-          }
-
-          if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            autoSubmitChallenge();
-          }
-
-          timeRemaining--;
-        }
-
-        function autoSubmitChallenge() {
-          alert("Time's up! Automatically submitting your answers.");
-          submitHeapSortChallenge();
-        }
-
-        const otherLists = [
-          document.getElementById("maxHeap"),
-          document.getElementById("firstExtraction"),
-          document.getElementById("secondExtraction"),
-          document.getElementById("thirdExtraction"),
-          document.getElementById("finalArray"),
-        ];
-
-        otherLists.forEach((list) => {
-          document
-            .getElementById("initialArray")
-            .querySelectorAll("li")
-            .forEach((li) => {
-              list.appendChild(li.cloneNode(true));
-            });
-
-          new Sortable(list, {
-            animation: 150,
-            ghostClass: "bg-blue-200",
-          });
-        });
-
-        submitButton.addEventListener("click", submitHeapSortChallenge);
-
-        function submitHeapSortChallenge() {
-          clearInterval(timerInterval);
-
-          const userAnswers = [
-            [8, 4, 10, 14, 7, 9, 3, 2, 1, 16],
-            ...otherLists.map((list) =>
-              Array.from(list.children).map((li) => parseInt(li.textContent))
-            ),
-          ];
-
-          fetch("/challenges/heapsort/submit", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ userAnswers }),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.success) {
-                alert(data.message);
-                window.location.href = "/dashboard";
-              } else {
-                alert(data.message);
-              }
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-              alert("An error occurred. Please try again.");
-            });
-        }
+    try {
+      const response = await fetch("/challenges/heapsort/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userAnswers }),
       });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert(data.message);
+        window.location.href = "/dashboard";
+      } else {
+        alert(data.message);
+        isSubmitting = false;
+        submitButton.disabled = false;
+        submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+        
+        
+        if (timeRemaining > 0) {
+          timerState.start();
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+      isSubmitting = false;
+      submitButton.disabled = false;
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+      
+      
+      if (timeRemaining > 0) {
+        timerState.start();
+      }
+    }
+  }
+
+  function autoSubmitChallenge() {
+    alert("Time's up! Automatically submitting your answers.");
+    submitHeapSortChallenge();
+  }
+
+  
+  startButton.addEventListener("click", () => {
+    startPrompt.classList.add("hidden");
+    challengeContent.classList.remove("hidden");
+    timerState.start();
+  });
+
+  cancelButton.addEventListener("click", () => {
+    timerState.stop();
+    window.location.href = "/dashboard";
+  });
+
+  submitButton.addEventListener("click", submitHeapSortChallenge);
+
+  
+  window.addEventListener("beforeunload", () => {
+    timerState.stop();
+  });
+
+  
+  const otherLists = [
+    document.getElementById("maxHeap"),
+    document.getElementById("firstExtraction"),
+    document.getElementById("secondExtraction"),
+    document.getElementById("thirdExtraction"),
+    document.getElementById("finalArray"),
+  ];
+
+  otherLists.forEach((list) => {
+    document
+      .getElementById("initialArray")
+      .querySelectorAll("li")
+      .forEach((li) => {
+        list.appendChild(li.cloneNode(true));
+      });
+
+    new Sortable(list, {
+      animation: 150,
+      ghostClass: "bg-blue-200",
+    });
+  });
+});
     </script>
   </body>
 </html>

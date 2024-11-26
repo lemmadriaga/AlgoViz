@@ -40,7 +40,7 @@ const updateProgressValue = async (req) => {
   const trueChallengeCount = Object.values(userData.challenges).filter(
     (value) => value === true
   ).length;
-  const progress = 100 / 6 * (trueChallengeCount);
+  const progress = (100 / 6) * trueChallengeCount;
   await updateDoc(userDocRef, { progress });
 };
 
@@ -86,7 +86,7 @@ exports.updateProgress = async (req, res) => {
 //   const userData = userDoc.data();
 
 //   if(userData.challenges[prevChal]) {
-//     return true; 
+//     return true;
 //   }
 
 //   return false;
@@ -109,7 +109,7 @@ exports.getUserProfile = async (req, res) => {
 
     const userData = userDoc.data();
     console.log("User data retrieved:", userData);
-    
+
     res.render("userDashboard/dashboard", {
       fullName: userData.fullName,
       email: userData.email,
@@ -117,7 +117,7 @@ exports.getUserProfile = async (req, res) => {
       progress: userData.progress,
       profilePicture:
         userData.profilePicture || "https://via.placeholder.com/100",
-      challenges: userData.challenges
+      challenges: userData.challenges,
     });
   } catch (error) {
     console.error("Error fetching user profile:", error.message);
@@ -216,9 +216,10 @@ exports.submitBubbleSortChallenge = async (req, res) => {
       await updateDoc(userDocRef, { "challenges.bubbleSort": true });
       await updateProgressValue(req);
 
-      return res
-        .status(200)
-        .json({ success: true, message: "Congratulations! All answers are correct!" });
+      return res.status(200).json({
+        success: true,
+        message: "Congratulations! All answers are correct!",
+      });
     } else {
       return res
         .status(400)
@@ -248,12 +249,13 @@ exports.submitHeapSortChallenge = async (req, res) => {
     [14, 8, 10, 4, 7, 9, 3, 2, 1, 16], // After first extraction
     [10, 8, 9, 4, 7, 1, 3, 2, 14, 16], // After second extraction
     [9, 8, 3, 4, 7, 1, 2, 10, 14, 16], // After third extraction
-    [1, 2, 3, 4, 7, 8, 9, 10, 14, 16]  // Final sorted array
+    [1, 2, 3, 4, 7, 8, 9, 10, 14, 16], // Final sorted array
   ];
 
   try {
-    const isCorrect = userAnswers.every((answer, index) => 
-      JSON.stringify(answer) === JSON.stringify(correctAnswers[index])
+    const isCorrect = userAnswers.every(
+      (answer, index) =>
+        JSON.stringify(answer) === JSON.stringify(correctAnswers[index])
     );
 
     if (isCorrect) {
@@ -261,13 +263,15 @@ exports.submitHeapSortChallenge = async (req, res) => {
       await updateDoc(userDocRef, { "challenges.heapSort": true });
       await updateProgressValue(req);
 
-      return res
-        .status(200)
-        .json({ success: true, message: "Congratulations! All answers are correct!" });
+      return res.status(200).json({
+        success: true,
+        message: "Congratulations! All answers are correct!",
+      });
     } else {
-      return res
-        .status(400)
-        .json({ success: false, message: "Some answers are incorrect. Try again!" });
+      return res.status(400).json({
+        success: false,
+        message: "Some answers are incorrect. Try again!",
+      });
     }
   } catch (error) {
     console.error("Error validating answers:", error);
@@ -278,8 +282,8 @@ exports.submitHeapSortChallenge = async (req, res) => {
 };
 
 exports.submitInsertionSortChallenge = async (req, res) => {
-  const { userAnswers } = req.body;
-  const userId = req.session.userId;
+  const { userCode } = req.body;
+  const userId = req.session?.userId;
 
   if (!userId) {
     return res
@@ -287,83 +291,114 @@ exports.submitInsertionSortChallenge = async (req, res) => {
       .json({ success: false, error: "Unauthorized access" });
   }
 
-  const correctAnswers = [
-    [64, 34, 25, 12, 22, 11, 90],  // Initial array
-    [34, 64, 25, 12, 22, 11, 90],  // First pass
-    [25, 34, 64, 12, 22, 11, 90],  // Second pass
-    [12, 25, 34, 64, 22, 11, 90],  // Third pass
-    [12, 22, 25, 34, 64, 11, 90],  // Fourth pass
-    [11, 12, 22, 25, 34, 64, 90]   // Final sorted array
-  ];
+  if (!userCode) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Code is required for submission" });
+  }
 
   try {
-    const isCorrect = userAnswers.every((answer, index) => 
-      JSON.stringify(answer) === JSON.stringify(correctAnswers[index])
-    );
+    // Validate the user's code
+    const testArray = [5, 2, 9, 1, 5, 6];
+    const correctResult = [1, 2, 5, 5, 6, 9];
+    let sortedArray;
 
-    if (isCorrect) {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { "challenges.insertionSort": true });
-      await updateProgressValue(req);
-
-      return res
-        .status(200)
-        .json({ success: true, message: "Congratulations! All steps are correct!" });
-    } else {
+    try {
+      const userFunction = new Function(`${userCode}; return insertionSort;`);
+      sortedArray = userFunction()(testArray.slice());
+    } catch (error) {
       return res
         .status(400)
-        .json({ success: false, message: "Some steps are incorrect. Try again!" });
+        .json({
+          success: false,
+          error: "Code execution failed",
+          details: error.message,
+        });
     }
+
+    const isCorrect =
+      JSON.stringify(sortedArray) === JSON.stringify(correctResult);
+
+    if (!isCorrect) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Code does not sort correctly" });
+    }
+
+ 
+    const userDocRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const userData = userDoc.data();
+
+    
+    await updateDoc(userDocRef, { "challenges.insertionSort": true });
+
+    
+    const completedChallenges = Object.values(userData.challenges || {}).filter(
+      (status) => status === true
+    ).length;
+
+    const totalChallenges = 6; 
+    const progress = (100 / totalChallenges) * completedChallenges;
+
+    await updateDoc(userDocRef, { progress });
+
+    
+    return res.status(200).json({
+      success: true,
+      message: "Congratulations! Insertion Sort implemented correctly!",
+    });
   } catch (error) {
-    console.error("Error validating answers:", error);
+    console.error("Error in submission:", error.message);
     return res
       .status(500)
-      .json({ success: false, message: "Internal server error." });
+      .json({ success: false, error: "Internal server error" });
   }
 };
 
 exports.submitMergeSortChallenge = async (req, res) => {
   const { userCode } = req.body;
-  const userId = req.session.userId;
+  const userId = req.session?.userId;
 
   const testArray = [38, 27, 43, 3, 9, 82, 10];
   const correctResult = [3, 9, 10, 27, 38, 43, 82];
 
   try {
-    
     const userFunction = new Function(`${userCode}; return mergeSort;`);
     const mergeSortFunction = userFunction();
 
     if (typeof mergeSortFunction !== "function") {
-      throw new Error("mergeSort is not defined or not a function.");
+      throw new Error("mergeSort is not defined or is not a function.");
     }
-    
+
     const userResult = mergeSortFunction([...testArray]);
 
-    console.log("Expected Result:", correctResult);
-    console.log("User Result:", userResult);
-
-    
-    if (Array.isArray(userResult) && JSON.stringify(userResult) === JSON.stringify(correctResult)) {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { "challenges.mergeSort": true });
-      await updateProgressValue(req);
-
-      return res.status(200).json({
-        success: true,
-        message: "Congratulations! Merge Sort implemented correctly! 🎉",
-      });
-    } else {
+    if (JSON.stringify(userResult) !== JSON.stringify(correctResult)) {
       return res.status(400).json({
         success: false,
         message: "Your implementation is incorrect. Please try again.",
       });
     }
+
+    const userDocRef = doc(db, "users", userId);
+    await updateDoc(userDocRef, { "challenges.mergeSort": true });
+
+    return res.status(200).json({
+      success: true,
+      message: "Congratulations! Merge Sort implemented correctly! 🎉",
+    });
   } catch (error) {
-    console.error("Error in submitted code:", error.message);
     return res.status(400).json({
       success: false,
       message: `Error in your code: ${error.message}`,
     });
   }
 };
+
