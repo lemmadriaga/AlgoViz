@@ -35,6 +35,35 @@
         background-color: #e10008;
         border-radius: 5px;
       }
+
+      .blue-button {
+        background-color:#006BFF;
+        color: white;
+        padding: 0.5rem 1.5rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s;
+      }
+      .blue-button:hover {
+        background-color: #133E87;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .custom-button {
+        background-color:#e10008;
+        color: white;
+        padding: 0.5rem 1.5rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s;
+      }
+      .custom-button:hover {
+        background-color: #800000;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
     </style>
   </head>
 
@@ -98,37 +127,41 @@
          <!-- Navigation Menu -->
          <nav class="flex-1 p-4">
           <ul class="gap-2">
-            <li>
-              <a
-                href="#home-about"
-                class="flex items-center text-white p-1 rounded-lg hover:bg-[#D8D9DA] transition"
-              >
-                <span class="material-icons text-[#33383e]">home</span>
-                <span class="ml-3 text-sidebar text-gray-800">Home</span>
-              </a>
-            </li>
+     
             <li>
               <a
                 href="#sorting-algorithms"
-                class="flex items-center text-white p-1 rounded-lg hover:bg-[#D8D9DA] transition"
+                class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition"
               >
                 <span class="material-icons text-[#33383e]">sort</span>
                 <span class="ml-3 text-sidebar text-gray-800">Sorting Algorithms</span>
               </a>
             </li>
+
             <li>
               <a
                 href="#searching-algorithms"
-                class="flex items-center text-white p-1 rounded-lg hover:bg-[#D8D9DA] transition"
+                class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition"
               >
                 <span class="material-icons text-[#33383e]">search</span>
                 <span class="ml-3 text-sidebar text-gray-800">Searching Algorithms</span>
               </a>
             </li>
+
+            <li>
+              <a
+                href="#graph-traversal"
+                class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition"
+              >
+                <span class="material-icons text-[#33383e]">timeline</span>
+                <span class="ml-3 text-sidebar text-gray-800">Graph Traversal</span>
+              </a>
+            </li>
+
             <li>
               <a
                 href="#challenges-learn"
-                class="flex items-center text-white p-1 rounded-lg hover:bg-[#D8D9DA] transition"
+                class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition"
               >
                 <span class="material-icons text-[#33383e]">quiz</span>
                 <span class="ml-3 text-sidebar text-gray-800">Challenges</span>
@@ -175,14 +208,14 @@
             <button
               type="button"
               onclick="toggleModal(false)"
-              class="px-4 py-2 bg-gray-300 text-black rounded-lg"
+              class="custom-button px-4 py-2 text-white rounded-lg"
             >
               Cancel
             </button>
             <button
               id="submitBtn"
               type="submit"
-              class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              class="blue-button px-4 py-2 text-white rounded-lg"
             >
               Submit
             </button>
@@ -585,6 +618,8 @@ const toggleButton = document.getElementById("toggleSidebar");
 const toggleWrapper = document.getElementById("toggleWrapper");
 const userProfile = document.getElementById("userProfile");
 
+const navigationLinks = document.querySelectorAll("nav ul li a");
+
 toggleButton.addEventListener("click", () => {
   // Toggle between collapsed and expanded
   sidebar.classList.toggle("w-20");
@@ -609,9 +644,21 @@ toggleButton.addEventListener("click", () => {
   if (sidebar.classList.contains("w-20")) {
     toggleWrapper.classList.add("justify-center");
     toggleWrapper.classList.remove("justify-start");
+
+    // Center the navigation icons
+    navigationLinks.forEach((link) => {
+      link.classList.add("justify-center");
+      link.classList.remove("justify-start");
+    });
   } else {
     toggleWrapper.classList.add("justify-start");
     toggleWrapper.classList.remove("justify-center");
+
+    // Align navigation icons to the left
+    navigationLinks.forEach((link) => {
+      link.classList.add("justify-start");
+      link.classList.remove("justify-center");
+    });
   }
 });
 

@@ -24,7 +24,7 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
     <style>
       .custom-button {
-        background-color: #4b0082;
+        background-color: #1E201E;
         color: white;
         padding: 0.5rem 1.5rem;
         font-weight: bold;
@@ -32,7 +32,7 @@
         transition: all 0.3s;
       }
       .custom-button:hover {
-        background-color: #7b1fa2;
+        background-color: #697565;
         transform: translateY(-2px);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
@@ -88,8 +88,8 @@
         border-radius: 10px;
         padding: 1rem;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        margin-left: 330px;
-        margin-right: 330px;
+        margin-left: 270px;
+        margin-right: 270px;
         margin-top: 20px;
       }
 
@@ -116,12 +116,22 @@
         -webkit-appearance: none;
         width: 100px;
         height: 8px;
-        background: #4b0082;
+        background: #1E201E;
         outline: none;
         opacity: 0.8;
         transition: opacity 0.2s;
         border-radius: 5px;
       }
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px; 
+        height: 18px; 
+        background: #697565; 
+        border-radius: 50%; 
+        cursor: pointer; 
+      }
+
       .slider:hover {
         opacity: 1;
       }
@@ -131,7 +141,7 @@
     <a href="javascript:history.back()" class="custom-button inline-block">Back</a>
 
     <div class="text-center mb-2">
-      <h1 class="text-3xl font-bold text-purple-900">
+      <h1 class="text-3xl font-bold text-[#1E201E]">
         Enhanced Heap Sort Visualization
       </h1>
     </div>
@@ -142,14 +152,14 @@
       </div>
 
       <div class="step-process-container overflow-y-auto">
-        <h2 class="text-xl font-semibold mb-4 text-purple-800 text-center">
+        <h2 class="text-xl font-semibold mb-4 text-[#1E201E] text-center">
           Sorting Steps
         </h2>
         <div id="process" class="text-gray-700 text-sm"></div>
       </div>
     </div>
 
-    <div class="flex justify-center items-center gap-2">
+    <div class="flex justify-center items-center gap-4">
       <input
         id="inputField"
         type="text"
@@ -177,7 +187,7 @@
     </div>
 
     <div class="description-container">
-      <div class="flex justify-center items-center space-x-4 mb-4">
+      <div class="flex justify-center items-center space-x-4">
         <button onclick="toggleContainer('About')" class="custom-button">About</button>
         <button onclick="toggleContainer('Work')" class="custom-button">How does it work</button>
         <button onclick="toggleContainer('Learn')" class="custom-button">Learn More</button>

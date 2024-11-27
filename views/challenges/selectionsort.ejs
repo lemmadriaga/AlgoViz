@@ -40,7 +40,7 @@
       }
 
       .header-container {
-        background-color: #ef4444;
+        background-color: #e10008;
         color: white;
         padding: 15px;
         border-radius: 8px;
@@ -86,24 +86,8 @@
         margin-top: 1rem;
       }
 
-      .bg-green-500 {
-        background-color: #10b981;
-      }
-
-      .bg-red-500 {
-        background-color: #ef4444;
-      }
-
       .bg-primary-500 {
         background-color: #3b82f6;
-      }
-
-      .bg-green-600 {
-        background-color: #059669;
-      }
-
-      .bg-red-600 {
-        background-color: #dc2626;
       }
 
       .bg-white {
@@ -150,16 +134,36 @@
         color: #4b5563;
       }
 
-      .text-green-500 {
-        color: #10b981;
-      }
-
-      .text-red-500 {
-        color: #ef4444;
-      }
-
       .hidden {
         display: none;
+      }
+      
+      .custom-button {
+        background-color:#e10008;
+        color: white;
+        padding: 0.5rem 1.5rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s;
+      }
+      .custom-button:hover {
+        background-color: #800000;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .green-button {
+        background-color:#06D001;
+        color: white;
+        padding: 0.5rem 1.5rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s;
+      }
+      .green-button:hover {
+        background-color: #059212;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
     </style>
   </head>
@@ -180,14 +184,14 @@
         <div class="button-container mt-4">
           <button
             id="startButton"
-            class="bg-green-500 text-white font-bold px-6 py-2 rounded shadow"
+            class="green-button text-white font-bold px-6 py-2 rounded shadow"
             onclick="startChallenge()"
           >
             Start
           </button>
           <a
             href="/dashboard"
-            class="bg-red-500 text-white font-bold px-6 py-2 rounded shadow"
+            class="custom-button text-white font-bold px-6 py-2 rounded shadow"
           >
             Cancel
           </a>
@@ -232,7 +236,7 @@
             <button
               id="next-button"
               onclick="nextQuestion()"
-              class="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200 hidden"
+              class="green-button text-white font-bold px-4 py-2 rounded shadow transition duration-200 hidden"
             >
               Next Question
             </button>
@@ -240,7 +244,7 @@
             <button
               id="exit-button"
               onclick="exitChallenge()"
-              class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded shadow transition duration-200 hidden"
+              class="custom-button text-white font-bold px-4 py-2 rounded shadow transition duration-200 hidden"
             >
               Exit Challenge
             </button>

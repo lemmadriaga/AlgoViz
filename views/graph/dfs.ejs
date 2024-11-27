@@ -9,94 +9,390 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    rel="stylesheet"
+/>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+   rel="stylesheet"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+
+    <style>
+       .graphContainer {
+        background-color: #f3f4f6;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        width: 660px;
+        height: 360px;
+        overflow: hidden;
+      }
+
+      .description-container {
+        background-color: #ffffff; 
+        color: #333333; 
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 305px;
+        margin-right: 305px;
+        margin-top: 5px;
+      }
+
+      .custom-button {
+        background-color: #1E201E;
+        color: white;
+        padding: 0.5rem 1.5rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s;
+      }
+      .custom-button:hover {
+        background-color: #697565;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+    
   </head>
-  <body class="bg-gray-100">
-    <div class="max-w-4xl mx-auto mt-10">
-      <h1 class="text-center text-2xl font-bold text-purple-500 mb-2">
+  <body class="bg-gray-100 p-4">
+    <a href="javascript:history.back()" class="custom-button inline-block">Back</a>
+
+      <div class="text-center mb-2">
+        <h1 class="text-3xl font-bold text-[#1E201E]">
         Depth-First Search Visualization
       </h1>
+      </div>
 
-      <p class="text-center text-gray-700 mb-6">
-        Use the form below to input the number of nodes and edges of the graph.
-        Specify edges in the format <strong>"source-target"</strong> (e.g.,
-        0-1,1-2). Once the graph is generated, click "Start DFS" to visualize
-        the traversal starting from Node 0.
+      <p class="text-center text-gray-700 mb-2 mr-20 ml-20">
+        Enter the number of nodes and edges below. Define edges as <strong>"source-target"</strong> (e.g., 0-1, 1-2). <br>Click "Start DFS" to visualize the traversal from Node 0.
       </p>
 
-      <form id="graphForm" class="bg-white shadow rounded-lg p-6 mb-8">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label for="nodes" class="block text-sm font-medium text-gray-700"
-              >Number of Nodes</label
-            >
+      <div class="flex justify-center space-x-8 mb-2">
+      <div class="graphContainer flex justify-center items-center relative">
+        <svg id="graph" class="w-full h-full flex items-end justify-center"></svg>
+      </div>
+      </div>
+
+      <form id="graphForm" class="p-4 mt-2">
+        <div class="flex justify-center items-center gap-2">
             <input
               type="number"
               id="nodes"
+              placeholder="Number of Nodes"
               name="nodes"
               min="2"
               max="20"
               required
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+              class="border border-gray-300 p-2 rounded w-40"
             />
-          </div>
-          <div>
-            <label for="edges" class="block text-sm font-medium text-gray-700"
-              >Edges (e.g., 0-1,1-2)</label
-            >
+         
             <input
               type="text"
               id="edges"
+              placeholder="Edges (e.g., 0-1,1-2)"
               name="edges"
               required
               placeholder="Enter edges separated by commas"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+              class="border border-gray-300 p-2 rounded w-45"
             />
-          </div>
-        </div>
-        <div class="mt-4">
+
           <button
             type="submit"
-            class="w-full bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 transition"
+            class="custom-button text-white px-4 py-2 rounded-md"
           >
             Generate Graph
           </button>
-        </div>
-      </form>
 
-      <div id="graphContainer" class="bg-white shadow rounded-lg p-6">
-        <h2 class="text-lg font-bold text-gray-700 mb-4">
-          Graph Visualization
-        </h2>
-        <svg id="graph" class="w-full h-96"></svg>
-      </div>
-
-      <div class="text-center mt-4">
-        <button
+          <button
           id="startDfs"
-          class="bg-purple-500 text-white px-6 py-2 rounded-md hover:bg-purple-600 transition disabled:opacity-50"
+          class="custom-button text-white px-4 py-2 rounded-md"
           disabled
         >
           Start DFS
         </button>
-      </div>
+        </div>
+      </form>
 
-      <div class="bg-white shadow rounded-lg p-6 mt-8">
-        <h3 class="text-lg font-bold text-gray-800 mb-4">Module Explanation</h3>
-        <p class="text-gray-700 leading-relaxed">
-          Depth-First Search (DFS) is a graph traversal algorithm that explores
-          as far as possible along each branch before backtracking. It is used
-          in applications such as solving puzzles, detecting cycles in a graph,
-          and finding connected components.
-        </p>
-        <p class="text-gray-700 leading-relaxed mt-4">
-          In this visualization, DFS starts at Node 0 and visits all reachable
-          nodes in depth-first order. The graph is dynamically generated based
-          on your input, allowing you to explore custom graph structures.
-        </p>
+      <div class="description-container">
+        <div class="flex justify-center items-center space-x-4 ">
+          <button onclick="toggleContainer('About')" class="custom-button">About</button>
+          <button onclick="toggleContainer('Work')" class="custom-button">How does it work</button>
+          <button onclick="toggleContainer('Learn')" class="custom-button">Learn More</button>
+        </div>
+
+        <div id="About" class="hidden">
+          <p>
+              <b>Depth First Search (DFS)</b> for a graph is similar to Depth First Traversal of a tree. Like trees, 
+              we traverse all adjacent vertices one by one. When we traverse an adjacent vertex, we completely finish 
+              the traversal of all vertices reachable through that adjacent vertex. After we finish traversing one adjacent 
+              vertex and its reachable vertices, we move to the next adjacent vertex and repeat the process. 
+              This is similar to a tree, where we first completely traverse the left subtree and then move to the right subtree.
+          </p>
+          <ul class="list-disc ml-6 mt-4 text-gray-700">
+              <li>
+                  A key difference with trees is that, unlike trees, graphs may contain <b>cycles</b>, meaning a node 
+                  may be visited more than once. To prevent revisiting nodes, a boolean <b>visited array</b> is used.
+              </li>
+              <li>
+                  <b>Applications of DFS:</b>
+                  <ul class="list-disc ml-6">
+                      <li>Detecting cycles in directed and undirected graphs.</li>
+                      <li>Topological sorting of a directed graph.</li>
+                      <li>Solving mazes and puzzles (like the 8-queen problem or finding paths in a maze).</li>
+                      <li>Finding strongly connected components in directed graphs.</li>
+                  </ul>
+              </li>
+              <li>
+                  <b>Algorithm Overview:</b>
+                  <ul class="list-disc ml-6">
+                      <li>Start at a node and mark it as visited.</li>
+                      <li>For each adjacent node that has not been visited, recursively apply DFS.</li>
+                      <li>Continue this process until all vertices reachable from the starting node are visited.</li>
+                      <li>If there are unvisited nodes, choose one and repeat the DFS process.</li>
+                  </ul>
+              </li>
+              <li>
+                  <b>Time Complexity:</b>
+                  <ul class="list-disc ml-6">
+                      <li>O(V + E) – where V is the number of vertices and E is the number of edges.</li>
+                  </ul>
+              </li>
+              <li>
+                  <b>Space Complexity:</b>
+                  <ul class="list-disc ml-6">
+                      <li>O(V) – space required for the visited array and recursive stack.</li>
+                  </ul>
+              </li>
+              <li>
+                  <b>Advantages:</b>
+                  <ul class="list-disc ml-6">
+                      <li>Memory efficient (uses only a stack or recursion).</li>
+                      <li>Can explore deep paths in a graph or tree before exploring others.</li>
+                      <li>Works well for problems requiring complete exploration of all possible paths (e.g., puzzles).</li>
+                  </ul>
+              </li>
+              <li>
+                  <b>Disadvantages:</b>
+                  <ul class="list-disc ml-6">
+                      <li>Can get stuck in an infinite loop if there are cycles in the graph unless proper checks are implemented.</li>
+                      <li>Not guaranteed to find the shortest path in an unweighted graph.</li>
+                      <li>Can be inefficient in graphs with large depths or many cycles.</li>
+                  </ul>
+              </li>
+          </ul>
       </div>
-    </div>
+      
+      
+      
+        <div id="Work" class="hidden">
+          <h2 class="text-lg font-bold">JavaScript Depth-First Search</h2>
+          <pre class="line-numbers"><code class="language-javascript">
+            function dfsRec(adj, visited, s)
+            {
+                // Mark the current vertex as visited
+                visited[s] = true;
+            
+                // Print the current vertex
+                process.stdout.write(s + " ");
+            
+                // Recursively visit all adjacent vertices that are not
+                // visited yet
+                for (let i of adj[s]) {
+                    if (!visited[i]) {
+                        dfsRec(adj, visited, i);
+                    }
+                }
+            }
+            
+            function dfs(adj, s)
+            {
+                const visited = new Array(adj.length).fill(false);
+                
+                // Call the recursive DFS function
+                dfsRec(adj, visited, s);
+            }
+            
+            function addEdge(adj, s, t)
+            {
+                // Add edge from vertex s to t
+                adj[s].push(t);
+                // Due to undirected Graph
+                adj[t].push(s);
+            }
+            
+            
+            const V = 5; // Number of vertices in the graph
+            
+            // Create an adjacency list for the graph
+            const adj = Array.from({length : V}, () => []);
+            
+            // Define the edges of the graph
+            const edges =
+                [ [ 1, 2 ], [ 1, 0 ], [ 2, 0 ], [ 2, 3 ], [ 2, 4 ] ];
+            
+            // Populate the adjacency list with edges
+            for (let e of edges) {
+                addEdge(adj, e[0], e[1]);
+            }
+            
+            const source = 1;
+            console.log("DFS from source: " + source);
+            dfs(adj, source);
+            
+          </code></pre>
+          <h2 class="text-lg font-bold">Python Depth-First Search</h2>
+          <pre class="line-numbers"><code class="language-python">
+            def dfs_rec(adj, visited, s):
+            # Mark the current vertex as visited
+            visited[s] = True
+        
+            # Print the current vertex
+            print(s, end=" ")
+        
+            # Recursively visit all adjacent vertices
+            # that are not visited yet
+            for i in adj[s]:
+                if not visited[i]:
+                    dfs_rec(adj, visited, i)
+        
+        
+        def dfs(adj, s):
+            visited = [False] * len(adj)
+            # Call the recursive DFS function
+            dfs_rec(adj, visited, s)
+        
+        def add_edge(adj, s, t):
+            # Add edge from vertex s to t
+            adj[s].append(t)
+            # Due to undirected Graph
+            adj[t].append(s)
+            
+        if __name__ == "__main__":
+            V = 5
+        
+            # Create an adjacency list for the graph
+            adj = [[] for _ in range(V)]
+        
+            # Define the edges of the graph
+            edges = [[1, 2], [1, 0], [2, 0], [2, 3], [2, 4]]
+        
+            # Populate the adjacency list with edges
+            for e in edges:
+                add_edge(adj, e[0], e[1])
+        
+            source = 1
+            print("DFS from source:", source)
+            dfs(adj, source)
+          </code></pre>
+          <h2 class="text-lg font-bold">Java Depth-First Search</h2>
+          <pre class="line-numbers"><code class="language-java">
+  
+            import java.util.ArrayList;
+            import java.util.List;
+            
+            class GfG {
+            
+               // Recursive function for DFS traversal
+                static void DFSRec(List<List<Integer> > adj,
+                                          boolean[] visited, int s){
+                    // Mark the current vertex as visited
+                    visited[s] = true;
+            
+                    // Print the current vertex
+                    System.out.print(s + " ");
+            
+                    // Recursively visit all adjacent vertices that are
+                    // not visited yet
+                    for (int i : adj.get(s)) {
+                        if (!visited[i]) {
+                            DFSRec(adj, visited, i);
+                        }
+                    }
+                }
+            
+                // Main DFS function that initializes the visited array
+                static void DFS(List<List<Integer> > adj, int s) {
+                    boolean[] visited = new boolean[adj.size()];
+                    // Call the recursive DFS function
+                    DFSRec(adj, visited, s);
+                }
+              
+                // Function to add an edge to the adjacency list
+                static void addEdge(List<List<Integer> > adj,
+                                           int s, int t){
+                    // Add edge from vertex s to t
+                    adj.get(s).add(t);
+                    // Due to undirected Graph
+                    adj.get(t).add(s);
+                }
+            
+            
+                public static void main(String[] args)
+                {
+                    int V = 5; // Number of vertices in the graph
+            
+                    // Create an adjacency list for the graph
+                    List<List<Integer> > adj = new ArrayList<>(V);
+                    for (int i = 0; i < V; i++) {
+                        adj.add(new ArrayList<>());
+                    }
+            
+                    // Define the edges of the graph
+                    int[][] edges = {
+                        { 1, 2 }, { 1, 0 }, { 2, 0 }, { 2, 3 }, { 2, 4 }
+                    };
+            
+                    // Populate the adjacency list with edges
+                    for (int[] e : edges) {
+                        addEdge(adj, e[0], e[1]);
+                    }
+            
+                    int source = 1; 
+                    System.out.println("DFS from source: " + source);
+                    DFS(adj, source); 
+                }
+            }
+          </code></pre>
+        </div>
+
+        <div id="Learn" class="hidden">
+          <h2 class="text-lg font-bold text-center">Learn More About Depth-First Search</h2>
+          <div class="flex justify-center items-center">
+            <iframe 
+            width="560" 
+            height="315" 
+            src="https://www.youtube.com/embed/Urx87-NMm6c?si=iK-kYfNdYOo3JXr2" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+        </iframe>
+          </div>
+        </div>
 
     <script>
+      function toggleContainer(containerId) {
+        const containers = ['About', 'Work', 'Learn'];
+        containers.forEach((id) => {
+          const container = document.getElementById(id);
+          if (id === containerId) {
+            container.classList.toggle('hidden');
+          } else {
+            container.classList.add('hidden');
+          }
+        });
+      }
+
       let nodes = [];
       let edges = [];
       let graph = {};

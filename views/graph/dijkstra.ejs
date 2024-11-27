@@ -9,110 +9,537 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    rel="stylesheet"
+/>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+   rel="stylesheet"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+
+    <style>
+       .graphContainer {
+        background-color: #f3f4f6;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        width: 660px;
+        height: 360px;
+        overflow: hidden;
+      }
+
+      .description-container {
+        background-color: #ffffff; 
+        color: #333333; 
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 305px;
+        margin-right: 305px;
+        margin-top: 5px;
+      }
+
+      .custom-button {
+        background-color: #1E201E;
+        color: white;
+        padding: 0.5rem 1.5rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s;
+      }
+      .custom-button:hover {
+        background-color: #697565;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+    </style>
   </head>
-  <body class="bg-gray-100">
-    <div class="max-w-4xl mx-auto mt-10">
-      <h1 class="text-center text-2xl font-bold text-purple-500 mb-2">
+  <body class="bg-gray-100 p-4">
+    <a href="javascript:history.back()" class="custom-button inline-block">Back</a>
+
+      <div class="text-center mb-2">
+      <h1 class="text-3xl font-bold text-[#1E201E]">
         Dijkstra's Algorithm Visualization
       </h1>
+      </div>
 
-      <p class="text-center text-gray-700 mb-6">
-        Use the form below to input the number of nodes, edges, and the starting
-        node for the shortest path calculation. Specify edges in the format
-        <strong>"source-target-weight"</strong> (e.g., 0-1-4,1-2-3). Once the
-        graph is generated, click "Start Dijkstra" to visualize the shortest
-        path calculations.
+      <p class="text-center text-gray-700 mb-2 mr-20 ml-20">
+        Enter the number of nodes, edges, and starting node for the shortest path calculation. Define edges as <br><strong>"source-target-weight"</strong> (e.g., 0-1-4, 1-2-3). Click "Start Dijkstra" to visualize the shortest path calculations.
       </p>
 
-      <form id="graphForm" class="bg-white shadow rounded-lg p-6 mb-8">
-        <div class="grid grid-cols-3 gap-4">
-          <div>
-            <label for="nodes" class="block text-sm font-medium text-gray-700"
-              >Number of Nodes</label
-            >
+      <div class="flex justify-center space-x-8 mb-2">
+      <div class="graphContainer flex justify-center items-center relative">
+        <svg id="graph" class="w-full h-full flex items-end justify-center"></svg>
+      </div>
+      </div>
+
+      <form id="graphForm" class="p-4 mt-2">
+        <div class="flex justify-center items-center gap-2">
             <input
               type="number"
               id="nodes"
+              placeholder="Number of Nodes"
               name="nodes"
               min="2"
               max="20"
               required
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+              class="border border-gray-300 p-2 rounded w-40"
             />
-          </div>
-          <div>
-            <label for="edges" class="block text-sm font-medium text-gray-700"
-              >Edges (e.g., 0-1-4,1-2-3)</label
-            >
+
             <input
               type="text"
               id="edges"
+              placeholder="Edges (e.g., 0-1,1-2)"
               name="edges"
               required
               placeholder="Enter edges with weights separated by commas"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+              class="border border-gray-300 p-2 rounded w-40"
             />
-          </div>
-          <div>
-            <label
-              for="startNode"
-              class="block text-sm font-medium text-gray-700"
-              >Start Node</label
-            >
+
             <input
               type="number"
               id="startNode"
+              placeholder="Start Node"
               name="startNode"
               required
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+              class="border border-gray-300 p-2 rounded w-40"
             />
-          </div>
-        </div>
-        <div class="mt-4">
+
           <button
             type="submit"
-            class="w-full bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 transition"
+            class="custom-button text-white px-4 py-2 rounded-md"
           >
             Generate Graph
           </button>
-        </div>
-      </form>
 
-      <div id="graphContainer" class="bg-white shadow rounded-lg p-6">
-        <h2 class="text-lg font-bold text-gray-700 mb-4">
-          Graph Visualization
-        </h2>
-        <svg id="graph" class="w-full h-96"></svg>
-      </div>
-
-      <div class="text-center mt-4">
-        <button
+          <button
           id="startDijkstra"
-          class="bg-purple-500 text-white px-6 py-2 rounded-md hover:bg-purple-600 transition disabled:opacity-50"
+          class="custom-button text-white px-4 py-2 rounded-md"
           disabled
         >
           Start Dijkstra
         </button>
-      </div>
+        </div>
+      </form>
 
-      <div class="bg-white shadow rounded-lg p-6 mt-8">
-        <h3 class="text-lg font-bold text-gray-800 mb-4">Module Explanation</h3>
-        <p class="text-gray-700 leading-relaxed">
-          Dijkstra's Algorithm is used to find the shortest paths from a
-          starting node to all other nodes in a weighted graph. It is a greedy
-          algorithm that repeatedly selects the nearest unvisited node and
-          updates the shortest path estimates for its neighbors.
-        </p>
-        <p class="text-gray-700 leading-relaxed mt-4">
-          In this visualization, Dijkstra's Algorithm starts at the specified
-          node and calculates the shortest path to all other nodes. The graph is
-          dynamically generated based on your input, and the traversal is
-          animated to highlight the nodes being processed.
-        </p>
+      <div class="description-container">
+        <div class="flex justify-center items-center space-x-4 ">
+          <button onclick="toggleContainer('About')" class="custom-button">About</button>
+          <button onclick="toggleContainer('Work')" class="custom-button">How does it work</button>
+          <button onclick="toggleContainer('Learn')" class="custom-button">Learn More</button>
+        </div>
+
+        <div id="About" class="hidden">
+          <p>
+              <b>Dijkstra's Algorithm</b> is a graph algorithm used for finding the shortest path from a source vertex 
+              to all other vertices in a weighted graph. The algorithm maintains two sets: one for visited vertices and 
+              another for unvisited vertices. It starts at the source vertex and iteratively selects the unvisited vertex 
+              with the smallest tentative distance from the source. The algorithm then visits the neighbors of this vertex 
+              and updates their tentative distances if a shorter path is found. This process continues until the destination 
+              vertex is reached, or all reachable vertices have been visited.
+          </p>
+          <ul class="list-disc ml-6 mt-4 text-gray-700">
+              <li>
+                  The algorithm works by continuously selecting the vertex with the smallest tentative distance and updating 
+                  the distances of its neighbors.
+              </li>
+              <li>
+                  <b>Steps of the Algorithm:</b>
+                  <ul class="list-disc ml-6">
+                      <li>Initialize the distance of the source vertex to 0 and all other vertices to infinity.</li>
+                      <li>Mark all vertices as unvisited.</li>
+                      <li>While there are unvisited vertices:
+                          <ul class="list-disc ml-6">
+                              <li>Choose the unvisited vertex with the smallest tentative distance.</li>
+                              <li>Visit its neighbors and calculate the tentative distances through this vertex.</li>
+                              <li>If the calculated distance of a neighbor is smaller than its current distance, update it.</li>
+                          </ul>
+                      </li>
+                      <li>Once the destination vertex is reached (or all vertices are visited), the shortest path is determined.</li>
+                  </ul>
+              </li>
+              <li>
+                  <b>Time Complexity:</b>
+                  <ul class="list-disc ml-6">
+                      <li>O(V²) – using a simple implementation where V is the number of vertices.</li>
+                      <li>O(E + V log V) – using a priority queue (min-heap) implementation, where E is the number of edges.</li>
+                  </ul>
+              </li>
+              <li>
+                  <b>Space Complexity:</b>
+                  <ul class="list-disc ml-6">
+                      <li>O(V) – space for storing the distances and visited sets.</li>
+                  </ul>
+              </li>
+              <li>
+                  <b>Advantages:</b>
+                  <ul class="list-disc ml-6">
+                      <li>Efficient for finding the shortest path in graphs with non-negative weights.</li>
+                      <li>Works well with both dense and sparse graphs.</li>
+                  </ul>
+              </li>
+              <li>
+                  <b>Disadvantages:</b>
+                  <ul class="list-disc ml-6">
+                      <li>Requires a priority queue or similar structure to efficiently select the next vertex, which can add complexity.</li>
+                      <li>Cannot handle graphs with negative edge weights (for such graphs, Bellman-Ford is used).</li>
+                  </ul>
+              </li>
+          </ul>
       </div>
-    </div>
+      
+      
+      
+        <div id="Work" class="hidden">
+          <h2 class="text-lg font-bold">JavaScript Dijkstra's</h2>
+          <pre class="line-numbers"><code class="language-javascript">
+            class PriorityQueue {
+              constructor() {
+                  this.queue = [];
+              }
+          
+              enqueue(element, priority) {
+                  this.queue.push({ element, priority });
+                  this.queue.sort((a, b) => a.priority - b.priority);
+              }
+          
+              dequeue() {
+                  if (this.isEmpty()) {
+                      return null;
+                  }
+                  return this.queue.shift().element;
+              }
+          
+              isEmpty() {
+                  return this.queue.length === 0;
+              }
+          }
+          
+          class Graph {
+              constructor(V) {
+                  this.V = V;
+                  this.adj = new Array(V);
+                  for (let i = 0; i < V; i++) {
+                      this.adj[i] = [];
+                  }
+              }
+          
+              addEdge(u, v, w) {
+                  this.adj[u].push({ v, w });
+                  this.adj[v].push({ v: u, w });
+              }
+          
+              shortestPath(src) {
+                  const pq = new PriorityQueue();
+                  const dist = new Array(this.V).fill(Infinity);
+                  const visited = new Array(this.V).fill(false);
+          
+                  pq.enqueue(src, 0);
+                  dist[src] = 0;
+          
+                  while (!pq.isEmpty()) {
+                      const u = pq.dequeue();
+          
+                      if (visited[u]) continue;
+                      visited[u] = true;
+          
+                      for (const { v, w } of this.adj[u]) {
+                          if (!visited[v] && dist[u] + w < dist[v]) {
+                              dist[v] = dist[u] + w;
+                              pq.enqueue(v, dist[v]);
+                          }
+                      }
+                  }
+          
+                  console.log("Vertex Distance from Source");
+                  for (let i = 0; i < this.V; i++) {
+                      console.log(`${i}\t\t${dist[i] === Infinity ? "Infinity" : dist[i]}`);
+                  }
+              }
+          }
+          
+          function main() {
+              const V = 7;
+              const g = new Graph(V);
+          
+              g.addEdge(0, 1, 2);
+              g.addEdge(0, 2, 6);
+              g.addEdge(1, 3, 5);
+              g.addEdge(2, 3, 8);
+              g.addEdge(3, 4, 10);
+              g.addEdge(3, 5, 15);
+              g.addEdge(4, 6, 2);
+              g.addEdge(5, 6, 6);
+          
+              g.shortestPath(0);
+          }
+          
+          main();
+          
+          </code></pre>
+          <h2 class="text-lg font-bold">Python Dijkstra's</h2>
+          <pre class="line-numbers"><code class="language-python">
+            # Python implementation of Dijkstra Algorithm
+
+            import heapq
+            
+            class Node:
+                def __init__(self, v, distance):
+                    self.v = v
+                    self.distance = distance
+            
+                def __lt__(self, other):
+                    return self.distance < other.distance
+            
+            def dijkstra(V, adj, S):
+                visited = [False] * V
+                map = {}
+                q = []
+            
+                map[S] = Node(S, 0)
+                heapq.heappush(q, Node(S, 0))
+            
+                while q:
+                    n = heapq.heappop(q)
+                    v = n.v
+                    distance = n.distance
+                    visited[v] = True
+            
+                    adjList = adj[v]
+                    for adjLink in adjList:
+                        if not visited[adjLink[0]]:
+                            if adjLink[0] not in map:
+                                map[adjLink[0]] = Node(v, distance + adjLink[1])
+                            else:
+                                sn = map[adjLink[0]]
+                                if distance + adjLink[1] < sn.distance:
+                                    sn.v = v
+                                    sn.distance = distance + adjLink[1]
+                            heapq.heappush(q, Node(adjLink[0], distance + adjLink[1]))
+            
+                result = [0] * V
+                for i in range(V):
+                    result[i] = map[i].distance
+            
+                return result
+            
+            def main():
+                adj = [[] for _ in range(6)]
+            
+                V = 6
+                E = 5
+                u = [0, 0, 1, 2, 4]
+                v = [3, 5, 4, 5, 5]
+                w = [9, 4, 4, 10, 3]
+            
+                for i in range(E):
+                    edge = [v[i], w[i]]
+                    adj[u[i]].append(edge)
+            
+                    edge2 = [u[i], w[i]]
+                    adj[v[i]].append(edge2)
+            
+                S = 1
+            
+                result = dijkstra(V, adj, S)
+                print(result)
+            
+            if __name__ == "__main__":
+                main()
+            
+            # This code is contributed by ragul21
+          </code></pre>
+          <h2 class="text-lg font-bold">Java Breadth-First Search</h2>
+          <pre class="line-numbers"><code class="language-java">
+            import java.util.ArrayList;
+            import java.util.Arrays;
+            import java.util.HashMap;
+            import java.util.PriorityQueue;
+            
+            public class DijkstraAlgoForShortestDistance {
+            
+                static class Node implements Comparable<Node> {
+                    int v;
+                    int distance;
+            
+                    public Node(int v, int distance)
+                    {
+                        this.v = v;
+                        this.distance = distance;
+                    }
+            
+                    @Override public int compareTo(Node n)
+                    {
+                        if (this.distance <= n.distance) {
+                            return -1;
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                }
+            
+                static int[] dijkstra(
+                    int V,
+                    ArrayList<ArrayList<ArrayList<Integer> > > adj,
+                    int S)
+                {
+                    boolean[] visited = new boolean[V];
+                    HashMap<Integer, Node> map = new HashMap<>();
+                    PriorityQueue<Node> q = new PriorityQueue<>();
+            
+                    map.put(S, new Node(S, 0));
+                    q.add(new Node(S, 0));
+            
+                    while (!q.isEmpty()) {
+                        Node n = q.poll();
+                        int v = n.v;
+                        int distance = n.distance;
+                        visited[v] = true;
+            
+                        ArrayList<ArrayList<Integer> > adjList
+                            = adj.get(v);
+                        for (ArrayList<Integer> adjLink : adjList) {
+            
+                            if (visited[adjLink.get(0)] == false) {
+                                if (!map.containsKey(adjLink.get(0))) {
+                                    map.put(
+                                        adjLink.get(0),
+                                        new Node(v,
+                                                 distance
+                                                     + adjLink.get(1)));
+                                }
+                                else {
+                                    Node sn = map.get(adjLink.get(0));
+                                    if (distance + adjLink.get(1)
+                                        < sn.distance) {
+                                        sn.v = v;
+                                        sn.distance
+                                            = distance + adjLink.get(1);
+                                    }
+                                }
+                                q.add(new Node(adjLink.get(0),
+                                               distance
+                                                   + adjLink.get(1)));
+                            }
+                        }
+                    }
+            
+                    int[] result = new int[V];
+                    for (int i = 0; i < V; i++) {
+                        result[i] = map.get(i).distance;
+                    }
+            
+                    return result;
+                }
+            
+                public static void main(String[] args)
+                {
+                    ArrayList<ArrayList<ArrayList<Integer> > > adj
+                        = new ArrayList<>();
+                    HashMap<Integer, ArrayList<ArrayList<Integer> > >
+                        map = new HashMap<>();
+            
+                    int V = 6;
+                    int E = 5;
+                    int[] u = { 0, 0, 1, 2, 4 };
+                    int[] v = { 3, 5, 4, 5, 5 };
+                    int[] w = { 9, 4, 4, 10, 3 };
+            
+                    for (int i = 0; i < E; i++) {
+                        ArrayList<Integer> edge = new ArrayList<>();
+                        edge.add(v[i]);
+                        edge.add(w[i]);
+            
+                        ArrayList<ArrayList<Integer> > adjList;
+                        if (!map.containsKey(u[i])) {
+                            adjList = new ArrayList<>();
+                        }
+                        else {
+                            adjList = map.get(u[i]);
+                        }
+                        adjList.add(edge);
+                        map.put(u[i], adjList);
+            
+                        ArrayList<Integer> edge2 = new ArrayList<>();
+                        edge2.add(u[i]);
+                        edge2.add(w[i]);
+            
+                        ArrayList<ArrayList<Integer> > adjList2;
+                        if (!map.containsKey(v[i])) {
+                            adjList2 = new ArrayList<>();
+                        }
+                        else {
+                            adjList2 = map.get(v[i]);
+                        }
+                        adjList2.add(edge2);
+                        map.put(v[i], adjList2);
+                    }
+            
+                    for (int i = 0; i < V; i++) {
+                        if (map.containsKey(i)) {
+                            adj.add(map.get(i));
+                        }
+                        else {
+                            adj.add(null);
+                        }
+                    }
+                    int S = 1;
+            
+                    // Input sample
+                    //[0 [[3, 9], [5, 4]],
+                    // 1 [[4, 4]],
+                    // 2 [[5, 10]],
+                    // 3 [[0, 9]],
+                    // 4 [[1, 4], [5, 3]],
+                    // 5 [[0, 4], [2, 10], [4, 3]]
+                    //]
+                    int[] result
+                        = DijkstraAlgoForShortestDistance.dijkstra(
+                            V, adj, S);
+                    System.out.println(Arrays.toString(result));
+                }
+            }
+          </code></pre>
+        </div>
+
+        <div id="Learn" class="hidden">
+          <h2 class="text-lg font-bold text-center">Learn More About Dijkstra's</h2>
+          <div class="flex justify-center items-center">
+            <iframe 
+            width="560" 
+            height="315" 
+            src="https://www.youtube.com/embed/_lHSawdgXpI?si=g16VNnPveenMff6x" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+        </iframe>   
+          </div>
+        </div>
 
     <script>
+      function toggleContainer(containerId) {
+        const containers = ['About', 'Work', 'Learn'];
+        containers.forEach((id) => {
+          const container = document.getElementById(id);
+          if (id === containerId) {
+            container.classList.toggle('hidden');
+          } else {
+            container.classList.add('hidden');
+          }
+        });
+      }
+
       let nodes = [];
       let edges = [];
       let graph = {};
