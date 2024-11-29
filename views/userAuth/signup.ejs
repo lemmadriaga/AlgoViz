@@ -10,180 +10,175 @@
     />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
-        body {
+      body {
         font-family: 'Inter', sans-serif;
       }
+
       .background-image {
-        background-image: url("/assets/Sign up-bro.png");
+        background-image: url("/assets/signup-bg.png");
         background-size: cover;
         background-position: center;
       }
 
       .custom-button {
-        background-color: #1E201E;
+        background-color: #1e201e;
         color: white;
         padding: 0.5rem 1.5rem;
         font-weight: bold;
         border-radius: 5px;
         transition: all 0.3s;
       }
+
       .custom-button:hover {
         background-color: #697565;
         transform: translateY(-2px);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
+
       .custom-focus:focus {
         outline: none;
-        ring: none;
-        box-shadow: 0 0 0 2px #1E201E; 
+        box-shadow: 0 0 0 2px #1e201e;
       }
-     
+
       .text-red-custom {
         color: black;
         font-weight: bold;
-       }
+      }
     </style>
-
   </head>
   <body class="flex items-center justify-center bg-gray-100 overflow-y-auto">
-    <div class="flex w-full max-w-4xl shadow-lg rounded-lg bg-white m-10 max-h-fit">
-
-      <div class="w-full md:w-1/2 p-6 md:p-8 overflow-y-auto">
-        <h2 class="text-2xl font-bold text-[#1E201E] mb-4">Sign Up</h2>
-
-        <form id="signupForm" class="space-y-2">
-          <div>
-            <label for="fullName" class="block text-gray-600">Full Name</label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              class="custom-focus w-full px-4 py-2 mt-1 border rounded-md"
-              placeholder="Full Name"
-              required
-            />
+    <main class="w-full max-w-4xl m-4">
+      <section class="flex shadow-2xl rounded-lg overflow-hidden bg-white">
+        <section class="w-full md:w-1/2 p-6 md:p-8 overflow-y-auto">
+          <div class="mb-6">
+            <a href="/" class="text-purple-700 text-xl">
+              <img src="/assets/go-back-arrow.png" alt="Back" class="w-6 h-6" />
+            </a>
           </div>
 
-          <div>
-            <label for="email" class="block text-gray-600">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="custom-focus w-full px-4 py-2 mt-1 border rounded-md"
-              placeholder="Email Address"
-              required
-            />
-          </div>
+          <h2 class="text-2xl font-bold text-[#1e201e] mb-4">Sign Up</h2>
 
-          <div>
-            <label for="password" class="block text-gray-600">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="custom-focus w-full px-4 py-2 mt-1 border rounded-md"
-              placeholder="Password"
-              required
-            />
-          </div>
+          <form id="signupForm" class="space-y-2">
+            <div>
+              <label for="fullName" class="block text-gray-600 text-sm font-medium">Full Name</label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                class="custom-focus w-full px-4 py-2 my-1 border rounded-md"
+                placeholder="Full Name"
+                required
+              />
+            </div>
 
-          <div>
-            <label for="phone" class="block text-gray-600">Phone Number</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              class="custom-focus w-full px-4 py-2 mt-1 border rounded-md"
-              placeholder="Phone Number"
-              required
-            />
-          </div>
+            <div>
+              <label for="email" class="block text-gray-600 text-sm font-medium">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="custom-focus w-full px-4 py-2 my-1 border rounded-md"
+                placeholder="Email Address"
+                required
+              />
+            </div>
 
-          <div>
-            <label for="birthDate" class="block text-gray-600"
-              >Birth Date</label
+            <div>
+              <label for="password" class="block text-gray-600 text-sm font-medium">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="custom-focus w-full px-4 py-2 my-1 border rounded-md"
+                placeholder="Password"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="phone" class="block text-gray-600 text-sm font-medium">Phone Number</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="custom-focus w-full px-4 py-2 my-1 border rounded-md"
+                placeholder="Phone Number"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="birthDate" class="block text-gray-600 text-sm font-medium">Birth Date</label>
+              <input
+                type="date"
+                id="birthDate"
+                name="birthDate"
+                class="custom-focus w-full px-4 py-2 my-1 border rounded-md"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="role" class="block text-gray-600 text-sm font-medium">Role</label>
+              <select
+                id="role"
+                name="role"
+                class="custom-focus w-full px-4 py-2 my-1 border rounded-md"
+                required
+              >
+                <option value="" disabled selected>Select your role</option>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+              </select>
+            </div>
+
+            <div id="classCodeContainer" class="hidden">
+              <label for="classCode" class="block text-gray-600 text-sm mt-4 font-medium">Class Code</label>
+              <input
+                type="text"
+                id="classCode"
+                name="classCode"
+                class="custom-focus w-full px-4 py-2 my-1 border rounded-md font-medium"
+                placeholder="Class Code"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="custom-button w-full py-2 my-4 text-white font-semibold rounded-md"
             >
-            <input
-              type="date"
-              id="birthDate"
-              name="birthDate"
-              class="custom-focus w-full px-4 py-2 mt-1 border rounded-md"
-              required
-            />
-          </div>
+              Submit
+            </button>
 
-          <div>
-            <label for="role" class="block text-gray-600">Role</label>
-            <select
-              id="role"
-              name="role"
-              class="custom-focus w-full px-4 py-2 mt-1 border rounded-md"
-              required
-            >
-              <option value="" disabled selected>Select your role</option> <!-- Default blank option -->
-              <option value="student">Student</option>
-              <option value="teacher">Teacher</option>
-            </select>
-          </div>
-          
-          <div id="classCodeContainer" class="hidden">
-            <label for="classCode" class="block text-gray-600 mt-4">Class Code</label>
-            <input
-              type="text"
-              id="classCode"
-              name="classCode"
-              class="custom-focus w-full px-4 py-2 mt-1 border rounded-md"
-              placeholder="Class Code"
-              required
-            />
-          </div>          
+            <div class="flex items-center mt-4">
+              <input type="checkbox" id="terms" name="terms" class="mr-2" required />
+              <label for="terms" class="text-gray-600 text-sm">Agree to terms and conditions?</label>
+            </div>
 
-          <button
-            type="submit"
-            class="custom-button w-full py-2 mt-4 text-white font-semibold rounded-md"
-          >
-            Submit
-          </button>
+            <div class="text-center">
+              <p class="text-sm text-gray-600 mt-4">
+                Already have an account?
+                <a href="/login" class="text-red-custom hover:underline">Login</a>
+              </p>
+            </div>
+          </form>
 
-          <div class="flex items-center mt-4">
-            <input
-              type="checkbox"
-              id="terms"
-              name="terms"
-              class="mr-2"
-              required
-            />
-            <label for="terms" class="text-gray-600 text-sm">
-              Agree to terms and conditions?
-            </label>
-          </div>
+          <p id="signupMessage" class="text-red-500 mt-4"></p>
+        </section>
 
-          <div class="text-center">
-            <p class="text-sm text-gray-600">
-              Already have an account?
-              <a href="/login" class="text-red-custom hover:underline">Login</a>
+        <aside class="hidden md:flex md:w-1/2 background-image items-center justify-center p-4 bg-gray-200">
+          <div class="w-4/5 bg-white p-3 shadow-md rounded-md">
+            <h3 class="text-lg font-bold text-gray-700">Terms and Conditions</h3>
+            <p class="text-sm text-gray-600 mt-2">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+              odio. Praesent libero. Sed cursus ante dapibus diam.
             </p>
           </div>
-        </form>
+        </aside>
+      </section>
+    </main>
 
-        <p id="signupMessage" class="text-red-500 mt-4"></p>
-      </div>
-
-      <div
-        class="hidden md:flex md:w-1/2 background-image items-center justify-center p-4"
-      >
-        <div class="w-4/5 bg-white p-3 shadow-md rounded-md">
-          <h3 class="text-lg font-bold text-gray-700">Terms and Conditions</h3>
-          <p class="text-sm text-gray-600 mt-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-            odio. Praesent libero. Sed cursus ante dapibus diam.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <script src="/js/global.js"></script>
     <script>
       const roleSelect = document.getElementById("role");
       const classCodeContainer = document.getElementById("classCodeContainer");
@@ -198,61 +193,53 @@
         }
       });
 
-      document
-        .getElementById("signupForm")
-        .addEventListener("submit", async (event) => {
-          event.preventDefault();
+      document.getElementById("signupForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-          const email = document.getElementById("email").value;
+        const email = document.getElementById("email").value;
 
-          const emailPattern = /^[a-z0-9._%+-]+@g\.batstate-u\.edu\.ph$/i;
-          if (!emailPattern.test(email)) {
-            document.getElementById("signupMessage").innerText =
-              "Use BatStateU GSuite Account example@g.batstate-u.edu.ph";
-            return;
+        const emailPattern = /^[a-z0-9._%+-]+@g\.batstate-u\.edu\.ph$/i;
+        if (!emailPattern.test(email)) {
+          document.getElementById("signupMessage").innerText =
+            "Use BatStateU GSuite Account example@g.batstate-u.edu.ph";
+          return;
+        }
+
+        const fullName = document.getElementById("fullName").value;
+        const password = document.getElementById("password").value;
+        const phone = document.getElementById("phone").value;
+        const birthDate = document.getElementById("birthDate").value;
+        const selectedRole = document.getElementById("role").value;
+        const classCode = document.getElementById("classCode").value;
+
+        try {
+          const response = await fetch("/api/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fullName,
+              email,
+              password,
+              phone,
+              birthDate,
+              selectedRole,
+              classCode,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            document.getElementById("signupMessage").innerText = "Signup successful!";
+            document.getElementById("signupMessage").classList.remove("text-red-500");
+            document.getElementById("signupMessage").classList.add("text-green-500");
+          } else {
+            document.getElementById("signupMessage").innerText = result.error;
           }
-
-          const fullName = document.getElementById("fullName").value;
-          const password = document.getElementById("password").value;
-          const phone = document.getElementById("phone").value;
-          const birthDate = document.getElementById("birthDate").value;
-          const selectedRole = document.getElementById("role").value;
-          const classCode = document.getElementById("classCode").value;
-
-          try {
-            const response = await fetch("/api/signup", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                fullName,
-                email,
-                password,
-                phone,
-                birthDate,
-                selectedRole,
-                classCode
-              }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-              document.getElementById("signupMessage").innerText =
-                "Signup successful!";
-              document
-                .getElementById("signupMessage")
-                .classList.remove("text-red-500");
-              document
-                .getElementById("signupMessage")
-                .classList.add("text-green-500");
-            } else {
-              document.getElementById("signupMessage").innerText = result.error;
-            }
-          } catch (error) {
-            document.getElementById("signupMessage").innerText =
-              "Error: " + error.message;
-          }
-        });
+        } catch (error) {
+          document.getElementById("signupMessage").innerText = "Error: " + error.message;
+        }
+      });
     </script>
   </body>
 </html>

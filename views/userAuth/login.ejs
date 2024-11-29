@@ -6,12 +6,11 @@
     <title>Login Page</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  </head>
-
-  <style>
-       body {
+    <style>
+      body {
         font-family: 'Inter', sans-serif;
       }
+
       .custom-button {
         background-color: #1E201E;
         color: white;
@@ -20,93 +19,92 @@
         border-radius: 5px;
         transition: all 0.3s;
       }
+
       .custom-button:hover {
         background-color: #697565;
         transform: translateY(-2px);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
+
       .custom-focus:focus {
         outline: none;
-        ring: none;
         box-shadow: 0 0 0 2px #1E201E; 
       }
-     
+      
       .text-red-custom {
         color: black;
         font-weight: bold;
-       }
-</style>
+      }
+    </style>
+  </head>
 
-  </style>
-  <body class="flex items-center justify-center bg-gray-100 overflow-y-auto">
-    <div class="flex w-full max-w-4xl shadow-lg rounded-lg overflow-hidden m-10">
-      <div class="hidden md:block md:w-1/2">
-        <img
-          src="/assets/Secure login-bro.png"
-          alt="University Image"
-          class="w-full h-full object-cover"
-        />
-      </div>
-
-      <div class="w-full md:w-1/2 p-8 md:p-16 bg-white">
-        <div class="mb-6">
-          <a href="/" class="text-purple-700 text-xl">
-            <img src="/assets/go-back-arrow.png" alt="Back" class="w-6 h-6" />
-          </a>
-        </div>
-
-        <h2 class="text-3xl font-bold text-[#1E201E] mb-2">Login</h2>
-        <p class="text-gray-500 mb-8">
-          Welcome back! Please login to your account
-        </p>
-
-        <form action="/api/login" method="POST" class="space-y-6">
-          <div>
-            <label for="username" class="block text-gray-700">Email</label>
-            <input
-            type="text"
-            id="email"
-            name="email"
-            class="w-full px-4 py-2 mt-2 border rounded-md custom-focus"
-            placeholder="example@g.batstate-u.edu.ph"
+  <body class="h-screen bg-gray-100 flex items-center justify-center">
+    <main class="w-full max-w-4xl m-4">
+      <section class="flex shadow-2xl rounded-lg overflow-hidden bg-white">
+        <aside class="hidden md:block md:w-1/2 bg-gray-200">
+          <img
+            src="/assets/login-bg.png"
+            alt="Login Background"
+            class="w-full h-full object-cover"
           />
-          </div>
-          <div>
-            <label for="password" class="block text-gray-700">Password</label>
-            <input
-            type="password"
-            id="password"
-            name="password"
-            class="w-full px-4 py-2 mt-2 border rounded-md custom-focus"
-            placeholder="Password"
-          />
+        </aside>
+
+        <section class="w-full md:w-1/2 p-8">
+          <div class="mb-6">
+            <a href="/" class="text-purple-700 text-xl">
+              <img src="/assets/go-back-arrow.png" alt="Back" class="w-6 h-6" />
+            </a>
           </div>
 
-          <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-500">
-              Don’t have an account?
-              <a href="/signup" class="text-red-custom hover:underline">Sign up</a>
-            </p>
-            
-            <button
-              type="submit"
-              class="custom-button px-4 py-2 text-white rounded-md"
-            >
-              Login
-            </button>
-          </div>
-        </form>
+          <h2 class="text-3xl font-bold text-[#1E201E] mb-2">Login</h2>
+          <p class="text-gray-500 mb-6">
+            Welcome back! Please login to your account
+          </p>
 
-        <div class="text-center mt-4">
-          <a
-            href="/forgot-password"
-            class="text-sm text-gray-500 hover:text-purple-700"
-            >Forgot password?</a
-          >
-        </div>
-      </div>
-    </div>
-    
-    <script src="/js/global.js"></script>
+          <form action="/api/login" method="POST" class="space-y-4">
+            <div>
+              <label for="email" class="block text-gray-700 text-sm font-medium">Email</label>
+              <input
+                type="text"
+                id="email"
+                name="email"
+                class="w-full px-4 py-2 mt-1 border rounded-md custom-focus"
+                placeholder="example@g.batstate-u.edu.ph"
+              />
+            </div>
+            <div>
+              <label for="password" class="block text-gray-700 text-sm font-medium">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="w-full px-4 py-2 mt-1 border rounded-md custom-focus"
+                placeholder="Password"
+              />
+            </div>
+
+            <div class="flex items-center justify-between">
+              <p class="text-sm text-gray-500">
+                Don’t have an account?
+                <a href="/signup" class="text-red-custom hover:underline">Sign up</a>
+              </p>
+              <button
+                type="submit"
+                class="custom-button px-4 py-2 text-white rounded-md"
+              >
+                Login
+              </button>
+            </div>
+          </form>
+
+          <div class="text-center mt-4">
+            <a
+              href="/forgot-password"
+              class="text-sm text-gray-500 hover:text-purple-700"
+            >Forgot password?</a>
+          </div>
+        </section>
+      </section>
+    </main>
   </body>
 </html>
