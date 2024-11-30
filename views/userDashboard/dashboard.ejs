@@ -70,133 +70,115 @@
         transform: translateY(-2px);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
+  
+
+@media (max-width: 768px) {
+  #toggleWrapper {
+    height: 56px; 
+  }
+}
+@media (max-width: 768px) {
+  #sidebar {
+    display: none; 
+  }
+
+  #sidebar.show {
+    display: block; 
+    top: 45px; 
+    height: 95vh;
+  }
+}
 
     </style>
   </head>
 
   <body class="flex min-h-screen bg-gray-100">
-    <button
-      id="hamburgerButton"
-      class="fixed top-5 right-5 z-50 md:hidden bg-[#33383e] text-white p-3 rounded-2xl shadow-2xl"
-    >
-      <span class="material-icons">menu</span>
-    </button>
+<!-- Horizontal Bar with Hamburger Menu -->
+<div class="fixed top-0 left-0 right-0 bg-[#33383e] flex justify-between items-center p-2 z-50 md:hidden">
+  <button id="hamburgerButton" class="text-white">
+    <span class="material-icons" style="font-weight: bold;">menu</span>
+  </button>
+  <div class="flex items-center space-x-4">
+    <p class="text-lg font-bold text-white">Menu</p>
+  </div>
+</div>
 
-    <!-- Left Panel -->
-    <aside id="sidebar" 
-      class="transition-width duration-300 transform -translate-x-full md:translate-x-0 md:flex-shrink-0 md:static flex-shrink-0 w-64 bg-[#eeeeee] m-5 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.2)] fixed z-50">
-      <div class="flex flex-col h-full">
-        <!-- Toggle Button Wrapper -->
-        <div
-          id="toggleWrapper"
-          class="flex items-center h-14 border-b border-[#9CA3AF]"
-        >
-          <button
-            id="toggleSidebar"
-            class="text-[#9CA3AF] p-2 hover:bg-[#D8D9DA] rounded-lg w-full flex items-center justify-center"
-            title="Toggle Sidebar"
-          >
-            <span id="toggleIcon" class="material-icons text-2xl">switch_right</span>
-          </button>
-        </div>
+<!-- Left Panel -->
+<aside id="sidebar" class="transition-width duration-300 transform -translate-x-full md:translate-x-0 md:flex-shrink-0 md:static flex-shrink-0 w-64 bg-[#eeeeee] shadow-[0_6px_10px_rgba(0,0,0,0.2)] fixed z-50">
+  <div class="flex flex-col h-full">
+    <!-- Toggle Button Wrapper -->
+    <div id="toggleWrapper" class="flex items-center h-14 border-b border-[#9CA3AF]">
+      <button id="toggleSidebar" class="text-[#9CA3AF] p-2 hover:bg-[#D8D9DA] rounded-lg w-full flex items-center justify-center" title="Toggle Sidebar">
+        <span id="toggleIcon" class="material-icons text-2xl">switch_right</span>
+      </button>
+    </div>
 
-     <!-- User Profile Section -->
+    <!-- User Profile Section -->
     <div id="userProfile" class="flex flex-col items-center p-6 border-b border-gray-300">
       <div class="mb-4 relative">
-        <img
-          src="<%= profilePicture %>"
-          alt="Profile picture"
-          class="rounded-full w-16 h-16 drop-shadow-lg"
-        />
+        <img src="<%= profilePicture %>" alt="Profile picture" class="rounded-full w-16 h-16 drop-shadow-lg" />
         <!-- Edit Profile Icon -->
-        <span
-          onclick="toggleModal(true)"
-          class="material-icons absolute bottom-0 right-0 bg-white p-1 rounded-full text-gray-800 cursor-pointer hover:bg-gray-200 transition-all"
-          title="Edit Profile"
-        >
+        <span onclick="toggleModal(true)" class="material-icons absolute bottom-0 right-0 bg-white p-1 rounded-full text-gray-800 cursor-pointer hover:bg-gray-200 transition-all" title="Edit Profile">
           edit
         </span>
       </div>
       <div id="userInfo" class="text-center">
         <p class="text-sm font-bold" id="userFullName"><%= fullName %></p>
         <p class="text-sm mt-1" id="userRole"><strong><%= role.toUpperCase() %></strong></p>
-        <br>
-        <progress
-          id="file"
-          value="<%= progress %>"
-          max="100"
-        ></progress>
+        <br />
+        <progress id="file" value="<%= progress %>" max="100"></progress>
         <p class="text-[0.75rem] text-[#33383e]"><strong><%= (isNaN(progress) || progress == null ? 0 : (progress).toFixed(2)) %>% of 100%</strong></p>
       </div>
     </div>
 
     <!-- Collapsed Profile Picture -->
     <div id="collapsedProfile" class="hidden flex justify-center items-center p-4">
-      <img
-        src="<%= profilePicture %>"
-        alt="Profile picture"
-        class="rounded-full w-10 h-10 drop-shadow-lg"
-      />
+      <img src="<%= profilePicture %>" alt="Profile picture" class="rounded-full w-10 h-10 drop-shadow-lg" />
     </div>
-         <!-- Navigation Menu -->
-         <nav class="flex-1">
-          <ul class="gap-2">
-     
-            <li>
-              <a
-                href="#sorting-algorithms"
-                class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition"
-              >
-                <span class="material-icons text-[#33383e]">sort</span>
-                <span class="ml-3 text-sidebar text-gray-800 text-sm font-bold">Sorting Algorithms</span>
-              </a>
-            </li>
 
-            <li>
-              <a
-                href="#searching-algorithms"
-                class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition"
-              >
-                <span class="material-icons text-[#33383e]">search</span>
-                <span class="ml-3 text-sidebar text-gray-800 text-sm font-bold">Searching Algorithms</span>
-              </a>
-            </li>
+    <!-- Navigation Menu -->
+    <nav class="flex-1">
+      <ul class="gap-2">
+        <!-- Navigation Items -->
+        <li>
+          <a href="#sorting-algorithms" class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition">
+            <span class="material-icons text-[#33383e]">sort</span>
+            <span class="ml-3 text-sidebar text-gray-800 text-sm font-bold">Sorting Algorithms</span>
+          </a>
+        </li>
+        <li>
+          <a href="#searching-algorithms" class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition">
+            <span class="material-icons text-[#33383e]">search</span>
+            <span class="ml-3 text-sidebar text-gray-800 text-sm font-bold">Searching Algorithms</span>
+          </a>
+        </li>
+        <li>
+          <a href="#graph-traversal" class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition">
+            <span class="material-icons text-[#33383e]">timeline</span>
+            <span class="ml-3 text-sidebar text-gray-800 text-sm font-bold">Graph Traversal</span>
+          </a>
+        </li>
+        <li>
+          <a href="#challenges-learn" class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition">
+            <span class="material-icons text-[#33383e]">quiz</span>
+            <span class="ml-3 text-sidebar text-gray-800 text-sm font-bold">Challenges</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-            <li>
-              <a
-                href="#graph-traversal"
-                class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition"
-              >
-                <span class="material-icons text-[#33383e]">timeline</span>
-                <span class="ml-3 text-sidebar text-gray-800 text-sm font-bold">Graph Traversal</span>
-              </a>
-            </li>
+    <!-- Logout Button -->
+    <div class="p-4 border-t border-gray-300">
+      <form action="/logout" method="post">
+        <button class="w-full bg-[#e10008] text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center justify-center">
+          <span class="material-icons text-white">logout</span>
+          <span class="ml-3 text-sidebar text-white">Logout</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</aside>
 
-            <li>
-              <a
-                href="#challenges-learn"
-                class="flex items-center text-white p-3 rounded-lg hover:bg-[#D8D9DA] transition"
-              >
-                <span class="material-icons text-[#33383e]">quiz</span>
-                <span class="ml-3 text-sidebar text-gray-800 text-sm font-bold">Challenges</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-    
-        <!-- Logout Button -->
-        <div class="p-4 border-t border-gray-300">
-          <form action="/logout" method="post">
-            <button
-              class="w-full bg-[#e10008] text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center justify-center"
-            >
-              <span class="material-icons text-white">logout</span>
-              <span class="ml-3 text-sidebar text-white">Logout</span>
-            </button>
-          </form>
-        </div>
-      </div>
-    </aside>
 
     <div
       id="profileModal"
@@ -624,58 +606,57 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      const sidebar = document.getElementById("sidebar");
-      const toggleButton = document.getElementById("toggleSidebar");
-      const toggleWrapper = document.getElementById("toggleWrapper");
-      const userProfile = document.getElementById("userProfile");
+const sidebar = document.getElementById("sidebar");
+const toggleButton = document.getElementById("toggleSidebar");
+const hamburgerButton = document.getElementById('hamburgerButton');
+const userProfile = document.getElementById("userProfile");
+const navigationLinks = document.querySelectorAll("nav ul li a");
 
-      const navigationLinks = document.querySelectorAll("nav ul li a");
+hamburgerButton.addEventListener('click', () => {
+  if (sidebar.classList.contains('-translate-x-full')) {
+    sidebar.classList.remove('-translate-x-full');
+    sidebar.classList.add('show');
+  } else {
+    sidebar.classList.add('-translate-x-full');
+    sidebar.classList.remove('show');
+  }
+});
 
-      const hamburgerButton = document.getElementById('hamburgerButton');
+toggleButton.addEventListener("click", () => {
+  sidebar.classList.toggle("w-20");
+  sidebar.classList.toggle("w-64");
 
-      hamburgerButton.addEventListener('click', () => {
-        if (sidebar.classList.contains('-translate-x-full')) {
-          sidebar.classList.remove('-translate-x-full');
-        } else {
-          sidebar.classList.add('-translate-x-full');
-        }
-      });
+  const textElements = document.querySelectorAll(".text-sidebar");
+  textElements.forEach((text) => {
+    text.classList.toggle("hidden");
+  });
 
-      toggleButton.addEventListener("click", () => {
-        sidebar.classList.toggle("w-20");
-        sidebar.classList.toggle("w-64");
+  if (sidebar.classList.contains("w-20")) {
+    userProfile.classList.add("hidden");
+    collapsedProfile.classList.remove("hidden");
+  } else {
+    userProfile.classList.remove("hidden");
+    collapsedProfile.classList.add("hidden");
+  }
 
-        const textElements = document.querySelectorAll(".text-sidebar");
-        textElements.forEach((text) => {
-          text.classList.toggle("hidden");
-        });
+  if (sidebar.classList.contains("w-20")) {
+    toggleWrapper.classList.add("justify-center");
+    toggleWrapper.classList.remove("justify-start");
 
-        if (sidebar.classList.contains("w-20")) {
-          userProfile.classList.add("hidden");
-          collapsedProfile.classList.remove("hidden");
-        } else {
-          userProfile.classList.remove("hidden");
-          collapsedProfile.classList.add("hidden");
-        }
+    navigationLinks.forEach((link) => {
+      link.classList.add("justify-center");
+      link.classList.remove("justify-start");
+    });
+  } else {
+    toggleWrapper.classList.add("justify-start");
+    toggleWrapper.classList.remove("justify-center");
 
-        if (sidebar.classList.contains("w-20")) {
-          toggleWrapper.classList.add("justify-center");
-          toggleWrapper.classList.remove("justify-start");
-
-          navigationLinks.forEach((link) => {
-            link.classList.add("justify-center");
-            link.classList.remove("justify-start");
-          });
-        } else {
-          toggleWrapper.classList.add("justify-start");
-          toggleWrapper.classList.remove("justify-center");
-
-          navigationLinks.forEach((link) => {
-            link.classList.add("justify-start");
-            link.classList.remove("justify-center");
-          });
-        }
-      });
+    navigationLinks.forEach((link) => {
+      link.classList.add("justify-start");
+      link.classList.remove("justify-center");
+    });
+  }
+});
 
       function toggleModal(show) {
         const modal = document.getElementById("profileModal");
