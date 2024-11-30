@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin | AlgoViz</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
-       body {
+      body {
         font-family: 'Inter', sans-serif;
       }
 
@@ -20,46 +20,47 @@
         background-color: #a0a1a2;
         overflow: hidden;
       }
-    
+
       progress[value]::-webkit-progress-bar {
         background-color: #a0a1a2;
         border-radius: 5px;
       }
-    
+
       progress[value]::-webkit-progress-value {
         background-color: #5800FF;
         border-radius: 5px;
       }
-    
+
       progress[value]::-moz-progress-bar {
         background-color: #5800FF;
         border-radius: 5px;
       }
-      
+
       #searchInput::placeholder {
         color: #4B5563;
       }
 
-#searchInput.collapsed {
-  padding-left: 2.5rem; 
-  text-indent: -9999px; 
-  width: 2.5rem; 
-  overflow: hidden;
-}
+      #searchInput.collapsed {
+        padding-left: 2.5rem;
+        text-indent: -9999px;
+        width: 2.5rem;
+        overflow: hidden;
+      }
 
-#searchIcon.collapsed {
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+      #searchIcon.collapsed {
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
 
-.blue-button {
-        background-color:#006BFF;
+      .blue-button {
+        background-color: #006BFF;
         color: white;
         padding: 0.5rem 1.5rem;
         font-weight: bold;
         border-radius: 5px;
         transition: all 0.3s;
       }
+
       .blue-button:hover {
         background-color: #133E87;
         transform: translateY(-2px);
@@ -67,146 +68,116 @@
       }
 
       .custom-button {
-        background-color:#e10008;
+        background-color: #e10008;
         color: white;
         padding: 0.5rem 1.5rem;
         font-weight: bold;
         border-radius: 5px;
         transition: all 0.3s;
       }
+
       .custom-button:hover {
         background-color: #800000;
         transform: translateY(-2px);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
 
+      @media (max-width: 768px) {
+        #toggleWrapper {
+          height: 56px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        #sidebar {
+          display: none;
+        }
+
+        #sidebar.show {
+          display: block;
+          top: 45px;
+        }
+      }
     </style>
   </head>
   <body class="flex min-h-screen bg-gray-100">
-    
-      <!-- Left Panel -->
-      <aside id="sidebar" class="transition-width duration-300 flex-shrink-0 w-64 bg-[#eeeeee] m-5 rounded-2xl shadow-[0_6px_10px_rgba(0,0,0,0.2)]">
-        <div class="flex flex-col h-full">
-          <!-- Toggle Button Wrapper -->
-          <div
-            id="toggleWrapper"
-            class="flex items-center h-14 border-b border-[#9CA3AF]"
-          >
-            <button
-              id="toggleSidebar"
-              class="text-[#9CA3AF] p-2 hover:bg-[#D8D9DA] rounded-lg w-full flex items-center justify-center"
-              title="Toggle Sidebar"
-            >
-              <span id="toggleIcon" class="material-icons text-2xl">menu</span>
-            </button>
-          </div>
-
-     <!-- User Profile Section -->
-     <div id="userProfile" class="flex flex-col items-center p-6 border-b border-gray-300">
-      <div class="mb-4 relative">
-        <img
-          src="<%= profilePicture %>"
-          alt="Profile picture"
-          class="rounded-full w-20 h-20 drop-shadow-lg"
-        />
-        <!-- Edit Profile Icon -->
-        <span
-          onclick="toggleModal(true)"
-          class="material-icons absolute bottom-0 right-0 bg-white p-1 rounded-full text-gray-800 cursor-pointer hover:bg-gray-200 transition-all"
-          title="Edit Profile"
-        >
-          edit
-        </span>
-      </div>
-
-          <div id="userInfo" class="text-center">
-              <p class="text-lg font-bold" id="userFullName"><%= fullName %></p>
-              <p class="text-sm" id="userEmail"><%= email %></p>
-              <br />
-              <p class="text-sm" id="userRole"><strong><%= role.toUpperCase() %></strong></p>
-            </div>
-            </div>
-
-             <!-- Collapsed Profile Picture -->
-             <div id="collapsedProfile" class="hidden flex justify-center items-center p-4">
-               <img
-                 src="<%= profilePicture %>"
-                 alt="Profile picture"
-                 class="rounded-full w-10 h-10 drop-shadow-lg"
-              />
-            </div>
-
-<!-- Search Bar for Students -->
-<div class="p-4 relative">
-  <input
-    type="text"
-    id="searchInput"
-    class="w-full p-2 pl-10 border rounded-lg text-black text-sm"
-    placeholder="Search User by Email..."
-  />
-  <span
-    id="searchIcon"
-    class="material-icons absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"
-  >
-    search
-  </span>
-</div>
-
-       <!-- Logout Button -->
-  <div class="p-4 border-t border-gray-300 mt-auto">
-    <form action="/logout" method="post">
-      <button
-        class="w-full bg-[#e10008] text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center justify-center"
-      >
-        <span class="material-icons text-white">logout</span>
-        <span class="ml-3 text-sidebar text-white">Logout</span>
+    <!-- Horizontal Bar with Hamburger Menu -->
+    <div class="fixed top-0 left-0 right-0 bg-[#33383e] flex justify-between items-center p-2 z-50 md:hidden">
+      <button id="hamburgerButton" class="text-white">
+        <span class="material-icons" style="font-weight: bold;">menu</span>
       </button>
-    </form>
-  </div>
-</aside>
+      <div class="flex items-center space-x-4">
+        <p class="text-lg font-bold text-white">
+          <img src="<%= profilePicture %>" alt="Profile picture" class="rounded-full w-8 h-8 drop-shadow-lg" />
+        </p>
+      </div>
+    </div>
 
-      <div
-        id="profileModal"
-        class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-30"
-      >
-        <div class="bg-white rounded-lg p-6 shadow-lg w-[90%] max-w-md">
-          <h2 class="text-lg font-bold mb-4">Upload Profile Picture</h2>
-          <form
-            id="profilePictureForm"
-            action="/dashboard/update-user-profile-picture"
-            method="post"
-            enctype="multipart/form-data"
-          >
-            <input
-              id="profilePictureInput"
-              type="file"
-              name="profilePicture"
-              accept=".png, .jpg, .jpeg"
-              class="w-full p-2 border rounded-lg text-black text-sm"
-              required
-            />
-            <div class="mt-4 flex justify-between">
-              <button
-                type="button"
-                onclick="toggleModal(false)"
-                class="custom-button  px-4 py-2 text-white rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                id="submitBtn"
-                type="submit"
-                class="blue-button px-4 py-2 text-white rounded-lg"
-              >
-                Submit
-              </button>
-            </div>
+    <!-- Left Panel -->
+    <aside id="sidebar" class="transition-width duration-300 transform -translate-x-full md:translate-x-0 md:flex-shrink-0 md:static flex-shrink-0 w-64 bg-[#eeeeee] shadow-[0_6px_10px_rgba(0,0,0,0.2)] fixed z-50">
+      <div class="flex flex-col h-full">
+        <!-- Toggle Button Wrapper -->
+        <div id="toggleWrapper" class="flex items-center h-14 border-b border-[#9CA3AF]">
+          <button id="toggleSidebar" class="text-[#9CA3AF] p-2 hover:bg-[#D8D9DA] rounded-lg w-full flex items-center justify-center" title="Toggle Sidebar">
+            <span id="toggleIcon" class="material-icons text-2xl">switch_right</span>
+          </button>
+        </div>
+
+        <!-- User Profile Section -->
+        <div id="userProfile" class="flex flex-col items-center p-6 border-b border-gray-300">
+          <div class="mb-4 relative">
+            <img src="<%= profilePicture %>" alt="Profile picture" class="rounded-full w-20 h-20 drop-shadow-lg" />
+            <!-- Edit Profile Icon -->
+            <span onclick="toggleModal(true)" class="material-icons absolute bottom-0 right-0 bg-white p-1 rounded-full text-gray-800 cursor-pointer hover:bg-gray-200 transition-all" title="Edit Profile">
+              edit
+            </span>
+          </div>
+          <div id="userInfo" class="text-center">
+            <p class="text-lg font-bold" id="userFullName"><%= fullName %></p>
+            <p class="text-sm" id="userEmail"><%= email %></p>
+            <br />
+            <p class="text-sm" id="userRole"><strong><%= role.toUpperCase() %></strong></p>
+          </div>
+        </div>
+
+        <!-- Collapsed Profile Picture -->
+        <div id="collapsedProfile" class="hidden flex justify-center items-center p-4">
+          <img src="<%= profilePicture %>" alt="Profile picture" class="rounded-full w-10 h-10 drop-shadow-lg" />
+        </div>
+
+        <!-- Search Bar for Students -->
+        <div class="p-4 relative">
+          <input type="text" id="searchInput" class="w-full p-2 pl-10 border rounded-lg text-black text-sm" placeholder="Search User by Email..." />
+          <span id="searchIcon" class="material-icons absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">search</span>
+        </div>
+
+        <!-- Logout Button -->
+        <div class="p-4 border-t border-gray-300 mt-auto">
+          <form action="/logout" method="post">
+            <button class="w-full bg-[#e10008] text-white font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center justify-center">
+              <span class="material-icons text-white">logout</span>
+              <span class="ml-3 text-sidebar text-white">Logout</span>
+            </button>
           </form>
         </div>
       </div>
+    </aside>
+
+    <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-30">
+      <div class="bg-white rounded-lg p-6 shadow-lg w-[90%] max-w-md">
+        <h2 class="text-lg font-bold mb-4">Upload Profile Picture</h2>
+        <form id="profilePictureForm" action="/dashboard/update-user-profile-picture" method="post" enctype="multipart/form-data">
+          <input id="profilePictureInput" type="file" name="profilePicture" accept=".png, .jpg, .jpeg" class="w-full p-2 border rounded-lg text-black text-sm" required />
+          <div class="mt-4 flex justify-between">
+            <button type="button" onclick="toggleModal(false)" class="custom-button px-4 py-2 text-white rounded-lg">Cancel</button>
+            <button id="submitBtn" type="submit" class="blue-button px-4 py-2 text-white rounded-lg">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
       <!-- Right Panel -->
-      <div class="flex-1 p-6">
+      <div class="flex-1 p-6 mt-5">
         <div class="relative overflow-hidden shadow-md rounded-lg">
           <table class="table-fixed w-full text-left">
             <thead
@@ -267,44 +238,52 @@
     <!-- Script -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-            const sidebar = document.getElementById("sidebar");
-const toggleButton = document.getElementById("toggleSidebar");
-const toggleWrapper = document.getElementById("toggleWrapper");
-const userProfile = document.getElementById("userProfile");
-const searchInput = document.getElementById("searchInput");
-const searchIcon = document.getElementById("searchIcon");
+      const sidebar = document.getElementById("sidebar");
+      const toggleButton = document.getElementById("toggleSidebar");
+      const toggleWrapper = document.getElementById("toggleWrapper");
+      const userProfile = document.getElementById("userProfile");
+      const searchInput = document.getElementById("searchInput");
+      const searchIcon = document.getElementById("searchIcon");
+      const hamburgerButton = document.getElementById('hamburgerButton');
+      const navigationLinks = document.querySelectorAll("nav ul li a");
+    
+      hamburgerButton.addEventListener('click', () => {
+        if (sidebar.classList.contains('-translate-x-full')) {
+          sidebar.classList.remove('-translate-x-full');
+          sidebar.classList.add('show');
+        } else {
+          sidebar.classList.add('-translate-x-full');
+          sidebar.classList.remove('show');
+        }
+      });
+    
+      toggleButton.addEventListener("click", () => {
 
-const navigationLinks = document.querySelectorAll("nav ul li a");
+        sidebar.classList.toggle("w-20");
+        sidebar.classList.toggle("w-64");
 
-toggleButton.addEventListener("click", () => {
-  // Toggle between collapsed and expanded
-  sidebar.classList.toggle("w-20");
-  sidebar.classList.toggle("w-64");
-
-  // Toggle visibility of text
-  const textElements = document.querySelectorAll(".text-sidebar");
-  textElements.forEach((text) => {
-    text.classList.toggle("hidden");
-  });
-
-  // Toggle visibility of user profile and collapsed profile
-  if (sidebar.classList.contains("w-20")) {
-    userProfile.classList.add("hidden");
-    collapsedProfile.classList.remove("hidden");
-  } else {
-    userProfile.classList.remove("hidden");
-    collapsedProfile.classList.add("hidden");
-  }
-
-    // Toggle Search Bar Collapse
-    if (sidebar.classList.contains("w-20")) {
-    searchInput.classList.add("hidden");
-    searchIcon.classList.add("collapsed");
-  } else {
-    searchInput.classList.remove("hidden");
-    searchIcon.classList.remove("collapsed");
-  }
-});
+        const textElements = document.querySelectorAll(".text-sidebar");
+        textElements.forEach((text) => {
+          text.classList.toggle("hidden");
+        });
+    
+        if (sidebar.classList.contains("w-20")) {
+          userProfile.classList.add("hidden");
+          collapsedProfile.classList.remove("hidden");
+        } else {
+          userProfile.classList.remove("hidden");
+          collapsedProfile.classList.add("hidden");
+        }
+    
+        if (sidebar.classList.contains("w-20")) {
+          searchInput.classList.add("hidden");
+          searchIcon.classList.add("collapsed");
+        } else {
+          searchInput.classList.remove("hidden");
+          searchIcon.classList.remove("collapsed");
+        }
+      });
+    
       function toggleModal(show) {
         const modal = document.getElementById("profileModal");
         if (show) {
@@ -329,55 +308,56 @@ toggleButton.addEventListener("click", () => {
               method: 'POST',
               body: formData,
             })
-            .then(response => response.json())
-            .then(data => {
-              console.log(data);
-            })
-            .catch(error => {
-              console.error('Error uploading profile picture:', error);
-            });
+              .then(response => response.json())
+              .then(data => {
+                console.log(data);
+              })
+              .catch(error => {
+                console.error('Error uploading profile picture:', error);
+              });
           };
           reader.readAsDataURL(file);
         }
       });
     
       document.getElementById('profilePictureForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      const fileInput = document.getElementById('profilePictureInput');
-      const file = fileInput.files[0];
-
-      if (file) {
-        const reader = new FileReader();
-
-        reader.onloadend = function() {
-          const base64Image = reader.result;
-
-          fetch('/admin/update-user-profile-picture', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ base64ProfilePicture: base64Image }),
-          })
-            .then(response => response.json())
-            .then((data) => {
-              if (data.redirectUrl) {
-                window.location.href = data.redirectUrl;
-              } else {
-                console.log("Profile picture updated successfully");
-              }
+        event.preventDefault();
+    
+        const fileInput = document.getElementById('profilePictureInput');
+        const file = fileInput.files[0];
+    
+        if (file) {
+          const reader = new FileReader();
+    
+          reader.onloadend = function() {
+            const base64Image = reader.result;
+    
+            fetch('/admin/update-user-profile-picture', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ base64ProfilePicture: base64Image }),
             })
-            .catch(error => {
-              console.error('Error:', error);
-            });
-        };
-
-        reader.readAsDataURL(file);
-      } else {
-        console.error('No file selected');
-      }
-    });
+              .then(response => response.json())
+              .then((data) => {
+                if (data.redirectUrl) {
+                  window.location.href = data.redirectUrl;
+                } else {
+                  console.log("Profile picture updated successfully");
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
+          };
+    
+          reader.readAsDataURL(file);
+        } else {
+          console.error('No file selected');
+        }
+      });
     </script>
+    
   </body>
 </html>
