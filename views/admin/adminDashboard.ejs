@@ -292,19 +292,35 @@
       const userProfile = document.getElementById("userProfile");
       const searchInput = document.getElementById("searchInput");
       const searchIcon = document.getElementById("searchIcon");
-      const hamburgerButton = document.getElementById('hamburgerButton');
+      const hamburgerButton = document.getElementById("hamburgerButton");
       const navigationLinks = document.querySelectorAll("nav ul li a");
     
-      hamburgerButton.addEventListener('click', () => {
-        if (sidebar.classList.contains('-translate-x-full')) {
-          sidebar.classList.remove('-translate-x-full');
-          sidebar.classList.add('show');
+      hamburgerButton.addEventListener("click", () => {
+        if (sidebar.classList.contains("-translate-x-full")) {
+          sidebar.classList.remove("-translate-x-full");
+          sidebar.classList.add("show");
         } else {
-          sidebar.classList.add('-translate-x-full');
-          sidebar.classList.remove('show');
+          sidebar.classList.add("-translate-x-full");
+          sidebar.classList.remove("show");
         }
       });
     
+      document.getElementById("searchInput").addEventListener("input", function (e) {
+        const searchValue = e.target.value.toLowerCase();
+        const userRows = document.querySelectorAll("#userTable .user-row");
+    
+        userRows.forEach((row) => {
+          const emailCell = row.querySelector('[data-label="Email:"]');
+          if (emailCell) {
+            const emailText = emailCell.textContent.toLowerCase();
+            if (emailText.includes(searchValue)) {
+              row.style.display = ""; // Show row
+            } else {
+              row.style.display = "none"; // Hide row
+            }
+          }
+        });
+      });
       toggleButton.addEventListener("click", () => {
 
         sidebar.classList.toggle("w-20");

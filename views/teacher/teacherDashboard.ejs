@@ -269,6 +269,23 @@
         sidebar.classList.remove('show');
       }
     });
+
+    document.getElementById("searchInput").addEventListener("input", function (e) {
+        const searchValue = e.target.value.toLowerCase();
+        const userRows = document.querySelectorAll("#userTable .user-row");
+    
+        userRows.forEach((row) => {
+          const emailCell = row.querySelector('[data-label="Email:"]');
+          if (emailCell) {
+            const emailText = emailCell.textContent.toLowerCase();
+            if (emailText.includes(searchValue)) {
+              row.style.display = ""; // Show row
+            } else {
+              row.style.display = "none"; // Hide row
+            }
+          }
+        });
+      });
   
     toggleButton.addEventListener("click", () => {
 
