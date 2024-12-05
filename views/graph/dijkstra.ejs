@@ -64,6 +64,65 @@
         transform: translateY(-2px);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
+
+      @media (max-width: 768px) {
+        .graphContainer {
+          width: 100%; 
+          height: 300px; 
+          overflow-x: auto; 
+          overflow-y: hidden; 
+        }
+         
+        .description-container {
+          margin: 10px;
+        }
+    
+        .description-container .flex {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: center;
+        }
+    
+        .flex {
+          flex-direction: column;
+          gap: 1rem;
+        }
+    
+        .custom-button {
+          width: 100%;
+          text-align: center;
+        }
+    
+        input[type="text"],
+        .slider {
+          width: 100%;
+        }
+    
+        iframe {
+          width: 100%;
+          height: auto;
+        }
+    
+        pre {
+          font-size: 0.8rem;
+          padding: 10px;
+        }
+   
+        .flex-container {
+          flex-direction: column;
+        }
+    
+        .button-group {
+          width: 100%;
+          flex-direction: row;
+        }
+
+        .info-text {
+          text-align: center; 
+          padding: 10px; 
+          margin: 0 10px;
+        }
+      }
     </style>
   </head>
   <body class="bg-gray-100 p-4">
@@ -75,7 +134,7 @@
       </h1>
       </div>
 
-      <p class="text-center text-gray-700 mb-2 mr-20 ml-20">
+      <p class="info-text text-center text-gray-700 mb-2 mr-20 ml-20">
         Enter the number of nodes, edges, and starting node for the shortest path calculation. Define edges as <br><strong>"source-target-weight"</strong> (e.g., 0-1-4, 1-2-3). Click "Start Dijkstra" to visualize the shortest path calculations.
       </p>
 

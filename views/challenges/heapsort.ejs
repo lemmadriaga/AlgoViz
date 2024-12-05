@@ -84,6 +84,62 @@
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
       }
 
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+    
+        header h1 {
+          width: auto;
+          font-size: 1.5rem;
+        }
+    
+        .header-container {
+          width: 100%;
+        }
+    
+        .button-container {
+          flex-direction: row;
+          gap: 10px;
+          justify-content: center;
+        }
+    
+        .grid-template {
+          grid-template-columns: repeat(4, 1fr);
+        }
+    
+        .grid-template input {
+          width: 40px;
+          height: 40px;
+          font-size: 0.9rem;
+        }
+    
+        label {
+          margin-left: 0;
+        }
+    
+        .text-center {
+          text-align: center;
+        }
+    
+        .text-lg,
+        .text-xl {
+          font-size: 1rem;
+        }
+    
+        .green-button,
+        .custom-button {
+          padding: 0.4rem 1rem;
+          font-size: 0.875rem;
+        }
+    
+        main {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+
     </style>
   </head>
   <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
