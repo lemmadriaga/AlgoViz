@@ -233,7 +233,7 @@
 
     <main class="mt-8 w-full max-w-2xl">
       <div id="challengeIntro" class="container text-center">
-        <p class="text-lg">Are you ready to solve the Insertion Sort Challenge?</p>
+        <p class="text-lg">Are you ready to solve the Quick Sort Challenge?</p>
         <div class="button-container mt-4">
           <button
             id="startButton"
@@ -307,55 +307,47 @@
       const questions = [
         {
           id: 1,
-          question:
-            "What is the pivot element in the array [38, 27, 43, 3, 9, 82, 10] if the first element is chosen as the pivot?",
+          question: "What is the pivot element in the array [38, 27, 43, 3, 9, 82, 10] if the first element is chosen as the pivot?",
           options: ["38", "27", "10", "43"],
           correct: "38",
         },
         {
           id: 2,
-          question:
-            "After partitioning around the pivot 38, what is the position of 27?",
+          question: "After partitioning around the pivot 38, what is the position of 27?",
           options: ["Left of the pivot", "Right of the pivot", "Unchanged"],
           correct: "Left of the pivot",
         },
         {
           id: 3,
-          question:
-            "Which of the following is the correct recursive call for the left partition [27, 3, 9, 10]?",
-          options: [
-            "quickSort([27, 3, 9, 10])",
-            "quickSort([38, 27])",
-            "quickSort([3, 9, 10])",
-          ],
+          question: "Which of the following is the correct recursive call for the left partition [27, 3, 9, 10]?",
+          options: ["quickSort([27, 3, 9, 10])", "quickSort([38, 27])", "quickSort([3, 9, 10])"],
           correct: "quickSort([27, 3, 9, 10])",
         },
         {
           id: 4,
-          question:
-            "What is the time complexity of Quick Sort in the best case?",
+          question: "What is the time complexity of Quick Sort in the best case?",
           options: ["O(n^2)", "O(n log n)", "O(n)", "O(log n)"],
           correct: "O(n log n)",
         },
       ];
-
+    
       let currentQuestionIndex = 0;
-
+      const userAnswers = [];
+    
       function startChallenge() {
-        // Hide the intro and show the questions
         document.getElementById("challengeIntro").classList.add("hidden");
         document.getElementById("questionSection").classList.remove("hidden");
-
         loadQuestion(currentQuestionIndex);
       }
-
+    
       function loadQuestion(index) {
         const question = questions[index];
         document.getElementById("question-title").textContent = `Question ${question.id}`;
         document.getElementById("question-text").textContent = question.question;
-
+    
         const optionsDiv = document.getElementById("options");
         optionsDiv.innerHTML = "";
+    
         question.options.forEach((option, i) => {
           const optionDiv = document.createElement("div");
           optionDiv.classList.add("flex", "items-center", "space-x-4");
@@ -365,26 +357,27 @@
           `;
           optionsDiv.appendChild(optionDiv);
         });
-
+    
         document.getElementById("feedback").classList.add("hidden");
         document.getElementById("check-button").classList.remove("hidden");
         document.getElementById("next-button").classList.add("hidden");
         document.getElementById("exit-button").classList.add("hidden");
       }
-
+    
       function validateAnswer() {
         const selectedOption = document.querySelector('input[name="option"]:checked');
         if (!selectedOption) {
           alert("Please select an answer.");
           return;
         }
-
+    
         const selectedValue = selectedOption.value;
+        userAnswers[currentQuestionIndex] = selectedValue;
+    
         const question = questions[currentQuestionIndex];
-
         const feedbackElement = document.getElementById("feedback");
         feedbackElement.classList.remove("hidden");
-
+    
         if (selectedValue === question.correct) {
           feedbackElement.textContent = "Correct! Well done!";
           feedbackElement.classList.add("text-green-500");
@@ -394,27 +387,49 @@
           feedbackElement.classList.add("text-red-500");
           feedbackElement.classList.remove("text-green-500");
         }
-
+    
         document.getElementById("check-button").classList.add("hidden");
         document.getElementById("next-button").classList.remove("hidden");
         document.getElementById("exit-button").classList.remove("hidden");
       }
-
+    
       function nextQuestion() {
         currentQuestionIndex++;
-
         if (currentQuestionIndex < questions.length) {
           loadQuestion(currentQuestionIndex);
         } else {
-          alert("You've completed the challenge!");
+          submitChallenge();
         }
       }
-
+    
+      async function submitChallenge() {
+        try {
+          const response = await fetch("/challenges/quicksort/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userAnswers }),
+          });
+    
+          const result = await response.json();
+          if (result.success) {
+            alert(result.message);
+            window.location.href = "/dashboard";
+          } else {
+            alert(result.message || "Submission failed. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error submitting challenge:", error);
+          alert("An error occurred. Please try again.");
+        }
+      }
+    
       function exitChallenge() {
         if (confirm("Are you sure you want to exit?")) {
           window.location.href = "/dashboard";
         }
       }
-    </script>
+    </script>    
   </body>
 </html>

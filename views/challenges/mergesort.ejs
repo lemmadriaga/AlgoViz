@@ -295,44 +295,44 @@
       editor.session.setMode("ace/mode/javascript");
 
       editor.setValue(`function mergeSort(arr) {
-  if (arr.length <= 1) return arr;
+        if (arr.length <= 1) return arr;
 
-  // Split the array into left and right halves
-  const mid = Math.floor(arr.length / 2);
-  const left = arr.slice(0, mid);
-  const right = arr.slice(mid);
+        // Split the array into left and right halves
+        const mid = Math.floor(arr.length / 2);
+        const left = arr.slice(0, mid);
+        const right = arr.slice(mid);
 
-  // TODO: Recursively sort the left and right halves
-  // Uncomment and complete the following line:
-  // return merge(_____, _____);
-}
+        // TODO: Recursively sort the left and right halves
+        // Uncomment and complete the following line:
+        // return merge(_____, _____);
+      }
 
-function merge(left, right) {
-  let result = [];
-  let i = 0, j = 0;
+      function merge(left, right) {
+        let result = [];
+        let i = 0, j = 0;
 
-  // TODO: Implement merging logic
-  // Hint: Compare elements from left and right arrays and build the result array
+        // TODO: Implement merging logic
+        // Hint: Compare elements from left and right arrays and build the result array
 
-  // Uncomment and complete the following while loop:
-  // while (_____ < _____ && _____ < _____) {
-  //   if (_____) {
-  //     result.push(_____); // Add the smaller element to the result
-  //   } else {
-  //     result.push(_____); // Add the smaller element to the result
-  //   }
-  // }
+        // Uncomment and complete the following while loop:
+        // while (_____ < _____ && _____ < _____) {
+        //   if (_____) {
+        //     result.push(_____); // Add the smaller element to the result
+        //   } else {
+        //     result.push(_____); // Add the smaller element to the result
+        //   }
+        // }
 
-  // Add any remaining elements
-  // Uncomment and complete the following:
-  // return result.concat(_____).concat(_____);
-}
+        // Add any remaining elements
+        // Uncomment and complete the following:
+        // return result.concat(_____).concat(_____);
+      }
 
-// Test the function
-const testArray = [38, 27, 43, 3, 9, 82, 10];
-// Uncomment the following line to test
-// console.log(mergeSort(testArray));
-`);
+      // Test the function
+      const testArray = [38, 27, 43, 3, 9, 82, 10];
+      // Uncomment the following line to test
+      // console.log(mergeSort(testArray));
+      `);
 
       const splitStep = document.getElementById("split-step");
       const mergeStep = document.getElementById("merge-step");
@@ -382,7 +382,7 @@ const testArray = [38, 27, 43, 3, 9, 82, 10];
           });
 
           if (response.data.success) {
-            showFeedback(response.data.message, "success");
+            alert(response.data.message);
 
             setTimeout(() => {
               window.location.href = "/dashboard";

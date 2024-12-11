@@ -74,24 +74,6 @@ exports.updateProgress = async (req, res) => {
   }
 };
 
-// const isUnlocked = async (req, res, prevChal) => {
-//   const userId = req.session.userId;
-
-//   if (!userId) {
-//     return res.status(401).json({ error: "Unauthorized access" });
-//   }
-
-//   const userDocRef = doc(db, "users", userId);
-//   const userDoc = await getDoc(userDocRef);
-//   const userData = userDoc.data();
-
-//   if(userData.challenges[prevChal]) {
-//     return true;
-//   }
-
-//   return false;
-// };
-
 exports.getUserProfile = async (req, res) => {
   try {
     const userId = req.session?.userId;
@@ -124,30 +106,6 @@ exports.getUserProfile = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch user profile" });
   }
 };
-
-// exports.updateUserProfilePicture = async (req, res) => {
-//   const userId = req.session.userId;
-
-//   if (!userId) {
-//     return res.status(401).json({ error: "Unauthorized access" });
-//   }
-
-//   try {
-//     if (!req.file) {
-//       return res.status(400).json({ error: "No file uploaded" });
-//     }
-
-//     const filePath = `/uploads/${req.file.filename}`;
-//     const userDocRef = doc(db, "users", userId);
-//     await updateDoc(userDocRef, { profilePicture: filePath });
-
-//     console.log("Profile successfully uploaded");
-//     res.redirect("/dashboard");
-//   } catch (error) {
-//     console.error("Error updating profile picture:", error);
-//     res.status(500).json({ error: "Failed to update profile picture" });
-//   }
-// };
 
 exports.updateUserProfilePicture = async (req, res) => {
   const userId = req.session.userId;
@@ -298,7 +256,6 @@ exports.submitInsertionSortChallenge = async (req, res) => {
   }
 
   try {
-    // Validate the user's code
     const testArray = [5, 2, 9, 1, 5, 6];
     const correctResult = [1, 2, 5, 5, 6, 9];
     let sortedArray;
@@ -349,7 +306,7 @@ exports.submitInsertionSortChallenge = async (req, res) => {
     const progress = (100 / totalChallenges) * completedChallenges;
 
     await updateDoc(userDocRef, { progress });
-
+    await updateProgressValue(req);
     
     return res.status(200).json({
       success: true,
@@ -389,6 +346,7 @@ exports.submitMergeSortChallenge = async (req, res) => {
 
     const userDocRef = doc(db, "users", userId);
     await updateDoc(userDocRef, { "challenges.mergeSort": true });
+    await updateProgressValue(req);
 
     return res.status(200).json({
       success: true,
@@ -402,3 +360,42 @@ exports.submitMergeSortChallenge = async (req, res) => {
   }
 };
 
+exports.submitQuickSortChallenge = async (req, res) => {
+  const { userAnswers } = req.body;
+  const userId = req.session?.userId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, error: "Unauthorized access" });
+  }
+
+  const correctAnswers = [
+    "38", // Question 1
+    "Left of the pivot", // Question 2
+    "quickSort([27, 3, 9, 10])", // Question 3
+    "O(n log n)", // Question 4
+  ];
+
+  try {
+    const isCorrect = correctAnswers.every((answer, index) => answer === userAnswers[index]);
+
+    if (!isCorrect) {
+      return res.status(400).json({
+        success: false,
+        message: "Some answers are incorrect. Try again!",
+      });
+    }
+
+    const userDocRef = doc(db, "users", userId);
+
+    await updateDoc(userDocRef, { "challenges.quickSort": true });
+    await updateProgressValue(req);
+
+    return res.status(200).json({
+      success: true,
+      message: "Congratulations! Quick Sort challenge completed! 🎉",
+    });
+  } catch (error) {
+    console.error("Error in Quick Sort challenge submission:", error.message);
+    return res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};

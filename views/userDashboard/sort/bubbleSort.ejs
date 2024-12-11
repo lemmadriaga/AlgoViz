@@ -146,11 +146,13 @@
       @media (max-width: 768px) {
         .visualization-container {
           width: 100%;
+          min-height: 400px;
           height: auto;
         }
     
         .step-process-container {
-          width: 280px;
+          width: 100%;
+          min-height: 400px;
           height: auto;
         }
     
@@ -227,7 +229,8 @@
       </h1>
     </div>
 
-    <div class="flex justify-center space-x-8 mb-6">
+    <div class="flex flex-col justify-center items-center space-y-4 mb-6">
+      <!-- Visualization Container -->
       <div
         class="visualization-container flex justify-center items-center relative"
       >
@@ -236,7 +239,8 @@
           class="bar-container w-full h-full flex items-end justify-center"
         ></div>
       </div>
-
+    
+      <!-- Step Process Container -->
       <div class="step-process-container overflow-y-auto">
         <h2 class="text-xl font-semibold mb-4 text-[#1E201E] text-center">
           Sorting Steps
@@ -244,6 +248,7 @@
         <div id="process" class="text-gray-700 text-sm"></div>
       </div>
     </div>
+    
 
     <div class="flex justify-center items-center gap-4">
       <input
@@ -452,14 +457,14 @@
       let speed = 500;
 
       document
-        .getElementById("speedControl")
-        .addEventListener("input", (event) => {
-          speed = event.target.value;
-          if (intervalId) {
-            clearInterval(intervalId);
-            intervalId = setInterval(bubbleSortStep, speed);
-          }
-        });
+      .getElementById("speedControl")
+      .addEventListener("input", (event) => {
+        speed = 2000 - event.target.value;
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = setInterval(bubbleSortStep, speed);
+        }
+      });
 
       function validateInput() {
         const inputField = document.getElementById("inputField");

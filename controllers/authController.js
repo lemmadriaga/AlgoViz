@@ -106,11 +106,10 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
+  const message = "";
 
   if (!emailPattern.test(email)) {
-    return res
-      .status(400)
-      .json({ error: "Use BatStateU GSuite Account example@g.batstate-u.edu.ph" });
+    res.render("userAuth/login", {message: "Use BatStateU GSuite Account <br>example@g.batstate-u.edu.ph"});
   }
 
   try {
@@ -139,6 +138,6 @@ exports.login = async (req, res) => {
     
   } catch (error) {
     console.error("Login error:", error);
-    res.status(400).json({ error: "Invalid email or password" });
+    res.render("userAuth/login", {message: "Invalid email or password"});
   }
 };

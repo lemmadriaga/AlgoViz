@@ -77,7 +77,7 @@ exports.deleteUser = async (req, res) => {
       `User ${userId} deleted from Firebase Authentication successfully.`
     );
 
-    res.redirect("/admin");
+    res.redirect("/teacher");
   } catch (error) {
     console.error("Error deleting user:", error.message);
     res.status(500).json({ error: "Failed to delete user" });

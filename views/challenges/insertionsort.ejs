@@ -332,7 +332,7 @@ console.log(result);
 
             const data = await response.json();
             if (data.success) {
-              alert("Congratulations! " + data.message);
+              alert(data.message);
               
               window.location.href = "/dashboard";
             } else {

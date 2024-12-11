@@ -47,7 +47,13 @@ const requireSession = (req, res, view, params = {}) => {
 };
 
 app.get("/", (req, res) => res.render("home"));
-app.get("/login", (req, res) => requireSession(req, res, "userAuth/login"));
+app.get("/login", (req, res) => {
+  if (req.session.userId) {
+    res.redirect("/dashboard");
+  } else {
+    res.render("userAuth/login", { message: '' });
+  }
+});
 app.get("/signup", (req, res) => res.render("userAuth/signup"));
 
 app.get("/dashboard", getUserProfile);
