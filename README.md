@@ -1,5 +1,5 @@
 # AlgoViz: A Web Application for Interactive Algorithm Visualization
-
+![AlgoViz Logo](public/assets/logo.png)
 ## Overview
 
 The objective of this project is to develop an educational platform that provides lessons on topics related to data structures and algorithms, including binary search trees, sorting and searching algorithms, and graph traversal. The platform will utilize visualizations to illustrate the movement of inputs, display the code being executed, explain what happens at each step, and provide brief information about each specific algorithm, along with coding challenges to test your knowledge.
@@ -14,6 +14,8 @@ By utilizing visualizations, the platform aims to:
 - Display the corresponding code being executed.
 - Explain each step in the algorithm.
 - Provide concise information about specific algorithms.
+
+![Sample Visualization](public/assets/github/sorting.gif)
 
 ## Features
 
