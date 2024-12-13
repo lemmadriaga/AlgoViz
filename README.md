@@ -73,3 +73,10 @@ Set up Firebase:
 
 Start the development server:  
 `npm start`
+
+---
+
+## Developers
+**Lemuel Madriaga** [CS3101]<br>
+**Clarence Zamora** [CS3102]<br>
+**James Michael Magnaye** [CS3102]
