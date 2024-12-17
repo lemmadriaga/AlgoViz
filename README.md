@@ -83,4 +83,4 @@ Start the development server:
 **James Michael Magnaye** [CS3102]
 
 ## Acknowledgement 💟
-This project would not have been possible without the guidance of Ms. Fatima Marie Agdon. Throughout this course, we learned from her, starting with the fundamentals and progressing to the point where we could build our own web application. Thank you for this semester, and I hope to have the privilege of being one of your students again in the future.
+This project would not have been possible without the guidance of Ms. Fatima Marie Agdon, MSCS, IT314 Instructor. Throughout this course, we learned from her, starting with the fundamentals and progressing to the point where we could build our own web application. Thank you for this semester, and I hope to have the privilege of being one of your students again in the future.
