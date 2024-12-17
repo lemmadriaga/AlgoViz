@@ -34,6 +34,7 @@ By utilizing visualizations, the platform aims to:
 - **Project Management**: Oversees coordination between frontend and backend development.
 - **Version Control**: Implements GitHub for collaboration and documentation.
 - **Scalability**: Ensures the application is robust and future-proof.
+- **Security Measures**: Guarantee the safety of users by hashing their passwords and validating their inputs.
 
 ## Technology Stack
 
@@ -80,3 +81,6 @@ Start the development server:
 **Lemuel Madriaga** [CS3101]<br>
 **Clarence Zamora** [CS3102]<br>
 **James Michael Magnaye** [CS3102]
+
+## Acknowledgement 💟
+This project would not have been possible without the guidance of Ms. Fatima Marie Agdon. Throughout this course, we learned from her, starting with the fundamentals and progressing to the point where we could build our own web application. Thank you for this semester, and I hope to have the privilege of being one of your students again in the future.
